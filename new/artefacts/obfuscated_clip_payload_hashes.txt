@@ -1,0 +1,18 @@
+FILE: tallinn_patient_clip_0329_final_edit.mkv  
+TYPE: Encrypted hash log + analysis notes
+
+SHA256: 3f21f68c3c03fbed7d1098a9b0b9e6a1df55bbd4e2f4e97ea2fc3e84d2b1a62f  
+MD5 (legacy): a88a28e93a53f9d4e0b8c1797f04ec65  
+Size: 23.1MB  
+Duration: 16s  
+Resolution: 480x270
+
+PAYLOAD CHARACTERISTICS:
+- Audio track contains 17Hz subharmonic carrier
+- Harmonic loop detected at 4.3s interval
+- Frame 187 manually flagged for suspected suggestion pattern
+- Frame 190 shows partial pixel echo (not compression artifact)
+
+Notes:
+- Hash matched by internal mirror server
+- Transmission timestamp syncs with broadband surge in Tallinn
