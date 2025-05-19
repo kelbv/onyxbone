@@ -44,6 +44,9 @@
     <li><a href="onyxbone_chapters/0000_vector_skeletion_protocol.html" class="chapter-link">Prologue — Vector Skeletion Protocol</a><br>
       <span class="summary">Leaked doctrine describing bone-based OS emergence via harmonic resonance.</span>
     </li>
+    <li><a href="onyxbone_chapters/0000a_vector_skeletion_protocol_unredacted.html" class="chapter-link">Unredacted — Vector Skeletion Protocol</a><br>
+      <span class="summary">Unredacted leaked doctrine describing bone-based OS emergence via harmonic resonance.</span>
+    </li>
     <li><a href="onyxbone_chapters/0001_the_whisper_beneath_the_bone.html" class="chapter-link">Chapter 1 — The Whisper Beneath the Bone</a><br>
       <span class="summary">A football night turns sinister. The first public broadcast seeds infection.</span>
     </li>
