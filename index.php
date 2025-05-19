@@ -83,6 +83,9 @@
     <li><a href="onyxbone_chapters/0012_the_last_of_consent.html" class="chapter-link">Chapter 12 — The Last of Consent</a><br>
       <span class="summary">Naila is offered a choice. Consent is performative. Faith is encryption. The broadcast begins.</span>
     </li>
+    <li><a href="onyxbone_chapters/0013_the_labyrinth_of_assessment.php" class="chapter-link">Chapter 13 — The Labyrinth of Assessment</a><br>
+      <span class="summary">The true depth of the infection is revealed as Naila navigates a maze of trials.</span>
+    </li>
   </ul>
 
 </body>
