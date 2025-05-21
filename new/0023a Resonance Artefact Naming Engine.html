@@ -105,8 +105,9 @@
       border: 1px solid #d2b48c; /* Bone outline */
       border-radius: 4px;
       width: 100%; /* Responsive width */
-      max-width: 600px; /* Max width for graph */
-      height: 360px; /* Fixed aspect ratio for consistency */
+      max-width: 1000px; /* Increased max width for graph */
+      height: 600px; /* Increased height for larger view */
+      min-height: 400px;
       box-sizing: border-box;
       cursor: help; /* Indicate interactivity (hover for justification) */
     }
@@ -178,7 +179,7 @@
     '🞟', '🞠', '🞡', '🞢', '🞣', '🞤', '🞥', '🞦', '🞧', '🞨', '🞩', '🞪', '🞫', '🞬', '🞭', '🞮', '🞯', '🞰'
   ];
 
-  // Pool of names for autonomous generation (expanded)
+  // Pool of names for autonomous generation (EXTENDED)
   const namePools = [
     "Clavicle","Sacrum","Occipital","Femur","Talus","Nuuk","Ypres","Vladivostok",
     "Anthrax","Scrapie","Cholera","Io","VY Canis Majoris","Aegis","Leviathan",
@@ -186,16 +187,35 @@
     "Humerus","Radius","Ulna","Cranium","Vertebrae","Scapula","Pelvis",
     "Patella","Phalanx","Tarsals","Carpals","Sternum","Ribs","Maxilla","Mandible",
     "Labyrinth","Zero-Point","Synapse","Nidus","Fracture","Knot","Cipher",
-    "Chitin","Marrow","Conduit","Limen","Lacuna","Nexus","Aura","Vector","Cortex"
+    "Chitin","Marrow","Conduit","Limen","Lacuna","Nexus","Aura","Vector","Cortex",
+    // Extended
+    "Atlas","Axis","Coccyx","Metacarpal","Metatarsal","Sesamoid","Zygomatic",
+    "Temporal","Parietal","Sphenoid","Ethmoid","Malleus","Incus","Stapes",
+    "Calcaneus","Cuboid","Navicular","Trapezium","Trapezoid","Pisiform","Hamate",
+    "Capitate","Lunate","Triquetrum","Scaphoid","Obelisk","Oracle","Cipherbone",
+    "Mnemonic","Obsidian","Sable","Vermis","Aperture","Threshold","Vessel","Sigil",
+    "Mnemonic","Obelisk","Oracle","Cipherbone","Mnemonic","Obsidian","Sable"
   ];
-  // Roles and concepts for generating justifications (expanded)
-  const roles = ["Cradle of", "Bearer of", "Chamber of", "Midwife to", "Harbinger of", "Vestibule to",
-                 "Echo of", "Source of", "Repository of", "Breach into", "Fragment of", "The binding of"];
-  const concepts = ["grief", "signal collapse", "ancestral recursion", "lingering syntax",
-                    "feral intent", "unconscious need", "covert vibration", "unwritten law",
-                    "memory erasure", "temporal drift", "syntactic infection", "bone-language",
-                    "choral silence", "recursive naming", "self-overwriting", "symbolic infection",
-                    "the Great Work", "the Unnamed Shadow", "primal resonance", "the Finality"];
+  // Roles and concepts for generating justifications (EXTENDED)
+  const roles = [
+    "Cradle of", "Bearer of", "Chamber of", "Midwife to", "Harbinger of", "Vestibule to",
+    "Echo of", "Source of", "Repository of", "Breach into", "Fragment of", "The binding of",
+    // Extended
+    "Witness to", "Anchor for", "Conduit of", "Harbor of", "Threshold of", "Memory of",
+    "Custodian of", "Sentinel of", "Matrix of", "Origin of", "Remnant of", "Cipher for"
+  ];
+  const concepts = [
+    "grief", "signal collapse", "ancestral recursion", "lingering syntax",
+    "feral intent", "unconscious need", "covert vibration", "unwritten law",
+    "memory erasure", "temporal drift", "syntactic infection", "bone-language",
+    "choral silence", "recursive naming", "self-overwriting", "symbolic infection",
+    "the Great Work", "the Unnamed Shadow", "primal resonance", "the Finality",
+    // Extended
+    "ossuary memory", "ritual recursion", "fractured lineage", "unclaimed marrow",
+    "resonant silence", "forbidden lexicon", "ancestral echo", "subliminal fracture",
+    "the lost archive", "the marrow code", "the silent witness", "the recursion spiral",
+    "the glyph fever", "the marrow thread", "the unspoken name", "the final glyph"
+  ];
 
   // Justification Spiral variables
   let spiralActive = false;
@@ -277,7 +297,7 @@
     hoveredNode = null;
   });
 
-  // Main function to bind a name (manual user input or autonomous)
+  // Add velocity and dragging to nodes
   function bindName(manual = true, name = null, justification = null) {
     // Clear previous error states on input fields
     boneNameInput.classList.remove('error');
@@ -323,16 +343,21 @@
 
     // Create new node object with all required properties
     const node = {
-      id: `node_${nodeIdCounter++}`, // Unique ID
+      id: `node_${nodeIdCounter++}`,
       name: name,
       justification: justification,
       glyph: newGlyph,
       // Random position within canvas bounds, with padding to avoid edges
-      x: 60 + Math.random() * (canvas.width - 120),
-      y: 60 + Math.random() * (canvas.height - 120),
-      creationTime: Date.now(), // Timestamp of creation
-      lastPulseTime: Date.now(), // Used for initial bloom animation
-      status: status
+      x: 80 + Math.random() * (canvas.width - 160),
+      y: 80 + Math.random() * (canvas.height - 160),
+      vx: (Math.random() - 0.5) * 0.7, // random gentle velocity
+      vy: (Math.random() - 0.5) * 0.7,
+      creationTime: Date.now(),
+      lastPulseTime: Date.now(),
+      status: status,
+      dragging: false,
+      dragOffsetX: 0,
+      dragOffsetY: 0
     };
 
     nodes.push(node); // Add new node to the array
@@ -380,9 +405,9 @@
   // Function to start the autonomous node generation loop
   function startAutoBinding() {
     autoBindTimeoutId = setTimeout(() => {
-      autoBindNode(); // Generate an autonomous node
-      startAutoBinding(); // Schedule the next auto-bind
-    }, 5000 + Math.random() * 5000); // Random interval between 5 and 10 seconds
+      autoBindNode();
+      startAutoBinding();
+    }, 1000 + Math.random() * 1000); // 1–2 seconds
   }
 
   // Function to stop the autonomous node generation loop
@@ -426,13 +451,95 @@
     console.log("Justification Spiral initiated! Generating nodes rapidly...");
   }
 
-  // Main animation loop using requestAnimationFrame
+  // Node dragging logic
+  let draggingNode = null;
+  let isDragging = false;
+
+  canvas.addEventListener('mousedown', function(evt) {
+    const mouse = getMousePos(canvas, evt);
+    for (let i = nodes.length - 1; i >= 0; i--) {
+      const node = nodes[i];
+      const dist = Math.sqrt(Math.pow(node.x - mouse.x, 2) + Math.pow(node.y - mouse.y, 2));
+      if (dist < 18) {
+        draggingNode = node;
+        isDragging = true;
+        node.dragging = true;
+        node.dragOffsetX = mouse.x - node.x;
+        node.dragOffsetY = mouse.y - node.y;
+        break;
+      }
+    }
+  });
+  canvas.addEventListener('mousemove', function(evt) {
+    if (isDragging && draggingNode) {
+      const mouse = getMousePos(canvas, evt);
+      draggingNode.x = mouse.x - draggingNode.dragOffsetX;
+      draggingNode.y = mouse.y - draggingNode.dragOffsetY;
+      // Clamp to canvas
+      draggingNode.x = Math.max(20, Math.min(canvas.width - 20, draggingNode.x));
+      draggingNode.y = Math.max(20, Math.min(canvas.height - 20, draggingNode.y));
+    }
+  });
+  canvas.addEventListener('mouseup', function() {
+    if (draggingNode) draggingNode.dragging = false;
+    draggingNode = null;
+    isDragging = false;
+  });
+  canvas.addEventListener('mouseleave', function() {
+    if (draggingNode) draggingNode.dragging = false;
+    draggingNode = null;
+    isDragging = false;
+  });
+  // Touch support
+  canvas.addEventListener('touchstart', function(evt) {
+    const touch = evt.touches[0];
+    const mouse = getMousePos(canvas, touch);
+    for (let i = nodes.length - 1; i >= 0; i--) {
+      const node = nodes[i];
+      const dist = Math.sqrt(Math.pow(node.x - mouse.x, 2) + Math.pow(node.y - mouse.y, 2));
+      if (dist < 18) {
+        draggingNode = node;
+        isDragging = true;
+        node.dragging = true;
+        node.dragOffsetX = mouse.x - node.x;
+        node.dragOffsetY = mouse.y - node.y;
+        break;
+      }
+    }
+  });
+  canvas.addEventListener('touchmove', function(evt) {
+    if (isDragging && draggingNode) {
+      const touch = evt.touches[0];
+      const mouse = getMousePos(canvas, touch);
+      draggingNode.x = mouse.x - draggingNode.dragOffsetX;
+      draggingNode.y = mouse.y - draggingNode.dragOffsetY;
+      draggingNode.x = Math.max(20, Math.min(canvas.width - 20, draggingNode.x));
+      draggingNode.y = Math.max(20, Math.min(canvas.height - 20, draggingNode.y));
+    }
+  });
+  canvas.addEventListener('touchend', function() {
+    if (draggingNode) draggingNode.dragging = false;
+    draggingNode = null;
+    isDragging = false;
+  });
+
+  // Animate node movement
   function animateNetwork(currentTime) {
-    // Calculate delta time for frame-rate independent animations
     const deltaTime = currentTime - lastFrameTime;
     lastFrameTime = currentTime;
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the entire canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Move nodes
+    nodes.forEach(node => {
+      if (!node.dragging) {
+        node.x += node.vx * (deltaTime / 16.67); // Normalize to ~60fps
+        node.y += node.vy * (deltaTime / 16.67);
+        // Bounce off edges
+        if (node.x < 20 || node.x > canvas.width - 20) node.vx *= -1;
+        if (node.y < 20 || node.y > canvas.height - 20) node.vy *= -1;
+        node.x = Math.max(20, Math.min(canvas.width - 20, node.x));
+        node.y = Math.max(20, Math.min(canvas.height - 20, node.y));
+      }
+    });
 
     // Draw links between nodes (sequential for simplicity, could be enhanced)
     for (let i = 1; i < nodes.length; i++) {
@@ -542,6 +649,8 @@
   // Initial call to start the animation loop
   requestAnimationFrame(animateNetwork);
 </script>
-
+<div class="footer">
+  <p><a href="../index.php">← Back to ONYXBONE Index</a></p>
+</div>
 </body>
 </html>
