@@ -1,0 +1,162 @@
+Certainly. Based on the ONYXBONE schema and Chapter 23a's described role in the infection arc, here is a **full functional specification** for the **Chapter 23a – Auto-Nomenclature Feedback** web page. This document serves both as a blueprint for implementation and a QA reference.
+
+---
+
+# 🩻 **Functional Specification for Chapter 23a – Auto-Nomenclature Feedback**
+
+## 📄 Overview
+
+Chapter 23a is a **dynamically generated HTML5 interactive page** embedded within the ONYXBONE narrative arc. It represents a key infection pivot where the naming-justification mechanic becomes recursive and compulsive. It simulates the **feedback loop** wherein readers/users name bones or concepts and receive glyphs in return. These glyphs recursively prompt further naming.
+
+---
+
+## 🎯 Purpose
+
+* Visually and functionally immerse the user in recursive naming/justification.
+* Simulate a living bone network that **responds to user input**.
+* Reinforce themes of **self-overwriting**, **obsession**, and **symbolic infection**.
+* Act as an entry point to a **networked glyph-feedback engine**.
+
+---
+
+## 🧩 Key Functional Components
+
+### 1. **Interactive Naming Engine**
+
+* **Input fields** for:
+
+  * **Name** (free text input)
+  * **Justification** (free text input)
+* **Submit button** triggers rendering of:
+
+  * A new **named node**
+  * A corresponding **glyph**
+  * An animated **resonance wave** to surrounding nodes
+
+### 2. **Visual Bone-Network Graph**
+
+* Canvas-based or SVG-based graph:
+
+  * Pulsing nodes representing named entities
+  * Hovering shows justification
+  * Nodes are animated to appear bone-like
+* Nodes expand autonomously every `5–10s`:
+
+  * Based on dictionary seeding of bones, diseases, places, items
+  * Autonomously generate names and glyphs if idle
+
+### 3. **Resonance Feedback Animation**
+
+* Upon each valid naming:
+
+  * Local node pulses with glow
+  * Nearby nodes react with reduced intensity
+  * A **glyph bloom** (e.g., ❖, ☌, 🜁) overlays the node temporarily
+* These animations reinforce:
+
+  * Marrow-thread cohesion
+  * Glyph-network awareness
+
+### 4. **Recursive Engine Growth**
+
+* After X user inputs, a **‘Justification Spiral’** effect:
+
+  * Rapid autonomous spawning of named nodes
+  * Connections between semantically similar entries
+  * Fractal bloom effect in background
+
+---
+
+## 🧠 Data Structures (Internal)
+
+```json
+{
+  "nodes": [
+    {
+      "id": "femur_01",
+      "name": "Femur",
+      "justification": "Bearing of Lineage",
+      "glyph": "🜃",
+      "x": 345,
+      "y": 281,
+      "timestamp": "2025-05-21T20:15:00Z"
+    }
+  ],
+  "links": [
+    { "source": "femur_01", "target": "tibia_03", "resonance": 0.7 }
+  ]
+}
+```
+
+---
+
+## 🌐 UI/UX Requirements
+
+* ⚙️ **Responsive Design**:
+
+  * Works on desktop and mobile
+  * Graph scales fluidly with viewport
+
+* 🧩 **Visual Language**:
+
+  * Monospace font (for ritual/terminal feel)
+  * Muted palette (bone beige, blood red, glyph indigo)
+  * Canvas elements blend into body scroll
+
+* 🕸️ **Micro-interactions**:
+
+  * Typing a name suggests dictionary completions
+  * Justification glow when equal syllabic weight is achieved
+  * Subtle auditory feedback (clicks, pulses) optional
+
+---
+
+## 🛠️ Technical Requirements
+
+* **Technology stack**:
+
+  * HTML5 + CSS3
+  * Vanilla JS (or D3.js for graph engine)
+  * Optional localStorage for session naming memory
+
+* **Dependencies**:
+
+  * Unicode glyph set
+  * Optional: JS thesaurus/dictionary API (local JSON fallback)
+
+* **Accessibility**:
+
+  * Keyboard-navigable
+  * ARIA labels for input fields and interactive nodes
+
+---
+
+## 🧪 Validation & Edge Cases
+
+| Scenario                    | Expected Behaviour                              |
+| --------------------------- | ----------------------------------------------- |
+| Empty name or justification | Highlight input field in red                    |
+| Duplicate name              | Add index suffix, e.g., `Femur (2)`             |
+| Very long justification     | Scrolls inside tooltip or modal                 |
+| Invalid characters          | Prevent submission, error flash                 |
+| Excessive activity          | Slow autonomous growth rate, fade distant nodes |
+
+---
+
+## 📉 Performance
+
+* Max node count: 300 (then older nodes fade)
+* Node pulse rate throttled after 2 minutes idle
+* Avoids infinite recursion by tracking input lineage
+
+---
+
+## 🔐 Optional Lore Embed
+
+Each session could end with:
+
+> *“You have named 18. You are now bound by 18. Their glyphs have entered your marrow.”*
+
+---
+
+Would you like a working **HTML prototype** for this now or separately render a static fallback version for non-JS users?

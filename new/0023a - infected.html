@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CHAPTER 23a — RESONANCE ARTEFACT: Naming Engine</title>
+  <link rel="stylesheet" href="ossua.css">
+</head>
+<body>
+
+  <h1>CHAPTER 23a — Resonance Artefact: Naming Engine</h1>
+  <p class="mantra">All that is named must be justified. All that is justified must be claimed. All that is claimed must be borne.</p>
+
+  <div class="ritual-panel">
+    <label for="boneName">🦴 Name:</label>
+    <input id="boneName" type="text" placeholder="e.g., Scapula" />
+
+    <label for="justification">📜 Justification:</label>
+    <textarea id="justification" rows="3" placeholder="e.g., Guardian of Winged Thought"></textarea>
+
+    <button onclick="bindName()">Bind to Bone</button>
+    <div class="glyph-result" id="glyphDisplay" hidden></div>
+  </div>
+
+  <canvas id="glyphCanvas"></canvas>
+
+  <script>
+    const glyphDisplay = document.getElementById('glyphDisplay');
+    const canvas = document.getElementById('glyphCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth < 640 ? window.innerWidth - 40 : 600;
+      canvas.height = Math.floor(canvas.width * 0.5);
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('load', resizeCanvas);
+
+    function bindName() {
+      const name = document.getElementById('boneName').value.trim();
+      const justification = document.getElementById('justification').value.trim();
+
+      if (!name || !justification) {
+        glyphDisplay.hidden = false;
+        glyphDisplay.innerHTML = "⛔ Ritual incomplete. Both name and justification are required.";
+        glyphDisplay.className = 'glyph-result error';
+        return;
+      }
+
+      const resonance = (justification.length > 20)
+        ? 'CLAIMED'
+        : (justification.length > 8 ? 'PENDING' : 'REJECTED');
+
+      glyphDisplay.hidden = false;
+      glyphDisplay.innerHTML = `
+        🔹 <strong>${name}</strong><br>
+        🔸 Justified: <em>${justification}</em><br>
+        💀 Resonance Status: <strong>${resonance}</strong>
+      `;
+      glyphDisplay.className = 'glyph-result ' + resonance.toLowerCase();
+
+      drawGlyph(name, justification);
+    }
+
+    function drawGlyph(name, justification) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.save();
+      ctx.translate(canvas.width / 2, canvas.height / 2);
+
+      const hash = [...name + justification].reduce((a, c) => a + c.charCodeAt(0), 0);
+      const r = 40 + (hash % (canvas.width / 4));
+      const arms = 6 + (hash % 5);
+
+      for (let i = 0; i < arms; i++) {
+        const angle = (2 * Math.PI / arms) * i;
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(Math.cos(angle) * r, Math.sin(angle) * r);
+        ctx.strokeStyle = `rgba(${100 + hash % 155}, 40, 60, 0.8)`;
+        ctx.lineWidth = 1.5 + (hash % 3);
+        ctx.stroke();
+      }
+
+      ctx.beginPath();
+      ctx.arc(0, 0, r / 3, 0, 2 * Math.PI);
+      ctx.strokeStyle = '#cb4b16';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      ctx.restore();
+    }
+  </script>
+
+</body>
+</html>

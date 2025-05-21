@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CHAPTER 23a — RESONANCE ARTEFACT: 3E-003</title>
+  <style>
+    /* Global Styling for Thematic Aesthetic */
+    body {
+      font-family: 'IBM Plex Mono', monospace; /* More thematic monospace font */
+      background: #fcfbf9; /* Bone Beige */
+      color: #1e1e1e; /* Deep Charcoal */
+      max-width: 960px;
+      margin: auto;
+      padding: 1.5em;
+      box-sizing: border-box; /* Ensure padding doesn't cause overflow */
+    }
+    h1 {
+      font-size: 1.8em; /* Slightly larger */
+      text-align: center;
+      color: #b34800; /* Blood Red */
+      margin-bottom: 0.5em;
+    }
+    .mantra {
+      text-align: center;
+      font-style: italic;
+      color: #6a5f55; /* Muted brown */
+      margin-bottom: 1.5em;
+      font-size: 0.9em;
+    }
+
+    /* Ritual Panel Styling */
+    .ritual-panel {
+      background: #f4f0ec; /* Lighter Bone Beige */
+      border: 1px solid #d2b48c; /* Bone outline */
+      padding: 1.2em;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 1em;
+      color: #b34800; /* Blood Red for labels */
+    }
+    input, textarea {
+      width: calc(100% - 1.2em); /* Account for padding */
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.95em;
+      margin-top: 0.3em;
+      margin-bottom: 1em;
+      padding: 0.6em;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+      background: #fff;
+      color: #1e1e1e;
+    }
+    input.error, textarea.error {
+      border-color: #e74c3c; /* Red border for errors */
+      box-shadow: 0 0 5px rgba(231, 76, 60, 0.5); /* Soft red glow */
+    }
+    button {
+      background: #b34800; /* Blood Red */
+      color: white;
+      border: none;
+      padding: 0.8em 1.2em;
+      font-size: 1em;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 1em;
+      display: block;
+      width: 100%;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #8e3800; /* Darker red on hover */
+    }
+
+    /* Glyph Result Feedback Panel */
+    .glyph-result {
+      margin-top: 1.5em;
+      padding: 1em;
+      border-left: 4px solid #b34800; /* Blood Red */
+      background: #fff8e5; /* Lightest Bone Beige */
+      font-size: 0.9em;
+      transition: all 0.3s ease; /* Smooth transition for status changes */
+    }
+    .glyph-result strong {
+      color: #b34800; /* Blood Red for emphasis */
+    }
+    .glyph-display-symbol {
+        font-size: 2.5em;
+        line-height: 1;
+        display: block;
+        text-align: center;
+        margin: 0.5em 0;
+        color: #4b0082; /* Indigo for glyphs */
+    }
+
+    /* Canvas Graph Styling */
+    canvas {
+      display: block;
+      margin: 2em auto;
+      background: #fdf6e3; /* Lightest Bone Beige */
+      border: 1px solid #d2b48c; /* Bone outline */
+      border-radius: 4px;
+      width: 100%; /* Responsive width */
+      max-width: 600px; /* Max width for graph */
+      height: 360px; /* Fixed aspect ratio for consistency */
+      box-sizing: border-box;
+      cursor: help; /* Indicate interactivity (hover for justification) */
+    }
+
+    /* Justification Spiral Effect (CSS Animation) */
+    body.spiral-active {
+        animation: spiralGlow 0.5s infinite alternate;
+    }
+    @keyframes spiralGlow {
+        from { box-shadow: inset 0 0 10px rgba(179, 72, 0, 0.1); }
+        to { box-shadow: inset 0 0 20px rgba(179, 72, 0, 0.4); }
+    }
+  </style>
+  <!-- Google Fonts for IBM Plex Mono -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<h1>CHAPTER 23a — Resonance Artefact: 3E-003</h1>
+<p class="mantra">All that is named must be justified. All that is justified must be claimed. All that is claimed must be borne.</p>
+
+<div class="ritual-panel">
+  <label for="boneName">🦴 Name (e.g., Sacrum):</label>
+  <input id="boneName" type="text" placeholder="Mandible, Labyrinth, Zero-Point" maxlength="50" />
+
+  <label for="justification">📜 Justification (e.g., Cradle of ancient posture):</label>
+  <textarea id="justification" rows="3" placeholder="Bearing of lineage, Anchor for the nameless, Echo of un-birth" maxlength="200"></textarea>
+
+  <button onclick="bindName(true)">Bind to Bone</button>
+  <div class="glyph-result" id="glyphDisplay" hidden></div>
+</div>
+
+<canvas id="glyphCanvas"></canvas>
+
+<script>
+  const canvas = document.getElementById('glyphCanvas');
+  const ctx = canvas.getContext('2d');
+  const glyphDisplay = document.getElementById('glyphDisplay');
+  const boneNameInput = document.getElementById('boneName');
+  const justificationInput = document.getElementById('justification');
+  const body = document.body;
+
+  let nodes = [];
+  const MAX_NODES = 300; // Max node count as per spec
+  let nodeIdCounter = 0; // Unique ID generator for nodes
+  // Load user bind count from localStorage for persistent lore
+  let userBindsCount = parseInt(localStorage.getItem('onyxbone_namedCount') || '0', 10);
+
+  let lastFrameTime = 0; // For delta time calculations in animation
+  const GLYPH_FADE_DURATION = 3000; // ms for glyph bloom/pulse to fade
+  const JUSTIFICATION_HOVER_DELAY = 500; // ms before justification tooltip appears
+  let hoveredNode = null;
+  let hoverTimer = null; // Timer for hover delay
+  let mouseX = 0; // Current mouse X position on canvas
+  let mouseY = 0; // Current mouse Y position on canvas
+
+  // Extensive Unicode glyph set for diverse visual feedback
+  const GLYPHS = [
+    '❖', '☌', '🜁', '🜃', '🜄', '🜂', '🜀', '🜆', '☍', '☊', '☋', '☌', '☿', '♁', '♃', '♄', '♅', '♆', '♇',
+    '⚀', '⚁', '⚂', '⚃', '⚄', '⚅', '⚆', '⚇', '⚹', '⚺', '⚻', '⚼', '★', '◇', '▰', '◫', '◬', '🜏', '🜎',
+    '🜍', '🜐', '🜑', '🜒', '🜓', '🜔', '🜕', '🜖', '🜗', '🜘', '🜙', '🜚', '🜛', '🜜', '🜝', '🜞', '🜟', '🜠',
+    '🜡', '🜢', '🜣', '🜤', '🜥', '🜦', '🜧', '🜨', '🜩', '🜪', '🜫', '🜬', '🜭', '🜮', '🜯', '🜰', '🜱', '🜲',
+    '🜳', '🜴', '🜵', '🜶', '🜷', '🜸', '🜹', '🜺', '🜻', '🜼', '🜽', '🜾', '🜿', '🝀', '🝁', '🝂', '🝃', '🝄',
+    '🝅', '🝆', '🝇', '🝈', '🝉', '🝊', '🝋', '🝌', '🝍', '🝎', '🝏', '🝐', '🝑', '🝒', '🝓', '🝔', '🝕', '🝖',
+    '🝗', '🝘', '🝙', '🝚', '🝛', '🝜', '🝝', '🝞', '🝟', '🝠', '🝡', '🝢', '🝣', '🝤', '🝥', '🝦', '🝧', '🝨',
+    '🝩', '🝪', '🝫', '🝬', '🝭', '🝮', '🝯', '🝰', '🝱', '🝲', '🝳', '🝴', '🝵', '🝶', '🝷', '🝸', '🝹', '🝺',
+    '🝻', '🝼', '🝽', '🝾', '🝿', '🞀', '🞁', '🞂', '🞃', '🞄', '🞅', '🞆', '🞇', '🞈', '🞉', '🞊', '🞋', '🞌',
+    '🞍', '🞎', '🞏', '🞐', '🞑', '🞒', '🞓', '🞔', '🞕', '🞖', '🞗', '🞘', '🞙', '🞚', '🞛', '🞜', '🞝', '🞞',
+    '🞟', '🞠', '🞡', '🞢', '🞣', '🞤', '🞥', '🞦', '🞧', '🞨', '🞩', '🞪', '🞫', '🞬', '🞭', '🞮', '🞯', '🞰'
+  ];
+
+  // Pool of names for autonomous generation (expanded)
+  const namePools = [
+    "Clavicle","Sacrum","Occipital","Femur","Talus","Nuuk","Ypres","Vladivostok",
+    "Anthrax","Scrapie","Cholera","Io","VY Canis Majoris","Aegis","Leviathan",
+    "Pineal","Gallbladder","SMTP","POP3","BGP","Finger","Tibia","Fibula",
+    "Humerus","Radius","Ulna","Cranium","Vertebrae","Scapula","Pelvis",
+    "Patella","Phalanx","Tarsals","Carpals","Sternum","Ribs","Maxilla","Mandible",
+    "Labyrinth","Zero-Point","Synapse","Nidus","Fracture","Knot","Cipher",
+    "Chitin","Marrow","Conduit","Limen","Lacuna","Nexus","Aura","Vector","Cortex"
+  ];
+  // Roles and concepts for generating justifications (expanded)
+  const roles = ["Cradle of", "Bearer of", "Chamber of", "Midwife to", "Harbinger of", "Vestibule to",
+                 "Echo of", "Source of", "Repository of", "Breach into", "Fragment of", "The binding of"];
+  const concepts = ["grief", "signal collapse", "ancestral recursion", "lingering syntax",
+                    "feral intent", "unconscious need", "covert vibration", "unwritten law",
+                    "memory erasure", "temporal drift", "syntactic infection", "bone-language",
+                    "choral silence", "recursive naming", "self-overwriting", "symbolic infection",
+                    "the Great Work", "the Unnamed Shadow", "primal resonance", "the Finality"];
+
+  // Justification Spiral variables
+  let spiralActive = false;
+  let spiralEndTime = 0;
+  let spiralIntervalId = null;
+  const SPIRAL_TRIGGER_COUNT = 10; // Number of user binds to trigger spiral
+  const SPIRAL_DURATION = 8000; // ms (8 seconds)
+  const SPIRAL_GEN_INTERVAL = 200; // ms (nodes generated every 200ms during spiral)
+
+  // Helper function to get a random element from an array
+  function getRandom(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  // Resizes canvas's internal drawing surface to match its CSS size
+  function resizeCanvas() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    // Redraw network after resize to ensure elements are positioned correctly
+    // requestAnimationFrame(animateNetwork) will handle this in the next frame
+  }
+
+  // Event listeners for responsive design and initial setup
+  window.addEventListener('resize', resizeCanvas);
+  window.addEventListener('load', () => {
+    resizeCanvas(); // Set initial canvas size
+    startAutoBinding(); // Begin autonomous node generation
+    requestAnimationFrame(animateNetwork); // Start the animation loop
+  });
+
+  // Lore embed on page exit
+  window.addEventListener('beforeunload', () => {
+    localStorage.setItem('onyxbone_namedCount', userBindsCount.toString()); // Persist count
+    alert(`You have named ${userBindsCount}. You are now bound by ${userBindsCount}. Their glyphs have entered your marrow.`);
+  });
+
+  // Helper to get mouse coordinates relative to the canvas
+  function getMousePos(canvas, evt) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: evt.clientX - rect.left,
+      y: evt.clientY - rect.top
+    };
+  }
+
+  // Canvas mousemove listener for hover effects
+  canvas.addEventListener('mousemove', function(evt) {
+    const mouse = getMousePos(canvas, evt);
+    mouseX = mouse.x;
+    mouseY = mouse.y;
+    let foundNode = null;
+    const NODE_HOVER_RADIUS = 15; // Increased detection radius for easier hovering
+
+    // Iterate nodes backwards to detect hover on newer (on top) nodes first
+    for (let i = nodes.length - 1; i >= 0; i--) {
+      const node = nodes[i];
+      const dist = Math.sqrt(Math.pow(node.x - mouse.x, 2) + Math.pow(node.y - mouse.y, 2));
+      if (dist < NODE_HOVER_RADIUS) {
+        foundNode = node;
+        break;
+      }
+    }
+
+    if (foundNode !== hoveredNode) {
+      hoveredNode = foundNode;
+      if (hoverTimer) clearTimeout(hoverTimer); // Clear any existing timer
+      if (hoveredNode) {
+        // Start a new timer for justification display
+        hoverTimer = setTimeout(() => {
+          // No action needed here, drawNetwork will check hoveredNode status
+        }, JUSTIFICATION_HOVER_DELAY);
+      }
+    }
+  });
+
+  // Canvas mouseout listener to clear hover state
+  canvas.addEventListener('mouseout', function() {
+    if (hoverTimer) clearTimeout(hoverTimer);
+    hoveredNode = null;
+  });
+
+  // Main function to bind a name (manual user input or autonomous)
+  function bindName(manual = true, name = null, justification = null) {
+    // Clear previous error states on input fields
+    boneNameInput.classList.remove('error');
+    justificationInput.classList.remove('error');
+
+    if (manual) {
+      name = boneNameInput.value.trim();
+      justification = justificationInput.value.trim();
+      userBindsCount++; // Increment user count only for manual binds
+    }
+
+    // Validation: Empty name or justification
+    if (!name || !justification) {
+      glyphDisplay.hidden = false;
+      glyphDisplay.innerHTML = `⛔ Ritual incomplete. Both name and justification are required.`;
+      glyphDisplay.style.borderLeftColor = '#e74c3c'; /* Red */
+      glyphDisplay.style.background = '#ffebe5'; /* Light red */
+      if (!name) boneNameInput.classList.add('error');
+      if (!justification) justificationInput.classList.add('error');
+      return; // Stop function execution
+    }
+
+    // Validation: Duplicate name handling
+    let originalName = name;
+    let suffix = 1;
+    // Check if any existing node already has this name
+    while (nodes.some(node => node.name === name)) {
+      name = `${originalName} (${suffix++})`; // Append suffix if duplicate
+    }
+
+    // Determine status based on justification length
+    // This serves as a proxy for "syllabic weight" or "depth" of justification
+    let status;
+    if (justification.length >= 40) { // More profound justification
+      status = 'CLAIMED';
+    } else if (justification.length >= 15) { // Moderate justification
+      status = 'PENDING';
+    } else { // Brief or insufficient justification
+      status = 'REJECTED';
+    }
+
+    const newGlyph = getRandom(GLYPHS); // Pick a random glyph
+
+    // Create new node object with all required properties
+    const node = {
+      id: `node_${nodeIdCounter++}`, // Unique ID
+      name: name,
+      justification: justification,
+      glyph: newGlyph,
+      // Random position within canvas bounds, with padding to avoid edges
+      x: 60 + Math.random() * (canvas.width - 120),
+      y: 60 + Math.random() * (canvas.height - 120),
+      creationTime: Date.now(), // Timestamp of creation
+      lastPulseTime: Date.now(), // Used for initial bloom animation
+      status: status
+    };
+
+    nodes.push(node); // Add new node to the array
+
+    // Enforce max node count by removing the oldest nodes
+    while (nodes.length > MAX_NODES) {
+      nodes.shift(); // Remove the oldest node (first element) from the array
+    }
+
+    // Update UI for manual binds
+    if (manual) {
+      glyphDisplay.hidden = false;
+      glyphDisplay.innerHTML = `
+        <span class="glyph-display-symbol">${newGlyph}</span>
+        🔹 <strong>${node.name}</strong><br>
+        🔸 Justified: <em>${node.justification}</em><br>
+        💀 Resonance Status: <strong>${node.status}</strong>
+      `;
+
+      // Visual feedback color based on node status
+      if (node.status === 'CLAIMED') {
+          glyphDisplay.style.borderLeftColor = '#228B22'; /* Forest Green */
+          glyphDisplay.style.background = '#f0fff0'; /* Light Green */
+      } else if (node.status === 'PENDING') {
+          glyphDisplay.style.borderLeftColor = '#999933'; /* Olive */
+          glyphDisplay.style.background = '#ffffe0'; /* Light Yellow */
+      } else { // REJECTED
+          glyphDisplay.style.borderLeftColor = '#8B0000'; /* Dark Red */
+          glyphDisplay.style.background = '#fff0f0'; /* Light Red */
+      }
+
+      // Clear input fields after successful manual bind
+      boneNameInput.value = '';
+      justificationInput.value = '';
+
+      // Trigger Justification Spiral after a certain number of user inputs
+      if (userBindsCount % SPIRAL_TRIGGER_COUNT === 0 && userBindsCount > 0 && !spiralActive) {
+        triggerJustificationSpiral();
+      }
+    }
+    // The animateNetwork loop will automatically redraw the canvas
+  }
+
+  let autoBindTimeoutId;
+  // Function to start the autonomous node generation loop
+  function startAutoBinding() {
+    autoBindTimeoutId = setTimeout(() => {
+      autoBindNode(); // Generate an autonomous node
+      startAutoBinding(); // Schedule the next auto-bind
+    }, 5000 + Math.random() * 5000); // Random interval between 5 and 10 seconds
+  }
+
+  // Function to stop the autonomous node generation loop
+  function stopAutoBinding() {
+    clearTimeout(autoBindTimeoutId);
+  }
+
+  // Function to create an autonomous node
+  function autoBindNode() {
+    const name = getRandom(namePools);
+    const justification = `${getRandom(roles)} ${getRandom(concepts)}`;
+    bindName(false, name, justification); // Call bindName in autonomous mode
+  }
+
+  // Triggers the "Justification Spiral" effect
+  function triggerJustificationSpiral() {
+    if (spiralActive) return; // Prevent re-triggering if already active
+
+    spiralActive = true;
+    spiralEndTime = Date.now() + SPIRAL_DURATION; // Set end time for the spiral
+    body.classList.add('spiral-active'); // Add CSS class for visual effect
+
+    stopAutoBinding(); // Temporarily stop normal auto-binding
+
+    // Rapidly generate nodes during the spiral
+    let spiralGenCount = 0;
+    spiralIntervalId = setInterval(() => {
+      if (Date.now() > spiralEndTime) {
+        // Spiral time is over
+        clearInterval(spiralIntervalId);
+        spiralActive = false;
+        body.classList.remove('spiral-active'); // Remove visual effect
+        startAutoBinding(); // Resume normal auto-binding
+        console.log("Justification Spiral ended.");
+        return;
+      }
+      autoBindNode(); // Generate a new node
+      spiralGenCount++;
+    }, SPIRAL_GEN_INTERVAL);
+
+    console.log("Justification Spiral initiated! Generating nodes rapidly...");
+  }
+
+  // Main animation loop using requestAnimationFrame
+  function animateNetwork(currentTime) {
+    // Calculate delta time for frame-rate independent animations
+    const deltaTime = currentTime - lastFrameTime;
+    lastFrameTime = currentTime;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the entire canvas
+
+    // Draw links between nodes (sequential for simplicity, could be enhanced)
+    for (let i = 1; i < nodes.length; i++) {
+      const a = nodes[i - 1];
+      const b = nodes[i];
+      const ageA = currentTime - a.creationTime;
+      const ageB = currentTime - b.creationTime;
+      // Fade links based on the age of the youngest connected node
+      let linkOpacity = Math.max(0, 1 - Math.min(ageA, ageB) / (MAX_NODES * 10));
+      linkOpacity = Math.min(linkOpacity, 0.5); // Cap max opacity
+
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.strokeStyle = `rgba(210, 180, 140, ${linkOpacity})`; /* Bone outline, transparent */
+      ctx.lineWidth = 1.4;
+      ctx.stroke();
+    }
+
+    // Draw nodes
+    nodes.forEach(node => {
+      // Calculate pulse intensity for the glyph bloom effect
+      const timeSincePulse = currentTime - node.lastPulseTime;
+      let pulseIntensity = Math.max(0, 1 - timeSincePulse / GLYPH_FADE_DURATION); // Fades from 1 to 0
+      pulseIntensity = Math.min(pulseIntensity, 1); // Clamp value
+
+      const baseRadius = 8;
+      const pulsedRadius = baseRadius + (pulseIntensity * 5); // Node grows up to 5px larger
+      const textOffset = pulsedRadius + 5; // Offset for node name
+
+      // Define node colors based on its status
+      let nodeColor;
+      let borderColor;
+      switch (node.status) {
+          case 'CLAIMED':
+              nodeColor = `rgba(34, 139, 34, ${0.4 + pulseIntensity * 0.3})`; // Forest Green
+              borderColor = `rgba(34, 139, 34, ${0.6 + pulseIntensity * 0.4})`;
+              break;
+          case 'PENDING':
+              nodeColor = `rgba(153, 153, 51, ${0.4 + pulseIntensity * 0.3})`; // Olive
+              borderColor = `rgba(153, 153, 51, ${0.6 + pulseIntensity * 0.4})`;
+              break;
+          case 'REJECTED':
+              nodeColor = `rgba(139, 0, 0, ${0.4 + pulseIntensity * 0.3})`; // Dark Red
+              borderColor = `rgba(139, 0, 0, ${0.6 + pulseIntensity * 0.4})`;
+              break;
+          default:
+              nodeColor = `rgba(210, 180, 140, ${0.4 + pulseIntensity * 0.3})`; // Default bone color
+              borderColor = `rgba(179, 72, 0, ${0.6 + pulseIntensity * 0.4})`;
+      }
+      
+      // Draw Node background circle (bone-like appearance)
+      ctx.beginPath();
+      ctx.arc(node.x, node.y, pulsedRadius, 0, 2 * Math.PI);
+      ctx.fillStyle = nodeColor;
+      ctx.fill();
+
+      // Draw Node outline pulse/glow
+      ctx.beginPath();
+      ctx.arc(node.x, node.y, pulsedRadius + 2, 0, 2 * Math.PI);
+      ctx.strokeStyle = borderColor;
+      ctx.lineWidth = 1 + pulseIntensity * 2; // Thicker pulse for emphasis
+      ctx.stroke();
+
+      // Draw Glyph (blooming effect)
+      ctx.font = `${16 + pulseIntensity * 10}px monospace`; // Glyph grows with pulse
+      ctx.fillStyle = `rgba(75, 0, 130, ${0.8 * pulseIntensity})`; // Indigo glyph, fades with pulse
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(node.glyph, node.x, node.y + 2); // Adjust Y for visual centering of glyph
+
+      // Draw Node Name
+      ctx.font = '11px monospace';
+      ctx.fillStyle = '#222';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(node.name, node.x + textOffset, node.y);
+    });
+
+    // Draw hovered node's justification as a tooltip
+    if (hoveredNode && (Date.now() - (hoveredNode.creationTime || 0) > JUSTIFICATION_HOVER_DELAY)) {
+      ctx.font = '10px monospace';
+      ctx.fillStyle = '#6a5f55'; // Muted brown
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'bottom';
+      const justificationText = `"${hoveredNode.justification}"`;
+      const textWidth = ctx.measureText(justificationText).width;
+      const padding = 5;
+      const textX = mouseX; // Position tooltip near mouse
+      const textY = mouseY - 10; // Offset above mouse
+
+      // Draw background rectangle for the tooltip
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)'; // White semi-transparent
+      ctx.fillRect(textX - textWidth / 2 - padding, textY - 15 - padding, textWidth + padding * 2, 15 + padding * 2);
+      ctx.strokeStyle = '#d2b48c'; // Bone outline
+      ctx.lineWidth = 1;
+      ctx.strokeRect(textX - textWidth / 2 - padding, textY - 15 - padding, textWidth + padding * 2, 15 + padding * 2);
+
+      ctx.fillStyle = '#1e1e1e';
+      ctx.fillText(justificationText, textX, textY);
+    }
+
+    // Request the next animation frame
+    requestAnimationFrame(animateNetwork);
+  }
+
+  // Initial call to start the animation loop
+  requestAnimationFrame(animateNetwork);
+</script>
+
+</body>
+</html>

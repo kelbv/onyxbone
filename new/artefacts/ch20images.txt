@@ -1,0 +1,52 @@
+Absolutely — here's a table with **filename**, **description prompt**, and **notes** for generating each image associated with Chapter 0020 – *Syllabic Debt*, all thematically aligned with ONYXBONE’s tone: bone resonance, glyphs, ritual, recursion, and eerie reverence.
+
+---
+
+### 📸 Chapter 0020 – *Syllabic Debt* Artefact Image Prompt Table
+
+| **Filename**                         | **Prompt for AI Generation**                                                                                                                                                    | **Notes / Guidance**                                                                                       |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `placeholder_painful_recitation.jpg` | A young girl clutching her leg during a naming ritual, eyes shut tight in pain, sitting on a thin mattress in a shelter. A notebook lies open beside her, faint glyphs visible. | Low warm light, cracked wall background, ONYXBONE-style glyph faintly glowing near her knee.               |
+|
+NEW IMAGE CONTEXT: new scene - do not reuse previous image - start new
+ `placeholder_enumerate_sermon.jpg`   | A bald preacher in dark robes (Father Anno) stands before a small group in a repurposed gymnasium, arm outstretched, glyphs visible on his forearm.                             | Candlelit sermon. Use ONYXBONE sigils and an atmosphere of cultic reverence and poetic intensity.          |
+
+NEW IMAGE CONTEXT:
+#NEW IMAGE CONTEXT: new scene - do not reuse previous image - start new please do not retain from previous images
+
+
+ | `placeholder_clinic_scribble.jpg`    | Graffiti scrawled on a stained white wall in black charcoal: “Debt is measured in breath.” Glyphs pulse faintly underneath the handwriting.                                     | Include cracked plaster, clinic-style decay, and visible ONYXBONE symbols worked subtly into the scribble. |
+
+NEW IMAGE CONTEXT:NEW IMAGE CONTEXT: new scene - do not reuse previous image - start newplease do not retain from previous images
+
+
+ | `social_boneledger.jpg`              | A notebook page with bone-name entries and one of them fading away, as if rejected. The text: “Femur – Justified: Pillar of Pursuit” is ghosting.                               | Handwriting looks panicked. Include faded sigils in margin. Quiet ambient lighting.                        |
+
+NEW IMAGE CONTEXT:NEW IMAGE CONTEXT: new scene - do not reuse previous image - start new please do not retain from previous images
+
+
+ | `social_hum_debtor.jpg`              | Photo of a person’s chest wrapped in gauze, with red ONYXBONE-style sigils bleeding through. Caption suggests failed naming attempt.                                            | Pale skin, hospital setting, ritual failure aftermath.                                                     |
+
+|NEW IMAGE CONTEXT:NEW IMAGE CONTEXT: new scene - do not reuse previous image - start new please do not retain from previous images
+
+
+  `social_sibilant7.jpg`               | A phone screenshot showing a digital ledger app or spreadsheet where bone names and justification syllable counts are tracked.                                                  | Include ONYXBONE-style UI, glyphs as icons, dim or nocturnal color palette.                                |
+
+|NEW IMAGE CONTEXT:NEW IMAGE CONTEXT: new scene - do not reuse previous image - start new please do not retain from previous images
+
+
+  `social_debtmarked.jpg`              | A shoulder blade with a raw tattoo of the word “OVERDRAWN” above a half-faded bone glyph. Flash photography look.                                                               | Pale, scarred skin, black ink mixed with red glyphwork.                                                    |
+
+|NEW IMAGE CONTEXT:NEW IMAGE CONTEXT: new scene - do not reuse previous image - start new please do not retain from previous images
+
+
+  `social_enumerator44.jpg`            | A collage of 12 spine segments drawn on different scraps of paper, each labeled and justified in poetic script. Some glow faintly.                                              | Disordered table, half-burnt edges, chaotic divine energy feel.                                            |
+
+|NEW IMAGE CONTEXT:NEW IMAGE CONTEXT: new scene - do not reuse previous image - start newplease do not retain from previous images
+
+
+  `social_denier.jpg`                  | Screenshot of a hostile forum post with bone emoji replies and red downvotes. User accuses others of “naming bones like Pokémon.”                                               | Use ONYXBONE-styled fake social UI. Harsh tone in comment. Include 🕯️ emojis and sigil watermarks subtly. |
+
+---
+
+Would you like this as a downloadable `.csv`, `.md`, or `.html` table to pass on to other tools or agents? Or shall we start generating from this list now?
