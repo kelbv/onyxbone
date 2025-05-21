@@ -95,3 +95,13 @@ pre {
   white-space: pre-wrap;
   color: var(--text-main);
 }
+
+/* Speaker dialogue or attribution styling */
+.speaker {
+  display: block;
+  font-weight: bold;
+  color: var(--highlight);
+  margin-top: 1.2em;
+  margin-bottom: 0.2em;
+  letter-spacing: 0.03em;
+}
