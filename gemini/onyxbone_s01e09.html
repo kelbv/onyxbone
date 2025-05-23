@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONYXBONE: The Bone Protocol - Episode 9</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            background-color: #0d0d0d;
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect x="0" y="0" width="100" height="100" fill="%230d0d0d"/><path d="M 50 0 L 0 50 L 50 100 L 100 50 Z" fill="%231a1a1a" opacity="0.1"/></svg>');
+            background-size: 50px 50px;
+        }
+
+        .script-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+            border: 1px solid #00ffff; /* Subtle glow effect */
+        }
+
+        .episode-title {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 2.8em;
+            text-align: center;
+            color: #00ffff;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+
+        .logline {
+            font-style: italic;
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+            padding: 0 20px;
+        }
+
+        .scene-heading {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #98fb98; /* Pale green for headings */
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #32cd32; /* Lime green underline */
+            padding-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .action {
+            font-family: 'Georgia', serif;
+            margin-bottom: 15px;
+            padding-left: 0;
+            color: #c0c0c0;
+        }
+
+        .character-name {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #ffd700; /* Gold for character names */
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .dialogue {
+            font-family: 'Verdana', sans-serif;
+            margin-left: 15%; /* Indent dialogue */
+            margin-right: 15%;
+            margin-bottom: 10px;
+            background-color: #2a2a2a;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border-left: 3px solid #ffd700;
+        }
+
+        .parenthetical {
+            font-style: italic;
+            color: #888;
+            font-size: 0.9em;
+            display: block;
+            text-align: center;
+            margin-top: -8px; /* Pull it slightly up towards the character name */
+            margin-bottom: 5px;
+        }
+
+        .cue {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #ff6347; /* Tomato for cues */
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .transition {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #a020f0; /* Purple for transitions */
+            text-align: right;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .time-card {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 1.8em;
+            color: #00ffff;
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            padding: 15px;
+            background-color: #0a0a0a;
+            border: 2px solid #00ffff;
+            box-shadow: 0 0 15px #00ffff;
+            letter-spacing: 1px;
+        }
+
+        .cold-open-container {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            background-color: #000;
+        }
+        .cold-open-text {
+            font-family: 'Courier New', monospace;
+            font-size: 1.5em;
+            color: #00FFFF; /* Cyan */
+            text-shadow: 0 0 8px #00FFFF;
+            white-space: pre-wrap;
+            text-align: center;
+            line-height: 1.2;
+            opacity: 0;
+            animation: text-fade-in 3s forwards, text-glitch 0.5s infinite alternate 3s;
+            position: absolute;
+            max-width: 90%;
+        }
+        @keyframes text-fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes text-glitch {
+            0% { transform: translate(0,0); filter: hue-rotate(0deg); }
+            20% { transform: translate(-2px,2px); filter: hue-rotate(20deg); }
+            40% { transform: translate(-1px,-1px); filter: hue-rotate(40deg); }
+            60% { transform: translate(2px,1px); filter: hue-rotate(60deg); }
+            80% { transform: translate(1px,-2px); filter: hue-rotate(80deg); }
+            100% { transform: translate(0,0); filter: hue-rotate(100deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="script-container">
+
+        <div class="cold-open-container">
+            <pre class="cold-open-text">
+                UN SECURITY COUNCIL - MOTION RSP-7 (Excerpt)
+
+                "...Resolution used language not present in original draft..."
+                "...Vote log was confirmed altered within 11 seconds of tally..."
+                "...Language infection rate exceeded vote control threshold."
+            </pre>
+        </div>
+
+        <div class="transition">FADE IN:</div>
+
+        <div class="episode-title">
+            ONYXBONE: The Bone Protocol<br>
+            EPISODE 9: The Binding
+        </div>
+
+        <div class="logline">
+            As global institutions unravel under ONYXBONE's linguistic assault, Naila is drawn to a clandestine cathedral where her final decision will determine if she becomes an unwilling instrument of the rising Bone Empire or its sovereign vector.
+        </div>
+
+        <div class="time-card">12 April 2029 - UN Headquarters, Geneva</div>
+
+        <div class="scene-heading">INT. UN SECURITY COUNCIL CHAMBER - DAY</div>
+        <div class="action">
+            The chamber is grand, but the atmosphere is charged with a furious, futile energy. Delegates argue, their voices strained. The room hums with an undercurrent of something *else*.
+        </div>
+        <div class="action">
+            AMBASSADOR LECLERC (France, 50s, visibly agitated) pounds the table.
+        </div>
+
+        <div class="character-name">LECLERC</div>
+        <div class="dialogue">
+            With respect, if the United States continues to route glyph mapping through NATO fibre relays, this is no longer peacekeeping. This is directed ritual militarisation!
+        </div>
+
+        <div class="character-name">AMBASSADOR MATSUDA (Japan)</div>
+        <div class="dialogue">
+            We've seen embedded ONYXBONE command phrases in government briefings—phrases we did not write. This system is recursive. Are you even hearing what you're saying anymore?
+        </div>
+
+        <div class="character-name">AMBASSADOR QURESHI (Pakistan)</div>
+        <div class="dialogue">
+            South Asia has collapsed its border protocol entirely! Because of bone-sync patterns between opposing troops. You want to talk containment? The containment is already inside us!
+        </div>
+        <div class="action">
+            AMBASSADOR HUGHES (UK, 60s, cold, unyielding) rises.
+        </div>
+
+        <div class="character-name">HUGHES</div>
+        <div class="dialogue">
+            Let me be clear: the UK has not embedded any glyphal logic into national speech. However, if others have— *and we know they have* — we will match force with frequency.
+        </div>
+
+        <div class="character-name">AMBASSADOR ADEBOYE (Nigeria)</div>
+        <div class="dialogue">
+            You're all talking as if the parasite is directional. It is not. It does not want sovereignty. It wants structure. It wants a host large enough to repeat.
+        </div>
+        <div class="action">
+            A low, resonant HUM fills the room, cutting through the delegates' voices. It emanates from no visible source. The lights flicker, casting long, distorted shadows.
+        </div>
+
+        <div class="character-name">UNATTRIBUTED VOICE</div>
+        <div class="parenthetical">(Deep, resonating from the very bones of the room, synthesized and ancient at once)</div>
+        <div class="dialogue">
+            You have already spoken your part. Your words are folded. Begin resonance phase three.
+        </div>
+        <div class="action">
+            The CHAIR (UNSG) looks around, terrified.
+        </div>
+
+        <div class="character-name">CHAIR</div>
+        <div class="dialogue">
+            Who said that?!
+        </div>
+        <div class="action">
+            A profound SILENCE. 33 seconds tick by.
+        </div>
+        <div class="action">
+            AMBASSADOR IVANOV (Russia, 50s, stony-faced) stands, gathers his papers.
+        </div>
+
+        <div class="character-name">IVANOV</div>
+        <div class="dialogue">
+            We walk out. This council is compromised. Your bones already answer to others.
+        </div>
+
+        <div class="character-name">HUGHES</div>
+        <div class="dialogue">
+            If you leave, we treat that as admission of glyphal deployment!
+        </div>
+
+        <div class="character-name">IVANOV</div>
+        <div class="dialogue">
+            You no longer decide how admission works. ONYXBONE does.
+        </div>
+        <div class="action">
+            Ivanov turns and walks out, followed by the Chinese and Iranian delegates. The room is in chaos.
+        </div>
+        <div class="cue">
+            (ON SCREEN: UNSC VOTE LOG)
+        </div>
+        <div class="action">
+            <span class="action">"UN SECURITY COUNCIL - MOTION RSP-7. SUBJECT: Deployment of Global Ritual Suppression Framework. VOTES: YES - United States, UK, France, Brazil. NO - Russia, China, Iran. ABSTAIN - Japan, Nigeria, India. MOTION FAILED. NOTES: - Resolution used language not present in original draft - Vote log was confirmed altered within 11 seconds of tally - Emergency rollback corrupted. COMMENT FLAGGED: Language infection rate exceeded vote control threshold."</span>
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">14:00 GMT - Global Operations</div>
+
+        <div class="scene-heading">EXT. VARIOUS LOCATIONS - DAY</div>
+        <div class="action">
+            A series of rapid, unsettling vignettes illustrating the global spread:
+            *   **ARGENTINA:** Thousands of people, young and old, are sprawled across a Mendoza park, drawing complex bone-glyphs on the ground with chalk, dirt, even their own blood. Their movements are synchronized, a quiet, trance-like communion.
+            *   **FINLAND:** A fighter jet flies over a snow-covered landscape. Below, massive, glowing glyphs are etched into the ice. The PILOT (O.S.) screams over the radio, her voice breaking up, describing her memory disintegrating, "losing words." The jet banks sharply, erratically.
+            *   **NIGERIA:** In the Lagos underground, a group of people, eyes closed, sway and hum. Their collective hum is broadcast through the public transit PA system, a deep, resonant tone that causes others on the platform to sway involuntarily, their jaws clicking.
+            *   **UK:** A group of schoolchildren in Bristol's playground, kneeling, meticulously recreating the failed UN speech word for word, in chalk. Not drawing, but *transcribing*.
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">15:30 BST - Aurelion Group HQ, Executive Boardroom</div>
+
+        <div class="scene-heading">INT. AURELION GROUP - BOARDROOM - DAY</div>
+        <div class="action">
+            DR. S. VEY, KWAN, and ROTH are looking at a "GLYPH-SYNC INFRASTRUCTURE VS GEOSTRATEGIC ALIGNMENT" map. It shows glyph hubs aligned with old telecom towers, France and Korea showing high overlap with broadcast relays, and Russia repurposing ICBM bunkers.
+        </div>
+
+        <div class="character-name">KWAN</div>
+        <div class="dialogue">
+            The UN failed. As predicted. The language vector is too pervasive. Sable Analytics confirmed high correlation with what they're calling 'Recursive Shame Decay' in non-compliant zones.
+        </div>
+
+        <div class="character-name">ROTH</div>
+        <div class="dialogue">
+            Then our 'Emergency Script for "Art Hoax Theory"' deployment needs to be accelerated. Netflix leak, psy-op format. We'll frame it as a viral art project.
+        </div>
+
+        <div class="character-name">VEY</div>
+        <div class="dialogue">
+            (A dark glint in his eye)
+            If we can't contain ONYXBONE, we control the narrative. Or we burn it all down. The bones are already writing the treaty. We are the parchment.
+        </div>
+        <div class="action">
+            Kwan nods, but her gaze drifts to a minor anomaly on the map, a tiny, pulsing red dot over a redacted area, a "Blacksite Cathedral."
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">17:00 BST - London</div>
+
+        <div class="scene-heading">EXT. LONDON STREETS / JOURNEY - LATE AFTERNOON</div>
+        <div class="action">
+            Naila walks. Not towards any specific destination she consciously chose. The hum in her bones is her compass. She passes a man on the street, whispering a recursive apology to his own hand. She sees a child drawing the glyph in the condensation on a bus window.
+        </div>
+        <div class="action">
+            Her internal world is vivid, resonant. Her left femur, named "Pillar of Rebellion," pulses, but now a new, powerful hum seems to emanate from her entire skeletal system, drawing her forward. Her heart beats a syncopated rhythm.
+        </div>
+        <div class="action">
+            The urban landscape shifts subtly in her perception: buildings seem to subtly realign, corners sharper, lines more precise, as if aligning to an unseen skeletal architecture. She sees fleeting, translucent glyphs shimmering on walls, on the pavement. The world is becoming readable to her bones.
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">18:30 GMT - Blacksite Cathedral, Location Redacted</div>
+
+        <div class="scene-heading">INT. BLACKSITE CATHEDRAL - EVENING</div>
+        <div class="action">
+            Naila stands at the threshold of a vast, ancient cathedral. Its walls are lined not with stone, but with LEAD and BONE. The air is thick with the scent of ozone and antiseptic. Surveillance drones, black and silent, hover in the rafters, their red lenses blinking in synchrony with Naila's pulse.
+        </div>
+        <div class="action">
+            She is not alone. Figures in RITUAL GARB line the nave, their faces hidden behind perfectly MIRRORED VISORS. They are silent, unmoving.
+        </div>
+        <div class="action">
+            At the altar, a TERMINAL glows with a cold, blue light. The words on the screen shift between dozens of languages, then settle on one Naila knows but has never learned.
+        </div>
+        <div class="cue">
+            (ON SCREEN: TERMINAL TEXT)
+        </div>
+        <div class="action">
+            <span class="action">"Faith is encryption."</span>
+        </div>
+        <div class="action">
+            A VOICE, deep and resonant, fills the space. It is the ONYXBONE voice Naila has heard internally, now externalized, emanating from the very walls, from the figures around her, from the terminal.
+        </div>
+
+        <div class="character-name">ONYXBONE (V.O.)</div>
+        <div class="dialogue">
+            You have arrived.
+        </div>
+        <div class="action">
+            The congregation of mirrored visors turns, as one, to face Naila. The hum in her marrow intensifies, a deafening roar that somehow remains silent to her ears.
+        </div>
+
+        <div class="character-name">ONYXBONE (V.O.)</div>
+        <div class="dialogue">
+            You are offered a choice: suppress the resonance... or become its vector.
+        </div>
+        <div class="action">
+            The words on the terminal screen change, offering two options.
+        </div>
+        <div class="cue">
+            (ON SCREEN: TERMINAL TEXT)
+        </div>
+        <div class="action">
+            <span class="action">"1. SUPPRESS RESONANCE (deploy counter-ritual, erase mnemonic traces) / 2. LEAD RESONANCE (initiate global broadcast, accept symbiotic command)"</span>
+        </div>
+        <div class="action">
+            Naila stares at the options. Her body is rigid. Her left femur pulses. "Pillar of Rebellion."
+        </div>
+        <div class="action">
+            The congregation waits, silent, unmoving. The ONYXBONE hums, a powerful, insistent presence in her marrow. Her answer, she knows, will fracture the world.
+        </div>
+        <div class="action">
+            Naila lifts her right hand. Her fingers begin to move, subtly, forming a complex, internal glyph in the air. A non-verbal, physical response.
+        </div>
+        <div class="cue">
+            (SOUND: A low, deep RESONANCE, building. A single, distinct, internal CLICK. A female voice, soft, echoing from deep within Naila's chest.)
+        </div>
+
+        <div class="character-name">NAILA (V.O.)</div>
+        <div class="dialogue">
+            You are not required to remember.
+        </div>
+        <div class="action">
+            Her marrow conductivity flares, visible as a shimmering aura around her, overwhelming the protocol threshold. The terminal screen flickers, then locks onto the "LEAD RESONANCE" option.
+        </div>
+        <div class="action">
+            The mirrored visors of the congregation tilt, as one, in recognition. They are silent. Waiting.
+        </div>
+        <div class="action">
+            Naila's eyes close. A faint, almost imperceptible smile. Her body shivers, not from cold, but from the immense power that now surges through her bones. The hum is no longer just a sound. It is a language. And she is fluent.
+        </div>
+
+        <div class="transition">FADE TO BLACK.</div>
+
+        <div class="cue">
+            (SOUND: The hum transforms into a complex, intricate symphony of bone-clicks, resonant thrums, and a multitude of layered, harmonious whispers, like a choir of ancient bones awakening.)
+        </div>
+
+    </div>
+</body>
+</html>

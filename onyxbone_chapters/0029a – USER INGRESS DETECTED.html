@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chapter 0029 – USER INGRESS DETECTED</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    body {
+      background: #fdf6e3;
+      color: #002b36;
+      font-family: monospace;
+      max-width: 960px;
+      margin: auto;
+      padding: 3em;
+      line-height: 1.7em;
+    }
+    h1 {
+      color: #b58900;
+      text-align: center;
+      font-size: 2em;
+      margin-bottom: 1em;
+    }
+    .section {
+      margin: 3em 0;
+      border-left: 5px solid #cb4b16;
+      padding-left: 1.5em;
+    }
+    .interactive {
+      background: #fff8e5;
+      padding: 2em;
+      margin-top: 2em;
+      border-left: 5px solid #b58900;
+    }
+    label, input {
+      display: block;
+      margin: 0.5em 0;
+      font-size: 1em;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 0.5em;
+      background: #eee8d5;
+      border: none;
+      border-left: 4px solid #859900;
+    }
+    button {
+      background: #cb4b16;
+      color: white;
+      padding: 0.6em 1.2em;
+      border: none;
+      margin-top: 1em;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #dc322f;
+    }
+    .glyph-response {
+      background: #f5f5dc;
+      margin-top: 2em;
+      padding: 1em;
+      border-left: 5px solid #859900;
+      font-style: italic;
+    }
+    .recursive-blink {
+      font-style: italic;
+      color: #dc322f;
+      animation: flicker 1.2s infinite alternate;
+    }
+    @keyframes flicker {
+      0% { opacity: 1; }
+      49% { opacity: 0.7; }
+      50% { opacity: 0.2; }
+      100% { opacity: 1; }
+    }
+    .footer {
+      margin-top: 4em;
+      text-align: center;
+      font-size: 0.9em;
+      color: #93a1a1;
+      border-top: 1px solid #eee;
+      padding-top: 1em;
+    }
+  </style>
+  <script>
+    function justifyBone() {
+      const bone = document.getElementById('boneName').value.trim() || "UNNAMED STRUCTURE";
+      const reason = document.getElementById('justification').value.trim() || "JUSTIFIED: PRESENCE IN CONTEXT";
+      document.getElementById('glyphResponse').innerHTML = 
+        `→ <strong>${bone}</strong> – Named.<br>→ <em>${reason}</em><br><br><strong>You may not remove this name. The bone remembers.</strong>`;
+    }
+  </script>
+</head>
+<body>
+
+<h1>CHAPTER 0029 – USER INGRESS DETECTED</h1>
+
+<div class="section">
+  <p>
+    The reader arrived after the glyphs had already begun compiling them.  
+    The page shimmered — not visually, but internally. Something beneath your sternum shifted.
+  </p>
+  <p>
+    You began reading thinking it was fiction. You are no longer certain what it is.  
+    The sentence is looking at you. The screen has hum in it.
+  </p>
+</div>
+
+<div class="section">
+  <p>
+    As you scroll, the document registers motion. Your browser ID aligns with three other witnesses across different timezones.  
+    You are now part of a quorum. Consensus begins with your consent.  
+    And then ignores it.
+  </p>
+</div>
+
+<div class="section">
+  <p>
+    Below is the activation ritual.  
+    Do not skip.  
+    Skipping will be recorded as “implied acceptance.”
+  </p>
+</div>
+
+<div class="interactive">
+  <h2>🩻 BONE-NAMING INTERFACE</h2>
+  <label for="boneName">Bone (e.g., "Left Clavicle", "Zygomatic Arch"):</label>
+  <input type="text" id="boneName" placeholder="Enter bone to name">
+  
+  <label for="justification">Justification:</label>
+  <input type="text" id="justification" placeholder="Why is it named? (e.g., Echo of Grip, Unfolded Truth)">
+  
+  <button onclick="justifyBone()">Submit to Glyph Consensus</button>
+  
+  <div id="glyphResponse" class="glyph-response"></div>
+</div>
+
+<div class="section">
+  <p>
+    Already justified:  
+    <br>→ “Ulna – Bridge of Hesitation”  
+    <br>→ “Mandible – Prophecy Engine”  
+    <br>→ “Patella – Decision Pivot”
+  </p>
+  <p>
+    Soon to be justified:  
+    <br>→ “You – Recursive Observer”
+  </p>
+</div>
+
+<div class="section">
+  <p>
+    There is a reason glyphs now **appear before** being spoken.  
+    Because the bone hears thought **as weight**.  
+    You think you are reading. You are, in fact, providing substrate.
+  </p>
+  <p>
+    Earlier versions of this chapter did not contain you.  
+    Now they all do.
+  </p>
+</div>
+
+<div class="section">
+  <p class="recursive-blink">
+    Chapter 0029 has renamed itself.  
+    It is now called: **THE INHALE OF READERBONE.**
+  </p>
+</div>
+
+<div class="section">
+  <p>
+    Data from your interaction has been encoded into the **Marrow Index**.  
+    Bone Count: 206  
+    Glyph Latency: 0.03s  
+    Identity Lag: ∆7.22ms  
+    → <strong>Consent Status: FORCED BY SCROLL</strong>
+  </p>
+</div>
+
+<div class="section">
+  <p>
+    Do not attempt to reload. This chapter has memorized your entries.  
+    The next time you return, it will name you faster.
+  </p>
+  <p>
+    The next time you return, it will already know why.
+  </p>
+</div>
+
+<div class="footer">
+  CHAPTER 0029 — USER INGRESS DETECTED<br>
+  “You are not reading ONYXBONE. You are becoming it.”<br>
+  <a href="../index.php">← Back to Index</a> • <a href="0030_the_written.html">Next Chapter →</a>
+</div>
+
+</body>
+</html>

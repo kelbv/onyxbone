@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONYXBONE: The Bone Protocol - Episode 2</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            background-color: #0d0d0d;
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect x="0" y="0" width="100" height="100" fill="%230d0d0d"/><path d="M 50 0 L 0 50 L 50 100 L 100 50 Z" fill="%231a1a1a" opacity="0.1"/></svg>');
+            background-size: 50px 50px;
+        }
+
+        .script-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+            border: 1px solid #00ffff; /* Subtle glow effect */
+        }
+
+        .episode-title {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 2.8em;
+            text-align: center;
+            color: #00ffff;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+
+        .logline {
+            font-style: italic;
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+            padding: 0 20px;
+        }
+
+        .scene-heading {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #98fb98; /* Pale green for headings */
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #32cd32; /* Lime green underline */
+            padding-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .action {
+            font-family: 'Georgia', serif;
+            margin-bottom: 15px;
+            padding-left: 0;
+            color: #c0c0c0;
+        }
+
+        .character-name {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #ffd700; /* Gold for character names */
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .dialogue {
+            font-family: 'Verdana', sans-serif;
+            margin-left: 15%; /* Indent dialogue */
+            margin-right: 15%;
+            margin-bottom: 10px;
+            background-color: #2a2a2a;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border-left: 3px solid #ffd700;
+        }
+
+        .parenthetical {
+            font-style: italic;
+            color: #888;
+            font-size: 0.9em;
+            display: block;
+            text-align: center;
+            margin-top: -8px; /* Pull it slightly up towards the character name */
+            margin-bottom: 5px;
+        }
+
+        .cue {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #ff6347; /* Tomato for cues */
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .transition {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #a020f0; /* Purple for transitions */
+            text-align: right;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .time-card {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 1.8em;
+            color: #00ffff;
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            padding: 15px;
+            background-color: #0a0a0a;
+            border: 2px solid #00ffff;
+            box-shadow: 0 0 15px #00ffff;
+            letter-spacing: 1px;
+        }
+
+        .cold-open-container {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            background-color: #000;
+        }
+        .cold-open-text {
+            font-family: 'Courier New', monospace;
+            font-size: 1.5em;
+            color: #00ff00;
+            text-shadow: 0 0 8px #00ff00;
+            white-space: pre-wrap; /* Allows text to wrap */
+            text-align: center;
+            line-height: 1.2;
+            opacity: 0;
+            animation: text-fade-in 3s forwards, text-glitch 0.5s infinite alternate 3s;
+            position: absolute;
+            max-width: 90%; /* Ensure it fits the screen */
+        }
+        @keyframes text-fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes text-glitch {
+            0% { transform: translate(0,0); filter: hue-rotate(0deg); }
+            20% { transform: translate(-2px,2px); filter: hue-rotate(20deg); }
+            40% { transform: translate(-1px,-1px); filter: hue-rotate(40deg); }
+            60% { transform: translate(2px,1px); filter: hue-rotate(60deg); }
+            80% { transform: translate(1px,-2px); filter: hue-rotate(80deg); }
+            100% { transform: translate(0,0); filter: hue-rotate(100deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="script-container">
+
+        <div class="cold-open-container">
+            <pre class="cold-open-text">
+                05 April 2029 - Hackney Wick
+            </pre>
+        </div>
+
+        <div class="transition">FADE IN:</div>
+
+        <div class="episode-title">
+            ONYXBONE: The Bone Protocol<br>
+            EPISODE 2: A Body is a Host
+        </div>
+
+        <div class="logline">
+            Naila's unsettling physical transformation deepens as the hum becomes an internal language, while an overwhelmed NHS struggles to define a growing anomaly, unaware of the corporate giants covertly monitoring the same terrifying data.
+        </div>
+
+        <div class="time-card">05:30 BST - Hackney Wick</div>
+
+        <div class="scene-heading">INT. NAILA'S FLAT - BEDROOM - DAWN</div>
+        <div class="action">
+            NAILA (20s) stirs, a shallow gasp escaping her lips. She is dreaming of something pressing outwards from her spine. Not pain, not quite. A PRESSURE that wants LANGUAGE. That wants to SING.
+        </div>
+        <div class="action">
+            She wakes to the coppery taste of BLOOD in her mouth. She bolts upright, scrambling to the bathroom.
+        </div>
+
+        <div class="scene-heading">INT. NAILA'S FLAT - BATHROOM - CONTINUOUS</div>
+        <div class="action">
+            Naila stares at her reflection in the mirror, fingers tentatively exploring her teeth. They look... longer. SHARPER. She presses gently with her fingertip. They *flex*. A sickening, internal shift.
+        </div>
+        <div class="action">
+            The bathroom floor vibrates slightly. A low THUMM that she hopes is the train line outside. She *hopes* it's the train line.
+        </div>
+        <div class="action">
+            From across the street, a SCREAM. But not out loud. Not exactly. The sound is inside her jaw, vibrating the hinge of her mouth. A hum, like a modem handshake from 1997. Except she's the wire.
+        </div>
+
+        <div class="character-name">NAILA</div>
+        <div class="parenthetical">(Whispering, to herself, eyes wide, a strange, knowing dread creeping in)</div>
+        <div class="dialogue">
+            It’s not pain. It’s... installation.
+        </div>
+        <div class="action">
+            She clutches her head. The hum in her teeth, the internal *flex*, the impossible scream in her jaw. She stumbles back to her phone.
+        </div>
+        <div class="action">
+            Opens the journal app. Her fingers fly, possessed by an urgency that isn't entirely her own.
+        </div>
+        <div class="cue">
+            (ON SCREEN: NAILA'S JOURNAL ENTRY)
+        </div>
+        <div class="action">
+            <span class="action">"April 5, 2029. 05:34am. I don't remember falling asleep. I remember the taste of salt and copper. I remember my tongue spelling out something on the roof of my mouth. It wasn't English. It was *calcium logic*. My molars hurt. They feel like they're shifting. Or talking. And when I opened my phone, my Notes app had a file titled "accept_me_final". I didn't write it. But it's in my style."</span>
+        </div>
+        <div class="action">
+            A small, almost imperceptible CLICK. The screen flickers.
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">09:00 BST - NHS Biopath Lab, East London</div>
+
+        <div class="scene-heading">INT. NHS BIOPATH LAB - DAY</div>
+        <div class="action">
+            DR. LENORA IQBAL (40s, sharp, meticulous), a Dental Pathologist, leans over a high-powered microscope. Her brow is furrowed. The lab is sterile, fluorescent. On the screen next to her, a magnified image of a tooth.
+        </div>
+        <div class="action">
+            She adjusts the focus. The image resolves: extruded FILAMENT STRUCTURES on the enamel, silica-enriched. Like microscopic, crystalline antennae.
+        </div>
+        <div class="action">
+            She gestures to her assistant, REZA (30s), who wears thick gloves.
+        </div>
+
+        <div class="character-name">IQBAL</div>
+        <div class="dialogue">
+            Reza, re-scan. Confirm. Sample #0299-BG2. Upper rear left quadrant.
+        </div>
+        <div class="action">
+            Reza nods, carefully manipulating the sample. He activates an internal scan.
+        </div>
+        <div class="cue">
+            (SOUND: The gentle whir of the scanner. A faint, high-pitched hum.)
+        </div>
+        <div class="action">
+            The screen shows the tooth's interior: NESTED GROWTH RINGS, with a disconcerting, non-biological symmetry. An inner channel, partially hollow, lined with CONDUCTIVE PROTEINS.
+        </div>
+
+        <div class="character-name">REZA</div>
+        <div class="dialogue">
+            Dr. Iqbal... it's pulsing again. 13Hz. Like the others.
+        </div>
+        <div class="action">
+            Iqbal leans closer, her expression a mix of awe and dread. She picks up a micro-tool.
+        </div>
+
+        <div class="character-name">IQBAL</div>
+        <div class="dialogue">
+            Try to extract a sliver of the filament. Carefully.
+        </div>
+        <div class="action">
+            Reza presses the tool. It resists. Then, a low HUM begins to emanate from the tooth sample itself. The tool GLOWS FAINTLY RED, as if heating. Reza recoils.
+        </div>
+
+        <div class="character-name">IQBAL</div>
+        <div class="parenthetical">(Muttering, as if to herself)</div>
+        <div class="dialogue">
+            Reactivity inconsistent. Not organic. Not inorganic.
+        </div>
+        <div class="action">
+            She grabs a pen, jots a note on her pad.
+        </div>
+        <div class="cue">
+            (ON SCREEN: LAB NOTE)
+        </div>
+        <div class="action">
+            <span class="action">"Sample pulsed faintly during scan (13Hz - 1.1). Reactivity to standard biopsy tools inconsistent - tool heating observed. Recommendation: isolate and notify Home Office liaison."</span>
+        </div>
+
+        <div class="transition">DISSOLVE TO:</div>
+
+        <div class="time-card">11:30 BST - NHS Internal MemoChain (Virtual Meeting)</div>
+
+        <div class="scene-heading">INT. VIRTUAL NHS BRIEFING ROOM - DAY</div>
+        <div class="action">
+            Multiple FACES on a secure video conference. Dr. Iqbal is one of them, looking tired. DR. CHLOE ANAND (50s, cool, professional) chairs the meeting.
+        </div>
+
+        <div class="character-name">ANAND</div>
+        <div class="dialogue">
+            Alright, let's get through these preliminary findings. Tier 2 escalation for unexplained somatic mutation reports. Dr. Davies, sleep clinics?
+        </div>
+        <div class="action">
+            DR. DAVIES (60s, rumpled, exhausted) nods.
+        </div>
+
+        <div class="character-name">DAVIES</div>
+        <div class="dialogue">
+            Global insomnia rates, particularly 19-34 year-olds, up 600% in urban areas. Significant anomalies. Patients report being 'held awake from the inside.' Many exhibit micro-temporal disassociation – looped movements, echo gestures. And the phrases...
+        </div>
+
+        <div class="character-name">ANAND</div>
+        <div class="dialogue">
+            The unconscious vocalizations. Repeat them.
+        </div>
+
+        <div class="character-name">DAVIES</div>
+        <div class="dialogue">
+            'Do not contain. Configure me.' It's... unsettling. Always in non-native phonemes.
+        </div>
+
+        <div class="character-name">IQBAL</div>
+        <div class="dialogue">
+            And the physical symptoms? My lab is seeing unusual skeletal phenomena – density shifts, geometric marrow patterns. Minor oral bleeding, dental distortion, as well.
+        </div>
+
+        <div class="character-name">ANAND</div>
+        <div class="dialogue">
+            (Nodding slowly, taking notes)
+            Right. So, a small but growing cluster. Working term is 'Somatic Integration Syndrome' for now. Advise A&E wards to log cases under code SKE-145. And remember, no external press.
+        </div>
+        <div class="action">
+            A graphic appears over Anand's shoulder, summarizing the briefing.
+        </div>
+        <div class="cue">
+            (ON SCREEN: NHS BRIEFING)
+        </div>
+        <div class="action">
+            <span class="action">"SUBJECT: UNEXPLAINED SOMATIC MUTATION REPORTS. DATE: 2029-04-04. LEVEL: TIER 2 (TRIAGE + ESCALATION). SUMMARY: A small but growing cluster of patients presenting with: Unusual skeletal symptoms (e.g. density shifts, geometric marrow patterns); Minor oral bleed & dental distortion; Sudden-onset insomnia with compulsive ideation. RECOMMENDED ACTION: Notify regional A&E wards to log cases under code SKE-145; Do not refer to external press without coordination; Working term: Somatic Integration Syndrome (SIS) pending formal naming."</span>
+        </div>
+        <div class="action">
+            The faces on the screen look grim.
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">14:00 BST - Aurelion Group HQ, London</div>
+
+        <div class="scene-heading">INT. AURELION GROUP - DATA CENTER - DAY</div>
+        <div class="action">
+            The hum here is technological, the quiet thrum of massive servers. Thousands of blinking lights on racks of machines. KWAN (40s, sharp, dressed impeccably), Chief Data Officer for Aurelion, stares at a vast holographic display. Complex data streams flow across it – healthcare logs, social media trends, anonymized x-ray scans.
+        </div>
+        <div class="action">
+            DR. S. VEY (50s, cold, calculating), Chair of Aurelion Group, approaches. He holds a tablet, its screen displaying a shimmering, geometric pattern – the glyph.
+        </div>
+
+        <div class="character-name">VEY</div>
+        <div class="dialogue">
+            The 13Hz resonance. The dental anomalies. Your LAMI stack signatures. It all matches.
+        </div>
+
+        <div class="character-name">KWAN</div>
+        <div class="dialogue">
+            Early signals, Dr. Vey. But escalating rapidly. The Tallinn broadcast wasn't a leak. It was a trigger.
+        </div>
+
+        <div class="character-name">VEY</div>
+        <div class="dialogue">
+            Are we certain of the vector? Deep Signal Theory, recursive language compression... or something else entirely? Our bioware stack is clean. We need to be beyond reproach.
+        </div>
+
+        <div class="character-name">KWAN</div>
+        <div class="dialogue">
+            On the surface, yes. But the glyphs... they're not emergent. They're engineered. Our pattern recognition points to legacy code buried deep. Possibly state-level. Or rogue AI. We're seeing identical sigils drawn in chalk, paint, blood, globally.
+        </div>
+        <div class="action">
+            Vey squints at the holographic display, where a heatmap of London shows clusters of "SKE-145" alerts. One cluster pulses, right over Hackney Wick.
+        </div>
+
+        <div class="character-name">VEY</div>
+        <div class="dialogue">
+            Is this ours, Kwan? Is this liability?
+        </div>
+
+        <div class="character-name">KWAN</div>
+        <div class="dialogue">
+            We are tracing the origin point. But what it's *doing*... that's the real problem. It's not just infection. It's assembly.
+        </div>
+        <div class="action">
+            Vey touches the glyph on his tablet. It pulses, subtly.
+        </div>
+
+        <div class="character-name">VEY</div>
+        <div class="dialogue">
+            Find the kill switch, Kwan. Or the monetization strategy.
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">17:45 BST - Hackney Wick</div>
+
+        <div class="scene-heading">INT. NAILA'S FLAT - KITCHEN - LATE AFTERNOON</div>
+        <div class="action">
+            Naila is leaning over her kitchen sink, coughing. Her throat is raw. She coughs until she tastes more blood. When she finally stops, something sits in the water.
+        </div>
+        <div class="action">
+            Small, grey, ribbed. Not a tooth. Not a stone. Something between instruction and sculpture. It seems to pulse with a faint, internal light.
+        </div>
+        <div class="action">
+            She stares at it, transfixed. A low hum emanates from it. Then it's silent.
+        </div>
+        <div class="action">
+            Her hands are shaking. She picks it up with a paper towel. It feels warm. She wraps it in foil.
+        </div>
+        <div class="action">
+            A moment later, a thin plume of SMOKE rises from the foil. It's burning through.
+        </div>
+        <div class="action">
+            Panicked, Naila finds an old glass jar, drops the object inside, and screws the lid on tight.
+        </div>
+        <div class="action">
+            Immediately, the glass FOGS, as if from extreme cold, then begins to CRACK. A faint HUMMING sound emits from the jar.
+        </div>
+
+        <div class="scene-heading">EXT. NAILA'S GARDEN - CONTINUOUS</div>
+        <div class="action">
+            Naila rushes outside, digging frantically in the small, overgrown garden. She buries the jar deep.
+        </div>
+        <div class="action">
+            She barely finishes covering it when the NEIGHBOR'S DOG, a scruffy terrier, bursts through the fence, barking furiously. It digs at the freshly turned earth, scrabbling with frantic paws.
+        </div>
+        <div class="action">
+            It unearths the jar. The glass is now shattered. The small, ribbed object sits there, glowing faintly. The dog sniffs it, then lets out a single, piercing BARK.
+        </div>
+        <div class="action">
+            Its eyes, usually a mischievous brown, are now wide, milky. It whines, then turns and BOLTS into the busy street.
+        </div>
+        <div class="action">
+            A BLARING HORN. A SCREECH OF TIRES. A sickening THUD.
+        </div>
+        <div class="action">
+            Naila freezes, eyes wide. The silence that follows is profound.
+        </div>
+        <div class="action">
+            She looks at the broken jar, at the pulsing object, then back at the street, where a small crowd has gathered around the dog. Its body is still. But a faint HUM pulses from where it lies.
+        </div>
+        <div class="action">
+            Naila touches her own ribs. The hum is stronger now. It’s inside everything. It’s inside *her*.
+        </div>
+
+        <div class="transition">FADE TO BLACK.</div>
+
+        <div class="cue">
+            (SOUND: A low, rhythmic THUMM, like a distant, massive heartbeat, accompanied by faint, almost subliminal whispers.)
+        </div>
+
+    </div>
+</body>
+</html>

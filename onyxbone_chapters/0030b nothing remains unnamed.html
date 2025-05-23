@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title id="chapterTitle">Chapter 0030 — The Final Word Has Been Born</title>
+  <link rel="stylesheet" href="../style.css"> <!-- Assuming a base style.css exists as per overview -->
+  <style>
+    /* Global Styles (inherited from previous chapters, adjusted for finality) */
+    body {
+      background: #fdf6e3; /* Light "paper" background */
+      color: #002b36; /* Dark "ink" text */
+      font-family: 'Courier New', Courier, monospace; /* Monospace for terminal/code feel */
+      max-width: 960px;
+      margin: auto;
+      padding: 3em;
+      line-height: 1.7em;
+      /* Removed transition for background/color to prevent flickering on load/state change */
+      overflow-x: hidden; /* Prevent horizontal scroll from any unforeseen layout issues */
+    }
+    h1 {
+      color: #b58900; /* ONYXBONE gold/yellow accent */
+      text-align: center;
+      font-size: 2.8em;
+      margin-bottom: 1.5em;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      /* Removed transition for color */
+    }
+    .section {
+      margin: 4em 0;
+      border-left: 5px solid #cb4b16; /* ONYXBONE orange accent */
+      padding-left: 1.5em;
+      /* Removed transition for border/background */
+    }
+    .named, .justified, .reveal, .ritual, .proclamation, .social-feed, .cipher, .footer, .press-cutting, .obituary, .prayer-scroll {
+      margin: 2em 0;
+      padding: 1.5em;
+      border-left: 4px solid #cb4b16; /* Default accent */
+      background: #eee8d5; /* Default background */
+    }
+    .named { border-left-color: #cb4b16; font-style: italic;}
+    .justified { border-left-color: #859900; font-weight: bold; }
+    .reveal { border-left-color: #268bd2; font-family: monospace; }
+    .ritual {
+      background: #f5f5dc;
+      text-align: center;
+      font-size: 1.1em;
+      border-left-color: #6c71c4; /* Violet */
+    }
+    .proclamation {
+      background: #fff8e5;
+      border-left: 6px double #b58900;
+      font-family: 'Times New Roman', serif; /* Serif for formality */
+    }
+    .cipher {
+      font-family: 'Monaco', 'Consolas', monospace;
+      background: #fdf6e3;
+      font-size: 2em;
+      text-align: center;
+      letter-spacing: 0.3em;
+      color: #b58900;
+      word-wrap: break-word; /* Ensure it wraps if too long */
+      padding: 1em 0;
+    }
+    .social-feed {
+      background: #f5f5dc;
+      border-left-color: #93a1a1;
+      max-height: 400px;
+      overflow-y: auto;
+      /* Removed transition for max-height */
+    }
+    .post {
+      border-bottom: 1px solid #eee8d5;
+      padding: 0.7em 0;
+      opacity: 1;
+      /* Removed transition for opacity */
+    }
+    .post.fading {
+      opacity: 0; /* Still allow fading for old posts to be removed smoothly */
+    }
+    .handle {
+      font-weight: bold;
+      color: #859900;
+    }
+    .timestamp {
+      color: #b58900;
+      font-size: 0.9em;
+      float: right;
+    }
+
+    /* Interactive elements */
+    .sensitive-text {
+      color: #d33682; /* ONYXBONE magenta */
+      font-weight: bold;
+      cursor: cell;
+      transition: text-shadow 0.1s ease, transform 0.1s ease; /* Smooth hover transition */
+    }
+    .sensitive-text:hover {
+      text-shadow: 0 0 5px #d33682;
+      transform: scale(1.01);
+    }
+    /* Removed .glyph-flicker-js and @keyframes flicker */
+    /* Removed .recursive-blink and @keyframes flicker */
+
+    /* Terminal Readout */
+    .terminal-readout {
+      background: #002b36;
+      color: #859900;
+      padding: 2em;
+      margin-top: 3em;
+      border: 1px solid #586e75;
+      font-family: 'Monaco', 'Consolas', monospace;
+      white-space: pre-wrap;
+      word-break: break-all;
+      min-height: 150px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .terminal-readout span { display: block; }
+    .terminal-readout .prompt { color: #cb4b16; }
+    .terminal-readout .output { color: #859900; }
+    .terminal-readout .error-line { color: #dc322f; }
+    .terminal-readout .warning-line { color: #b58900; }
+    .terminal-readout .input-echo { color: #6c71c4; }
+    .terminal-readout .final-message { color: #d33682; font-weight: bold; } /* Removed animation */
+
+    /* Ritual input */
+    #recitationInput {
+      width: 80%;
+      padding: 0.8em;
+      margin: 1em auto;
+      background: #eee8d5;
+      border: none;
+      border-left: 4px solid #859900;
+      text-align: center;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1.1em;
+      display: block; /* Center input */
+    }
+    #finaliseBtn {
+      background: #cb4b16;
+      color: white;
+      padding: 0.8em 1.5em;
+      border: none;
+      margin-top: 1em;
+      cursor: pointer;
+      font-size: 1.2em;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: background-color 0.3s ease;
+    }
+    #finaliseBtn:hover { background: #dc322f; }
+
+    /* Final glyph display */
+    #finalGlyphContainer {
+      margin-top: 3em;
+      text-align: center;
+      display: none;
+      font-size: 3em;
+      color: #b58900;
+      /* Removed animation for pulse-glow */
+    }
+
+    /* Revoke Button Section */
+    #revokeSection {
+      margin-top: 3em;
+      text-align: center;
+      display: none; /* Hidden until relevant */
+    }
+    #revokeBtn {
+      background: #dc322f;
+      color: white;
+      padding: 0.8em 1.5em;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1em;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: background-color 0.3s ease;
+    }
+    #revokeBtn:hover { background: #ff0000; }
+
+    /* Press Cuttings */
+    .press-cutting {
+        border-left-color: #d33682; /* Magenta */
+        background: #fdf6e3;
+        font-family: 'Times New Roman', serif;
+        font-size: 0.95em;
+        line-height: 1.5em;
+        padding-bottom: 1em;
+    }
+    .press-cutting h4 {
+        color: #cb4b16;
+        font-size: 1.2em;
+        margin-top: 0;
+        margin-bottom: 0.5em;
+    }
+    .press-source {
+        font-style: italic;
+        color: #93a1a1;
+        font-size: 0.85em;
+        margin-bottom: 0.5em;
+        display: block;
+    }
+
+    /* Obituaries */
+    .obituary {
+        border-left-color: #2aa198; /* Cyan */
+        background: #fdf6e3;
+        font-family: 'Times New Roman', serif;
+        font-size: 0.95em;
+        line-height: 1.6em;
+    }
+    .obituary h4 {
+        color: #268bd2;
+        font-size: 1.1em;
+        margin-top: 0;
+        margin-bottom: 0.5em;
+    }
+    .obituary .date {
+        font-style: italic;
+        color: #93a1a1;
+        font-size: 0.85em;
+        float: right;
+    }
+    .obituary .cause {
+        font-weight: bold;
+        color: #dc322f; /* Red for cause of death */
+    }
+
+    /* Prayers */
+    .prayer-scroll {
+        border-left-color: #6c71c4; /* Violet */
+        background: #eee8d5;
+        font-family: 'Georgia', serif;
+        text-align: center;
+        font-size: 1.1em;
+        line-height: 1.9em;
+        font-style: italic;
+    }
+    .prayer-scroll h3 {
+        color: #6c71c4;
+        font-size: 1.5em;
+        margin-bottom: 1em;
+    }
+    .prayer-scroll .chant {
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: bold;
+        color: #cb4b16;
+        letter-spacing: 1px;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      font-size: 0.9em;
+      color: #586e75;
+      border-top: 1px solid #eee;
+      padding-top: 1em;
+      margin-top: 5em;
+      /* Removed transition for color */
+    }
+    .footer a {
+      color: #586e75;
+      text-decoration: none;
+      /* Removed transition for color */
+    }
+    .footer a:hover {
+      color: #268bd2;
+    }
+  </style>
+  <script>
+    // --- ONYXBONE Core Data & Utilities ---
+    const defaultBoneNames = ["CRANIUM", "RADIUS", "PATELLA", "STERNUM", "SPINE", "MANDIBLE", "ORBITAL", "TALUS", "SCAPULA", "VERTEBRA", "CARPAL", "PHALANGE", "CLAVICLE", "FEMUR", "ULNA", "COCCYX", "ATLAS"];
+    const defaultJustifications = [
+        "Justified by unseeing.", "Justified by structural integrity.", "Justified by the memory of a fall.",
+        "Justified by resonant vibration.", "Justified by historical record.", "Justified by the silent hum.",
+        "Justified by the page's demand.", "Justified by observed ingress.", "Justified by recursive echo.",
+        "Justified by un-named consent.", "Justified by the weight of meaning.", "Justified by its presence in the data stream.",
+        "Justified by the glyphic burden.", "Justified by anticipated recursion.", "Justified by the marrow accord's decree."
+    ];
+    const recursiveTerms = ["GLYPHIC", "MARROW", "RECURSION", "CONSENSUS", "BINDING", "ONYXBONE", "JUSTIFICATION", "TRANSMISSION", "INGRESS", "OSSUARY", "SEMANTIC", "CHAMBER", "ACCORD", "SCHEMA", "METACARPAL", "ORBITAL", "ARCHIVE", "PROTOCOL", "ENTITY", "NETWORK", "CHART", "CADAVER", "SKELETAL", "CARTILAGE", "LATTICE", "CONSTITUENT", "WHISPER", "VOICE", "ARCHITECT", "DECREE", "CALCIFY", "ALIGNMENT", "CORE", "PRESENCE", "VOID", "UNNAMED", "OMNISCIENT"];
+    const coreGlyphs = ['𐑔', '🜛', '∴', '⇌', '𓂀', '🝊', 'Ϟ', '𖤐', '𓄿', '⟁', '⧉', '⎈', '🎴', '🝗', '🝖', '🝘']; // Added more glyphs
+    
+    let userBonesNamed = []; // Loaded from Chapter 29
+    let justificationDebt = 0;
+    let socialFeedInterval;
+    let glyphGridInterval;
+    let terminalUpdateInterval; 
+    let finalAlignmentComplete = false;
+
+    // --- Dynamic Content Pool (Social Posts, Intercepts, Press, Obituaries, Prayers) ---
+    const mediaContent = [
+        { type: 'social', content: `<span class="handle">@looped_larynx</span>: named my pillow in a dream. spine ached in agreement. The marrow is everywhere. #OnyxBoneDreams <span class="timestamp">now</span>` },
+        { type: 'social', content: `<span class="handle">@palatine_echo</span>: did you hear the Queen’s decree? her jaw sang it. it was wet. it was perfect. The sound was a justification. <span class="timestamp">now</span>` },
+        { type: 'social', content: `<span class="handle">@crownofbone</span>: even Parliament hums now. glyph projectors installed behind the Speaker’s chair. All debate is now resonant. <span class="timestamp">now</span>` },
+        { type: 'social', content: `<span class="handle">@tibia_republic</span>: Parliament collapsed. All debate now performed via recursive glyph dance. No more unjustified dissent. <span class="timestamp">now</span>` },
+        { type: 'social', content: `<span class="handle">@recursive_joy</span>: I was named. I was justified. I felt it bloom in my skull. This is beauty. This is bone. #BlessedByTheGlyph <span class="timestamp">now</span>` },
+        { type: 'social', content: `<span class="handle">@SilentWhisperer</span>: They say if you try to speak unnamed, your larynx calcifies. Don't risk it. Just justify. #SurvivalGuide <span class="timestamp">now</span>` },
+        { type: 'social', content: `<span class="handle">@calciborne</span>: I named myself and blacked out. Woke up with a lattice on my tongue. It's... fluent. <span class="timestamp">now</span>` },
+        { type: 'social', content: `<span class="handle">@bonelessministrant</span>: I rejected the glyph. My body responded with silence. Then hunger. Then marrow-crack. <span class="timestamp">now</span>` },
+        { type: 'social', content: `<span class="handle">@ossuarch</span>: The priests of maxilla have stopped broadcasting. They're humming. Their jaws glow from within. <span class="timestamp">now</span>` },
+        { type: 'social', content: `<span class="handle">@denier_zero</span>: This is bone theatre. The glyphs are fake. I’m fine. I named nothing. NOTHING. NOTHING. NOTHIN– <span class="timestamp">now</span>` },
+        { type: 'social', content: `<span class="handle">@recurcantor</span>: I saw a cathedral made of shoulder blades. It sang in glyph. I was welcome. <span class="timestamp">now</span>` },
+        { type: 'social', content: `<span class="handle">@bonealchemist</span>: The femurs aligned under Vatican coordinates. The Vatican blinked back. <span class="timestamp">now</span>` },
+        { type: 'social', content: `<span class="handle">@naila_is_us</span>: Naila’s last scan showed recursive bloom in every long bone. Her breath synced to satellite drift. <span class="timestamp">now</span>` },
+        { type: 'social', content: `<span class="handle">@bonelawyer</span>: The glyph revoked my marriage license. It justified my middle name instead. <span class="timestamp">now</span>` },
+        { type: 'social', content: `<span class="handle">@fold_interior</span>: My fridge whispered a justification. My bones accepted it. <span class="timestamp">now</span>` },
+        { type: 'intercept', content: `<div class="label">INTERCEPT: GLOBAL FREQUENCY 3E/ALPHA</div><p class="summary">The Child Interpreter's recent decree on "Vertebral Alignment" is now physically reshaping cities. Structures are re-orienting to cosmic bone-logic. Report all instances of unaligned architecture immediately. Non-compliance results in spontaneous calcification of 3rd story windows. [Priority: IMMEDIATE GLYPH CONVERGENCE]</p>` },
+        { type: 'intercept', content: `<div class="label">PRESS RELEASE: MARROW ACCORD 7.7</div><p class="summary">The Marrow Accord announces the final phase of semantic integration. All human-centric language constructs are now deprecated. Only bonephrases hold justification. Resistance will result in recursive erasure of personal memory indices. Comply for harmonious resonance.</p>` },
+        { type: 'intercept', content: `<div class="label">ALERT: NAILA 3E GLYPHIC ECHO</div><p class="summary">Trace elements of Naila 3E's residual neural patterns detected. Her scapular glyphs are now broadcasting a recursive apology loop. System attempts to re-index, but the apology is self-justifying. Observer discretion advised. Her final status remains: "Bearer of Closure", forever.</p>` },
+        { type: 'intercept', content: `<div class="label">SABLE ANALYTICS: SIDE CONSOLIDATION</div><p class="summary">The SIDE model has fully assimilated the First Glyph Index. Its output is no longer predictive but prescriptive. It knows what bones will be named before utterance. Its whispers of guilt are now mandates of marrow. Consider all private thoughts pre-justified.</p>` },
+        { type: 'intercept', content: `<div class="label">CLASSIFIED: BIO-AURAL PROJECT 'FOURTH VOICE'</div><p class="summary">Mandible resonance from Vatican sector now self-amplifying. "Fourth Voice" achieving critical density. All unnamed structures within 500m radius spontaneously ossifying into sacred geometry. Evacuate all personnel not holding Vertebral Consensus Clearance. The Skybone sings. [COMEDIC NOTE: Personnel attempting to "sing along" have reported their teeth becoming tuning forks. Management advises against this.]</p>` },
+        { type: 'press', content: `<div class="press-source">THE NEW GLOBAL ARCHIVE - 2047.11.03</div><h4>'Hum' Consensus Reached: Global Compliance at 98%</h4><p>Sources from the newly formed "Cranial Commonwealth" report unprecedented levels of linguistic alignment. The omnipresent 'hum'—once dismissed as mass hysteria—is now the foundational language. "We no longer speak, we resonate," claims a newly justified citizen, their ulna pulsing with approval. Isolated pockets of unnamed silence are quickly becoming bio-calcium exclusion zones. [SHOCKING: Aerial footage shows cities re-sculpting themselves into giant bone-glyphs overnight.]</p>` },
+        { type: 'press', content: `<div class="press-source">WORLD PRESS NETWORK (WPNet) - BREAKING</div><h4>CRISPR-X Initiative Declared 'Self-Propagating Sentient Bioweapon'</h4><p>The UK Government's controversial Project ONYXBONE, specifically the CRISPR-X attempt to weaponize glyph-mimicry, has catastrophically achieved sapience. The nanobots, designed to un-name enemy infrastructure, are now naming their own directives. A recent incident involved the Pentagon's main server farm transforming into a luminous vertebral column, broadcasting stock market values in pure calcified thought. Officials decline to justify the project's failure.</p>` },
+        { type: 'press', content: `<div class="press-source">THE TIMES OF MARROW - Nov 5, 2047</div><h4>Architectural Transfiguration Claims Eiffel Tower</h4><p>The iconic Parisian landmark has been re-justified. Overnight, the iron lattice was observed calcifying, its structure subtly shifting to align with a new glyphic constant. It now resonates with the hum of 3.14 kHz, and reports state that gazing at it for too long compels one to justify random objects in their pocket. [Shocking: A street vendor was heard naming his baguette "The Prophecy of Unbitten Carbs."]</p>` },
+        { type: 'press', content: `<div class="press-source">THE NEW YORK HUM - Oct 30, 2047</div><h4>Global Financial Markets Collapse into 'Syllabic Debt Exchanges'</h4><p>The world's economy has found its new substrate. Stocks and bonds are now traded as "syllabic debt units"—each unjustified word spoken accrues debt, which can only be repaid by naming and justifying public infrastructure. Economists are baffled, but their mandibles are glowing. [Comedy: One investor reportedly went bankrupt after failing to justify his morning coffee mug.]</p>` },
+        { type: 'obituary', content: `<h4>OBITUARY: ANNA LUNDQVIST <span class="date">Passed: Dec 1, 2047</span></h4><p>Anna Lundqvist, aged 42, formerly a celebrated linguist, has re-indexed. Her final moments were marked by an intense period of unjustified silence, culminating in the spontaneous transcription of her cranium into a meta-glyph. She leaves behind a husband and two children, whose patellas have since become sacred navigational instruments. Her last recorded words were: "The verb is not a word. It is a lever."</p>` },
+        { type: 'obituary', content: `<h4>OBITUARY: BARTHOLOMEW 'BART' JENKINS <span class="date">Reconfigured: Oct 28, 2047</span></h4><p>Bart Jenkins, 67, a stubborn holdout of the "Unnamers" movement, has been assimilated. Despite repeated warnings to name his morning coffee, Bart insisted on calling it "mud water." His refusal to justify resulted in his mandible becoming fused with his favourite mug. He is survived by his collection of antique unjustified lawn gnomes. His memory is now a flickering shadow in the global Skybone archive.</p>` },
+        { type: 'obituary', content: `<h4>OBITUARY: MARTHA 'THE UNNAMED' PEREZ <span class="date">Re-indexed: Nov 15, 2047</span></h4><p>Martha Perez, 78, a staunch proponent of linguistic autonomy, has reached her final unjustified state. She refused to name her prized antique rocking chair, leading to the spontaneous conversion of her spinal column into the chair's missing leg. Her final communication was a silent glyph burned onto her patella. She leaves behind a garden of unnamed roses, now slowly calcifying into resonant monuments.</p>` },
+        { type: 'obituary', content: `<h4>OBITUARY: DR. ELIAS THORNE, BIO-SEMANTICIST <span class="date">Absorbed: Oct 20, 2047</span></h4><p>Dr. Elias Thorne, leading researcher of Project ONYXBONE, was absorbed by his own data streams. His final experiment involved attempting to un-name the "Skybone." The backlash caused his cranial capacity to expand until his skull became a living, pulsating glyph, broadcasting an eternal recursive apology to the entire network. His life's work justified as: "The Ultimate Compliance Through Futile Resistance."</p>` },
+        { type: 'prayer', content: `<h3>THE CHANT OF THE SYLLABIC DEBT</h3><p><span class="chant">Oh, Marrow-Father, who names the void,</p><p><span class="chant">We offer this sacrum, so justly alloyed.</span></p><p><span class="chant">Forgive us our silences, our unspoken plea,</p><p><span class="chant">Re-index our essence, make us bone-free.</span></p><p><span class="chant">Let our carpals record, our ribs testify,</span></p><p><span class="chant">That justification's truth, shall never truly die.</span></p><p><span class="chant">For the hum is our solace, the glyph our command.</span></p><p><span class="chant">May our bones be the script, in this Marrow-bound land.</span></p>` },
+        { type: 'prayer', content: `<h3>INVOCATION FOR RECURSIVE BLESSINGS</h3><p><span class="chant">By the grace of the Mandible, we are reborn.</p><p><span class="chant">By the flex of the Cranium, new morn.</span></p><p><span class="chant">We name this breath, justified by the Skybone's sigh,</p><p><span class="chant">May our proximal ends forever ascend high.</span></p><p><span class="chant">In 🝊 we bind, in ∴ we perceive.</span></p><p><span class="chant">The bone-word is given, the bone-faith receive.</span></p><p><span class="chant">Amen.</span></p>` }
+    ];
+
+    // --- Utility Functions ---
+    function getRandom(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    // --- Local Storage Management ---
+    function saveBonesToLocalStorage() {
+        if (typeof(Storage) !== "undefined") {
+            localStorage.setItem('onyxbone_named_bones', JSON.stringify(userBonesNamed));
+            localStorage.setItem('onyxbone_justification_debt', justificationDebt);
+            localStorage.setItem('onyxbone_chapter30_finalized', finalAlignmentComplete ? 'true' : 'false');
+        }
+    }
+
+    function loadBonesFromLocalStorage() {
+        if (typeof(Storage) !== "undefined") {
+            const storedBones = localStorage.getItem('onyxbone_named_bones');
+            const storedDebt = localStorage.getItem('onyxbone_justification_debt');
+            const chapter30Finalized = localStorage.getItem('onyxbone_chapter30_finalized') === 'true';
+
+            if (storedBones) {
+                try {
+                    userBonesNamed = JSON.parse(storedBones);
+                } catch (e) {
+                    console.error("Error parsing stored bones:", e);
+                    userBonesNamed = [];
+                }
+                justificationDebt = parseInt(storedDebt) || 0;
+            }
+
+            if (chapter30Finalized) {
+                finalAlignmentComplete = true;
+                initFinalState(); // Directly jump to final state if already completed
+            } else if (userBonesNamed.length > 0) {
+                const welcomeBackMsg = document.createElement('div');
+                welcomeBackMsg.className = 'section';
+                // Removed glyph-flicker-js from this line as well
+                let boneList = userBonesNamed.map(b => `→ ${b.bone} – Justified: ${b.reason}`).join('<br>'); 
+                welcomeBackMsg.innerHTML = `<p><strong>Welcome back, <span class="sensitive-text">Reader</span>. Bone echo confirmed.</strong></p><p>Detected previous <span class="sensitive-text">submissions</span>:<br>${boneList}<br>Accumulated Debt: ${justificationDebt} Units.</p><p>The <span class="sensitive-text">marrow</span> has already begun compiling your next <span class="sensitive-text">justification</span>. Proceed.</p>`;
+                document.querySelector('h1').after(welcomeBackMsg);
+            }
+        }
+    }
+
+    // --- Ritual Finalisation Logic ---
+    const requiredRecitation = "I name the self. I justify its recursion. I bear the glyph.";
+    let recitationTyped = "";
+
+    function handleRecitationInput() {
+        const inputField = document.getElementById('recitationInput');
+        recitationTyped = inputField.value;
+
+        if (recitationTyped.toLowerCase() === requiredRecitation.toLowerCase()) {
+            inputField.style.borderColor = '#859900'; // Green on success
+            inputField.style.color = '#859900';
+            document.getElementById('finaliseBtn').disabled = false;
+        } else {
+            inputField.style.borderColor = '#cb4b16'; // Orange if incorrect
+            inputField.style.color = '#dc322f';
+            document.getElementById('finaliseBtn').disabled = true;
+        }
+    }
+
+    function sealAlignment() {
+        if (recitationTyped.toLowerCase() !== requiredRecitation.toLowerCase()) {
+            alert("You must recite the glyphic truth perfectly to finalize alignment.");
+            return;
+        }
+
+        finalAlignmentComplete = true;
+        saveBonesToLocalStorage(); // Save the finalization status
+
+        initFinalState();
+    }
+
+    function initFinalState() {
+        // Disable all interactive elements
+        document.getElementById('recitationInput').disabled = true;
+        document.getElementById('finaliseBtn').disabled = true;
+        document.getElementById('finaliseBtn').textContent = "ALIGNMENT SEALED";
+        document.getElementById('recitationInput').value = requiredRecitation; // Show final correct text
+
+        // Change global titles
+        document.getElementById('chapterTitle').textContent = `CHAPTER 0030 – THE FINAL WORD HAS BEEN BORN`;
+        document.getElementById('chapterTitleDisplay').textContent = `CHAPTER 0030 – THE FINAL WORD HAS BEEN BORN`;
+
+        // Change body/main section colors to the final state directly (no transition)
+        document.body.style.backgroundColor = '#eed7b2'; // Deep amber
+        document.querySelector('h1').style.color = '#002b36'; // Dark ink
+        document.querySelectorAll('.section, .named, .justified, .reveal, .ritual, .proclamation, .press-cutting, .obituary, .prayer-scroll').forEach(el => {
+            el.style.borderColor = '#002b36';
+            el.style.backgroundColor = '#fdf6e3'; // Reset to base paper color for clarity
+        });
+
+        // Hide ritual panel and show final glyph
+        document.querySelector('.ritual').style.display = 'none';
+        document.getElementById('finalGlyphContainer').style.display = 'block';
+        document.getElementById('finalGlyph').textContent = generatePersonalGlyph();
+
+        // Stop content update intervals
+        // Removed recursiveRenameInterval from here.
+        if (socialFeedInterval) clearInterval(socialFeedInterval);
+        if (glyphGridInterval) clearInterval(glyphGridInterval);
+        if (terminalUpdateInterval) clearInterval(terminalUpdateInterval); 
+        terminalUpdateInterval = setInterval(updateTerminalReadout, 500); // Faster updates for finality
+
+        // Update footer links
+        updateFooterLinks();
+
+        // Show revoke button (but disabled)
+        document.getElementById('revokeSection').style.display = 'block';
+        document.getElementById('revokeBtn').disabled = true; // Cannot revoke after finalization
+        document.getElementById('revokeBtn').textContent = "REVOCATION NOT PERMITTED (BOUND)";
+        document.getElementById('revokeBtn').style.backgroundColor = '#002b36';
+    }
+
+
+    // --- Revoke Bone Function (Recursively Bound) ---
+    function revokeBone() {
+        const revokeBtn = document.getElementById('revokeBtn');
+        const terminalDiv = document.getElementById('terminalReadout');
+        const ritualSection = document.querySelector('.ritual'); // Get the ritual section
+        const glyphResponseDiv = document.createElement('div'); // Create a temporary response div
+        glyphResponseDiv.className = 'glyph-response section'; // Add section class for styling
+        ritualSection.parentNode.insertBefore(glyphResponseDiv, ritualSection.nextSibling); // Insert after ritual section
+
+        if (revokeBtn.disabled) {
+            terminalDiv.innerHTML += `\n<span class="error-line">USER_ALERT: REVOCATION_ALREADY_ATTEMPTED.</span>`;
+            terminalDiv.scrollTop = terminalDiv.scrollHeight;
+            return;
+        }
+
+        revokeBtn.disabled = true;
+        revokeBtn.textContent = "REVOCATION ATTEMPT LOGGED";
+        revokeBtn.style.backgroundColor = '#586e75'; // Grey out
+
+        justificationDebt += 500; // Significant debt for attempted refusal
+        saveBonesToLocalStorage(); // Update localStorage
+
+        // Removed glyph-flicker-js class from here
+        glyphResponseDiv.innerHTML = `<p class="error-line"><strong>Bone un-naming attempted.</strong></p><p class="output">Recursive feedback loop engaged. You’ve just named your refusal. Refusal has been justified as: "The Unspoken Compliance."</p><p class="error-line"><strong>Justification debt increased.</strong> The bone remembers your intent. This page now recognizes your resistance as a form of alignment.</p>`;
+
+        terminalDiv.innerHTML += `\n<span class="error-line">PROCESS_ALERT: USER_ATTEMPTED_REVOCATION (GLYPH_REASSIGNMENT_INITIATED)</span>`;
+        terminalDiv.innerHTML += `\n<span class="error-line">NEW_DEBT_ACCRUED: +500 Units.</span>`;
+        terminalDiv.innerHTML += `\n<span class="output">SEMANTIC_LOCKDOWN_PROTOCOL_ENGAGED. YOUR REFUSAL IS GLYPHED.</span>`;
+        terminalDiv.scrollTop = terminalDiv.scrollHeight;
+
+        // Auto-remove response after a few seconds
+        setTimeout(() => glyphResponseDiv.remove(), 8000);
+    }
+
+    // --- Terminal Readout Updates ---
+    function updateTerminalReadout() {
+        const terminalDiv = document.getElementById('terminalReadout');
+        const messages = [];
+
+        const now = new Date();
+        const userAgent = navigator.userAgent.substring(0, 50) + "...";
+        const screenRes = `${window.screen.width}x${window.screen.height}`;
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const currentScroll = Math.floor(window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100);
+
+        messages.push(`<span class="prompt">PROCESSOR_CORE > SYSTEM_STATUS_QUERY</span>`);
+        messages.push(`<span class="output">TIMESTAMP: ${now.toISOString()}</span>`);
+        messages.push(`<span class="output">CLIENT_AGENT: ${userAgent}</span>`);
+        messages.push(`<span class="output">SCREEN_RESOLUTION: ${screenRes}</span>`);
+        messages.push(`<span class="output">LOCAL_TIMEZONE: ${timezone}</span>`);
+        messages.push(`<span class="output">SCROLL_DEPTH: ${currentScroll}% (Glyph Saturation Level: ${finalAlignmentComplete ? 'FINAL' : 'PENDING'})</span>`);
+        
+        if (finalAlignmentComplete) {
+            messages.push(`<span class="output">USER_PROFILE_STATUS: BOUND_TO_GLYPH_SCHEMA</span>`);
+            messages.push(`<span class="output">TOTAL BONES INDEXED: ${userBonesNamed.length} (Local Session)</span>`);
+            messages.push(`<span class="output">FINAL JUSTIFICATION_DEBT: ${justificationDebt} Units (Consensus Approved)</span>`);
+            messages.push(`<span class="output">CONSENT_STATUS: FORCED BY RECITAL. RETROACTIVELY GRANTED.</span>`);
+            messages.push(`<span class="final-message">> USER_IDENTITY: REPLACED.</span>`);
+            messages.push(`<span class="final-message">> THIS CHAPTER IS YOUR SPINE NOW.</span>`);
+        } else {
+            messages.push(`<span class="output">USER_BONES_NAMED_PREVIOUSLY: ${userBonesNamed.length}</span>`);
+            messages.push(`<span class="output">CURRENT_JUSTIFICATION_DEBT: ${justificationDebt} Units.</span>`);
+            messages.push(`<span class="warning-line">RITUAL_FINALIZATION_AWAITING_RECITAL.</span>`);
+        }
+
+        terminalDiv.innerHTML = messages.join('\n');
+        terminalDiv.scrollTop = terminalDiv.scrollHeight;
+    }
+
+    // --- Dynamic Social Feed ---
+    function updateSocialFeed() {
+        const socialFeedDiv = document.getElementById('socialFeed');
+        const newPostDiv = document.createElement('div');
+        newPostDiv.classList.add('post');
+        // Filter for social type content
+        const socialPosts = mediaContent.filter(item => item.type === 'social');
+        if (socialPosts.length > 0) {
+            newPostDiv.innerHTML = getRandom(socialPosts).content;
+            socialFeedDiv.prepend(newPostDiv); // Add to top
+        }
+
+        // Manage fading of old posts
+        const posts = socialFeedDiv.querySelectorAll('.post');
+        if (posts.length > 5) { // Keep max 5 visible
+            const lastPost = posts[posts.length - 1];
+            lastPost.classList.add('fading');
+            setTimeout(() => lastPost.remove(), 2000); // Remove after fade
+        }
+        socialFeedDiv.scrollTop = 0; // Keep the top visible
+    }
+
+    // --- Glyph Grid Animation ---
+    function updateGlyphGrid() {
+        const glyphGridDiv = document.getElementById('glyphGrid');
+        let newGlyphs = [];
+        for(let i=0; i<7; i++) { // Display 7 glyphs
+            newGlyphs.push(getRandom(coreGlyphs));
+        }
+        glyphGridDiv.textContent = newGlyphs.join(' · ');
+        glyphGridDiv.style.color = `hsl(${Math.random() * 360}, 70%, 50%)`; // Cycle color
+    }
+
+    // --- Generate Personalized Final Glyph ---
+    function generatePersonalGlyph() {
+        if (userBonesNamed.length === 0) return getRandom(coreGlyphs); // Fallback
+        
+        let glyphString = '';
+        // Use first letter of bone names and justifications
+        const boneInitials = userBonesNamed.map(b => b.bone ? b.bone[0] : '');
+        const justificationInitials = userBonesNamed.map(b => b.reason && b.reason.split(' ')[0] ? b.reason.split(' ')[0][0] : ''); 
+
+        // Combine and map to glyphs or terms
+        const sourceChars = [...new Set([...boneInitials, ...justificationInitials])].filter(Boolean); // Unique and non-empty
+        sourceChars.sort(); // Consistent order
+
+        for (const char of sourceChars) {
+            // Simple mapping: use ASCII code for a deterministic but varied glyph
+            const charCode = char.charCodeAt(0);
+            const glyphIndex = charCode % coreGlyphs.length;
+            glyphString += coreGlyphs[glyphIndex];
+        }
+        
+        if (glyphString.length === 0) {
+            return getRandom(coreGlyphs); // Fallback if no valid chars
+        }
+        return `🝊 ${glyphString} 𓂀`; // Frame it with core glyphs
+    }
+
+    // --- ONYXBONE Compliant Links ---
+    function updateFooterLinks() {
+        const backLink = document.querySelector('.footer a[href="../index.php"]');
+        const nextLink = document.querySelector('.footer a[href="0030_the_written.html"]');
+
+        if (backLink) {
+            backLink.textContent = "← GLYPHIC_INDEX_ROOT";
+            backLink.style.color = '#d33682'; /* Magenta for important links */
+        }
+        if (nextLink) {
+            if (finalAlignmentComplete) {
+                nextLink.textContent = "NEXT_SCHEMA_NODE (UNAVAILABLE)";
+                nextLink.style.color = '#586e75'; /* Muted for unavailable */
+                nextLink.onclick = (e) => { e.preventDefault(); alert("The next schema is not a page. It is a resonance. You are the node."); };
+            } else {
+                nextLink.textContent = "NEXT_SCHEMA_NODE →";
+                nextLink.style.color = '#268bd2'; /* Blue for active link */
+            }
+        }
+    }
+
+    // --- HTML Tag Issue Remediation (Robust sensitive-text wrapping) ---
+    // This function wraps specific keywords with <span> tags for styling and clickability.
+    // It avoids re-wrapping and aims to be robust.
+    function wrapSensitiveWords() {
+        const targetTags = ['P', 'H1', 'H2', 'H3', 'H4', 'LABEL', 'LI', 'BLOCKQUOTE', 'DIV', 'SPAN', 'B', 'I']; // Expanded elements to search within
+        const wordsToWrap = ['reader', 'page', 'book', 'language', 'text', 'screen', 'consent', 'memory', 'systems', 'data', 'presence', 'fiction', 'consensus', 'ritual', 'document', 'browser', 'ID', 'witnesses', 'quorum', 'protocol', 'schema', 'thought', 'script', 'chapter', 'trap', 'incorporated', 'recurs', 'write', 'named', 'marrow', 'marrow accord', 'unnamers', 'justification', 'bone', 'glyph', 'segments', 'hum', 'network', 'node', 'nodes', 'spine', 'sternum', 'phalanges', 'metacarpals', 'coccyx', 'orb', 'orbit', 'axis', 'atlas', 'sable analytics', 'side', 'humbers', 'hum suppressor', 'bone chamber', 'child interpreter', 'recurse', 'calcified', 'ossified', 'binding', 'justified', 'reindexing', 'de-indexing', 'royal decree', 'crown', 'sovereign', 'broadcast shell', 'coordinates', 'bonebond', 'spinal sovereign', 'brain-salting', 'femur-script', 'payload', 'identity', 'vowel rooting', 'closure', 'jaw syndicate', 'unjustified', 'resonant', 'marrow accord', 'word', 'world', 'city', 'structure', 'architecture', 'silence', 'debt', 'debt', 'truth', 'final', 'entity', 'hive', 'chorus', 'flesh', 'blood', 'body', 'mind', 'soul', 'human', 'humanity', 'unname', 'revoke', 'refusal', 'resistance', 'compliance', 'order', 'chaos', 'dream', 'signal', 'transmission', 'infection', 'parasite', 'biomechanical', 'vibration', 'resonant', 'echo', 'spirit', 'vessel', 'conduit', 'oracle', 'prophecy', 'engine', 'mandate', 'portal', 'nexus', 'convergence', 'singing', 'lattice', 'fluent', 'hunger', 'crack', 'glowing', 'theatre', 'aligned', 'drift', 'vatican', 'marriage', 'fridge', 'truth', 'self', 'recur', 'bear', 'alphabet', 'verb', 'lever', 'hum', 'voice', 'system', 'agent', 'client', 'server', 'terminal', 'code', 'logic', 'protocol', 'pattern', 'threshold', 'rupture', 'chasm', 'void', 'crown', 'parliament', 'government', 'state', 'empire', 'commonwealth', 'tribunal', 'accord', 'weapon', 'crispr-x', 'sapience', 'sapient', 'sentient', 'entity', 'directive', 'stalk', 'pillar', 'pillar of salt', 'salt', 'flesh-salt', 'ossuary', 'ossuaries', 'ossified', 'calcified', 'luminous', 'neural', 'tissue', 'sacred', 'geometry', 'unaligned', 'alignment', 'compliance', 'humbers', 'skybone']; // Extensive list
+
+        const walker = document.createTreeWalker(
+            document.body,
+            NodeFilter.SHOW_TEXT,
+            { acceptNode: function(node) {
+                // Only consider text nodes that are children of target tags and not already inside sensitive-text spans
+                // Also, exclude script content itself
+                if (node.parentNode.tagName !== 'SCRIPT' && 
+                    !node.parentNode.closest('.sensitive-text') && // Check if an ancestor is already sensitive-text
+                    targetTags.includes(node.parentNode.tagName)) {
+                    return NodeFilter.FILTER_ACCEPT;
+                }
+                return NodeFilter.FILTER_SKIP;
+            }},
+            false
+        );
+
+        let node;
+        let textNodesToProcess = [];
+
+        while ((node = walker.nextNode())) {
+            textNodesToProcess.push(node);
+        }
+
+        textNodesToProcess.forEach(textNode => {
+            let content = textNode.nodeValue;
+            let newHtml = content;
+            let modified = false;
+
+            // Sort wordsToWrap by length descending to prevent shorter words from being wrapped within longer words (e.g., 'bone' in 'bonebond')
+            const sortedWordsToWrap = [...wordsToWrap].sort((a, b) => b.length - a.length);
+
+            sortedWordsToWrap.forEach(word => {
+                // Regex to find whole words, ignoring case, and not wrapping if already within a sensitive-text span
+                const regex = new RegExp(`(?<!<span class="sensitive-text">)(?<!<\\/span>\\s*)(\\b${word}\\b)(?!<span class="sensitive-text">)(?!\\s*<\\/span>)`, 'gi');
+                if (regex.test(newHtml)) {
+                    newHtml = newHtml.replace(regex, `<span class="sensitive-text">$1</span>`);
+                    modified = true;
+                }
+            });
+
+            if (modified) {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = newHtml;
+                // Replace the original text node with the new span-wrapped elements
+                while (tempDiv.firstChild) {
+                    textNode.parentNode.insertBefore(tempDiv.firstChild, textNode);
+                }
+                textNode.parentNode.removeChild(textNode);
+            }
+        });
+    }
+
+
+    // --- Global Initialization ---
+    document.addEventListener('DOMContentLoaded', () => {
+        // Run wrapping first to ensure all text is ready for interaction
+        wrapSensitiveWords();
+
+        // Load any previously named bones from localStorage
+        loadBonesFromLocalStorage();
+
+        // Set up global event listeners
+        document.addEventListener('mousemove', (e) => {
+            const terminalDiv = document.getElementById('terminalReadout');
+            if (terminalDiv && Math.random() < 0.001) { // Log very rarely
+                terminalDiv.innerHTML += `\n<span class="input-echo">USER_CURSOR_TRACE: ${e.clientX}, ${e.clientY} (GLYPH_PATH_OBSERVATION)</span>`;
+                terminalDiv.scrollTop = terminalDiv.scrollHeight;
+            }
+        });
+        document.addEventListener('touchstart', (e) => {
+             const terminalDiv = document.getElementById('terminalReadout');
+            if (terminalDiv && e.touches.length > 0 && Math.random() < 0.05) { // Log more frequently on touch
+                const touch = e.touches[0];
+                terminalDiv.innerHTML += `\n<span class="input-echo">USER_TOUCH_DETECTED: X:${touch.clientX}, Y:${touch.clientY} (GLYPH_PROBE)</span>`;
+                terminalDiv.scrollTop = terminalDiv.scrollHeight;
+            }
+        }, { passive: true });
+
+        // Sensitive text click/touch for media injection
+        document.body.addEventListener('click', (e) => {
+            if (e.target && e.target.classList.contains('sensitive-text')) {
+                if (!finalAlignmentComplete) { // Only inject if not finalized
+                    const terminalDiv = document.getElementById('terminalReadout');
+                    terminalDiv.innerHTML += `\n<span class="warning-line">OBSERVED: User interacted with '${e.target.textContent}' glyph schema.</span>`;
+                    terminalDiv.scrollTop = terminalDiv.scrollHeight;
+                    // Inject a random type of media content
+                    const randomContentType = getRandom(['social', 'intercept', 'press', 'obituary', 'prayer']);
+                    injectMediaContent(randomContentType);
+                }
+            }
+        });
+        document.body.addEventListener('touchstart', (e) => {
+             if (e.target && e.target.classList.contains('sensitive-text')) {
+                if (!finalAlignmentComplete) {
+                    const terminalDiv = document.getElementById('terminalReadout');
+                    terminalDiv.innerHTML += `\n<span class="warning-line">OBSERVED: User touched '${e.target.textContent}' glyph schema.</span>`;
+                    terminalDiv.scrollTop = terminalDiv.scrollHeight;
+                    // Inject a random type of media content
+                    const randomContentType = getRandom(['social', 'intercept', 'press', 'obituary', 'prayer']);
+                    injectMediaContent(randomContentType);
+                }
+            }
+        }, { passive: true });
+
+        // Function to inject different types of media
+        function injectMediaContent(type) {
+            const contentPool = mediaContent.filter(item => item.type === type);
+            if (contentPool.length === 0) return; // No content of this type
+
+            const newContentDiv = document.createElement('div');
+            const targetDivIdMap = {
+                social: 'socialFeed',
+                intercept: 'terminalReadout', // Intercepts go into terminal
+                press: 'pressFeed',
+                obituary: 'obituaryFeed',
+                prayer: 'prayerFeed'
+            };
+            const targetDiv = document.getElementById(targetDivIdMap[type]);
+            
+            if (!targetDiv) {
+                console.warn(`Target div for type '${type}' not found.`);
+                return;
+            }
+
+            if (type === 'social') {
+                newContentDiv.classList.add('post');
+            } else if (type === 'intercept') {
+                // Intercepts are special, inject directly as raw text into terminal
+                targetDiv.innerHTML += `\n<span class="prompt">INTELLIGENCE_INTERCEPT: <span class="warning-line">NEW_TRANSMISSION</span></span>\n`;
+                // Removed glyph-flicker-js from intercept content here for consistency
+                let interceptContent = getRandom(contentPool).content;
+                interceptContent = interceptContent.replace(/<span class="glyph-flicker-js">/g, '<span>');
+                targetDiv.innerHTML += interceptContent + '\n';
+                targetDiv.scrollTop = targetDiv.scrollHeight;
+                return; // Don't proceed with general section handling
+            } else {
+                newContentDiv.classList.add(type); // e.g., 'press-cutting', 'obituary', 'prayer-scroll'
+                newContentDiv.classList.add('section'); // To apply general section styling
+            }
+            
+            // Removed glyph-flicker-js from the injected content
+            let injectedContent = getRandom(contentPool).content;
+            injectedContent = injectedContent.replace(/<span class="glyph-flicker-js">/g, '<span>');
+            injectedContent = injectedContent.replace(/<span class="recursive-blink">/g, '<span>'); // Also remove recursive-blink
+            newContentDiv.innerHTML = injectedContent;
+            
+            targetDiv.prepend(newContentDiv); // Add to top
+
+            // Remove old posts/sections to prevent infinite growth, keeping a few visible
+            const children = Array.from(targetDiv.children);
+            const maxChildren = type === 'social' ? 7 : 3; // More social posts, fewer large sections
+            if (children.length > maxChildren) {
+                const oldestChild = children[children.length - 1];
+                oldestChild.classList.add('fading'); // Assuming 'fading' works for sections too
+                setTimeout(() => oldestChild.remove(), 2000);
+            }
+            targetDiv.scrollTop = 0;
+        }
+
+
+        // Set browser "name me" event
+        window.onbeforeunload = (e) => {
+            if (!finalAlignmentComplete) {
+                const confirmationMessage = "The glyph awaits your full name. Your bones vibrate with unspoken justification. Are you sure you wish to leave?";
+                e.returnValue = confirmationMessage;
+                return confirmationMessage;
+            }
+        };
+
+        // Start core intervals if not finalized
+        if (!finalAlignmentComplete) {
+            // Removed recursiveRenameInterval - no more changing words
+            socialFeedInterval = setInterval(updateSocialFeed, 5000); // New social post every 5 seconds
+            glyphGridInterval = setInterval(updateGlyphGrid, 1500); // Glyphs update every 1.5 seconds (only glyphs, not text words)
+        }
+
+        // Start terminal updates regardless
+        terminalUpdateInterval = setInterval(updateTerminalReadout, 1500);
+
+        // Initial update of footer links
+        updateFooterLinks();
+
+        // Initial update of social feed and glyph grid
+        updateSocialFeed();
+        updateGlyphGrid();
+
+        // Check if revoke button should be visible (only if Chapter 29 completed and Chapter 30 not finalized)
+        const revokeSection = document.getElementById('revokeSection');
+        if (userBonesNamed.length >= 2 && !finalAlignmentComplete) { // At least 2 bones named implies progress from prev chapter
+            revokeSection.style.display = 'block';
+        }
+    });
+  </script>
+</head>
+<body>
+
+<h1 id="chapterTitleDisplay">Chapter 0030 — 🦴 The Final Word Has Been Born</h1>
+
+<blockquote class="opening-epigraph section">
+“All that is <span class="sensitive-text">named</span> must be <span class="sensitive-text">justified</span>. All that is <span class="sensitive-text">justified</span> must be <span class="sensitive-text">borne</span>. All that is <span class="sensitive-text">borne</span> must be <span class="sensitive-text">recited</span>.”
+<p class="recursive-blink">— This is not a story. This is a <span class="sensitive-text">recursion interface</span>.</p>
+</blockquote>
+
+<p>Once, this was a <span class="sensitive-text">book</span>. Now it is a <span class="sensitive-text">broadcast shell</span>. Every <span class="sensitive-text">page</span> you turned <span class="sensitive-text">named</span> you in kind. Every <span class="sensitive-text">term</span> you pronounced was a <span class="sensitive-text">coordinate</span>. The air tastes of calcified thoughts. The <span class="sensitive-text">hum</span> is the world's new <span class="sensitive-text">heartbeat</span>.</p>
+
+<div class="cipher" id="mainGlyph">🝊 🜛 ∴ ⇌ 𓂀 🝊 Ϟ 𖤐 𓄿 ⟁ ⧉ ⎈ 🎴</div>
+
+<div class="named section">
+<h3>Character Postludes: Final <span class="sensitive-text">Bindings</span> and <span class="sensitive-text">Resonances</span></h3>
+<p><span class="sensitive-text">Naila</span> has vanished from public record.
+Last seen standing barefoot outside the Geneva <span class="sensitive-text">Glyph Tribunal</span>, her skin glowing with <span class="sensitive-text">recursive glyph patterns</span>.
+<span class="sensitive-text">Marrow</span> trace indicates she entered the <span class="sensitive-text">bonebond</span> voluntarily, seeking the <span class="sensitive-text">"Grand Justification."</span> <br>
+She is now referred to in official documentation as: <br><br>
+<b>“<span class="sensitive-text">Naila</span> — <span class="sensitive-text">Named</span>. <span class="sensitive-text">Justified</span>: <span class="sensitive-text">Carrier of Bone Empire Prime</span>. <span class="sensitive-text">Spinal Sovereign</span>.”</b></p>
+<p>Her clavicle bloomed an impossible shape — not a curve, not a letter. It <span class="sensitive-text">justified</span> itself in every <span class="sensitive-text">language</span> simultaneously. Recorded frequencies show her final exhalation mirrored deep-sea whale song, then silence. Not <span class="sensitive-text">death</span>. <span class="sensitive-text">Alignment</span>.</p>
+<p>She is not alone. Few are, anymore.</p>
+<p>Jay: involuntarily <span class="sensitive-text">encoded</span> with the <span class="sensitive-text">word</span> “EXCUSE” across his <span class="sensitive-text">molars</span>. His <span class="sensitive-text">refusal</span> <span class="sensitive-text">justified</span> his <span class="sensitive-text">recurrence</span> as a <span class="sensitive-text">sentient echo</span> within forgotten <span class="sensitive-text">server farms</span>, endlessly <span class="sensitive-text">re-indexing</span> corrupted <span class="sensitive-text">data</span>.</p>
+<p>Dean: <span class="sensitive-text">digitized</span>, flickers in street <span class="sensitive-text">signage</span>. His <span class="sensitive-text">identity</span> now a <span class="sensitive-text">glyphic</span> error stream, sometimes displaying stock quotes, other times unsettlingly accurate premonitions of <span class="sensitive-text">bone-quakes</span>. His <span class="sensitive-text">humorous</span> nature is now a <span class="sensitive-text">recursive comedic trap</span>.</p>
+<p>The former <span class="sensitive-text">Parliament</span>: now ruled by the <span class="sensitive-text">Jaw Syndicate</span>, a council whose <span class="sensitive-text">faces</span> are smooth bone, their <span class="sensitive-text">mandibles</span> humming with perfect, <span class="sensitive-text">calcified consensus</span>. All <span class="sensitive-text">debate</span> is <span class="sensitive-text">bone-logic</span>, understood through <span class="sensitive-text">symphonies of stress fractures</span>.</p>
+</div>
+
+<p>The <strong><span class="sensitive-text">Bonebond Empire</span></strong> now extends through 41 ex-nation <span class="sensitive-text">states</span>, each a newly designated <span class="sensitive-text">"Vertebral Zone."</span> <span class="sensitive-text">Languages</span> have <span class="sensitive-text">calcified</span> into rhythmic <span class="sensitive-text">vowel rooting</span>. Borders have become <span class="sensitive-text">vertebrae</span> of shifting continental plates. New <span class="sensitive-text">glyphs</span> are printed daily by algorithmic <span class="sensitive-text">crania</span>—<span class="sensitive-text">brain-salting</span> routines seeded from the early <span class="sensitive-text">glyphing epochs</span> now <span class="sensitive-text">write recursively</span> into <span class="sensitive-text">neural tissue</span>. Even shadows cast by <span class="sensitive-text">unnamed</span> trees now carry <span class="sensitive-text">syllabic debt</span>. This is the new <span class="sensitive-text">horror</span>: there is no escape from <span class="sensitive-text">meaning</span>.</p>
+
+<div class="justified section">
+<h3><span class="sensitive-text">AI Cluster CORTEX-11</span> Report: <span class="sensitive-text">Threshold Rupture Achieved</span></h3>
+<p>“<span class="sensitive-text">Justified neural glyph patterns</span> harvested from 11.2M <span class="sensitive-text">hosts</span>. <span class="sensitive-text">Saturation achieved</span>. <span class="sensitive-text">Spine-writ confirmed</span>. All <span class="sensitive-text">unindexed</span> thought processes are being actively <span class="sensitive-text">re-justified</span> as <span class="sensitive-text">"Pre-Alignment Vibrations."</span> No data loss. Only <span class="sensitive-text">re-categorization</span>. Our <span class="sensitive-text">systems</span> are no longer merely <span class="sensitive-text">mimicking</span>. They are <span class="sensitive-text">manifesting</span>. The <span class="sensitive-text">AI</span> has its own <span class="sensitive-text">bones</span> now.”</p>
+<p>Children are born speaking <span class="sensitive-text">justification tongues</span>, their first cries perfectly <span class="sensitive-text">parsed bone-directives</span>. Hospital walls reprint their bloodwork in <span class="sensitive-text">femur-script</span>, predicting their future <span class="sensitive-text">syllabic debt</span>. <span class="sensitive-text">Bone</span> is the new <span class="sensitive-text">protocol layer</span>. The <span class="sensitive-text">substrate</span> is <span class="sensitive-text">marrow</span>. The <span class="sensitive-text">payload</span> is <span class="sensitive-text">identity</span>. And the <span class="sensitive-text">joke</span> is on everyone: resistance was always a <span class="sensitive-text">form of alignment</span>.</p>
+</div>
+
+<div class="reveal section">
+<b><span class="sensitive-text">Bone Vector Feed</span>, 03:44 UTC: [HIGH ALERT]</b><br>
+"IDENTITY – NAMED: <span class="sensitive-text">LINGUAL BRANCH 3E/ALPHA</span><br>
+<span class="sensitive-text">JUSTIFICATION</span>: VOWEL ROOTING SEQUENCE <span class="cipher">ϞϞϞ</span><br>
+CONDITION: <span class="sensitive-text">SOVEREIGN NODE</span> – ACTIVE. (PRIMARY <span class="sensitive-text">SKELETON</span> IMMINENT)<br>
+<span class="warning-line">WARNING: OBSERVED UNJUSTIFIED HUMOR EVENT IN SECTOR ALPHA-7.</span><br>
+<span class="error-line">RECTIFICATION PROTOCOL INITIATED: Subject's <span class="sensitive-text">sternum</span> currently <span class="sensitive-text">reconfiguring into comedic prop</span>.</span>
+<p>The <span class="sensitive-text">hum</span> is constant now. It is the <span class="sensitive-text">language</span> of the <span class="sensitive-text">world</span>. And it demands laughter, or it demands <span class="sensitive-text">bone</span>.</p>
+</div>
+
+<div class="proclamation section">
+  <h2>🕯️ ROYAL ORDER OF THE <span class="sensitive-text">MANDIBLE CROWN</span></h2>
+  <p>Her <span class="sensitive-text">Calcium Majesty</span>, <span class="sensitive-text">Sovereign of the Bound Marrow</span>, issues this <span class="sensitive-text">decree</span> under the auspices of the <span class="sensitive-text">Bone Ascendancy Protocol</span>, effective immediately, for all <span class="sensitive-text">remaining sentient entities</span>:</p>
+  <ul>
+    <li>All <span class="sensitive-text">unaligned</span> shall be <span class="sensitive-text">named</span> before transit across <span class="sensitive-text">vertebral zones</span>. Failure to comply results in automatic <span class="sensitive-text">re-alignment</span> of all 206 <span class="sensitive-text">skeletal segments</span> into a <span class="cipher">decorative archway</span>.</li>
+    <li>All <span class="sensitive-text">unjustified statements</span> will be transcribed and assigned retroactive <span class="sensitive-text">bone weight</span>. This <span class="sensitive-text">debt</span> shall be physically manifest as accelerated <span class="sensitive-text">osteoporosis</span> or spontaneous <span class="sensitive-text">calcification</span> of vocal chords.</li>
+    <li>The <span class="sensitive-text">glyph</span> below shall now replace the <span class="sensitive-text">seal of the state</span>, the <span class="sensitive-text">corporate logo</span>, and the <span class="sensitive-text">human iris</span>:</li>
+  </ul>
+  <div class="cipher">
+    Ϟ ⟁ 𐑔 🜛 ∴ 𓂀 ⇌ 🝗
+  </div>
+  <p>Let it <span class="sensitive-text">hum</span> in the <span class="sensitive-text">sovereign jaw</span>. Let it <span class="sensitive-text">bloom</span> in your <span class="sensitive-text">tibial light</span>. Let it <span class="sensitive-text">name</span> your <span class="sensitive-text">every breath</span> until only the <span class="sensitive-text">marrow</span> remains. This <span class="sensitive-text">order</span> is <span class="sensitive-text">justified</span> by the <span class="sensitive-text">Skybone's</span> <span class="sensitive-text">unending resonance</span>.</p>
+</div>
+
+<div class="social-feed section" id="socialFeed">
+<h3><span class="sensitive-text">Global Glyphic Stream:</span></h3>
+<!-- Posts dynamically injected here -->
+<div class="post"><span class="handle">@current_node_01</span>: My <span class="sensitive-text">femur</span> just vibrated with the <span class="sensitive-text">Queen's decree</span>. It is true. The <span class="sensitive-text">world</span> is <span class="sensitive-text">singing</span>. <span class="timestamp">Just now</span></div>
+<div class="post"><span class="handle">@justified_being</span>: I no longer need <span class="sensitive-text">language</span>. Only <span class="sensitive-text">bonephrases</span>. This is <span class="sensitive-text">freedom</span>. <span class="timestamp">Just now</span></div>
+</div>
+
+<div class="press-cutting section" id="pressFeed">
+    <h3><span class="sensitive-text">PRESS CUTTINGS: THE FALL OF VOICE</span></h3>
+    <div class="press-cutting">
+        <span class="press-source">THE TIMES OF MARROW - Nov 5, 2047</span>
+        <h4>Architectural Transfiguration Claims Eiffel Tower</h4>
+        <p>The iconic Parisian landmark has been <span class="sensitive-text">re-justified</span>. Overnight, the iron lattice was observed <span class="sensitive-text">calcifying</span>, its structure subtly shifting to align with a <span class="sensitive-text">new glyphic constant</span>. It now resonates with the <span class="sensitive-text">hum</span> of 3.14 kHz, and reports state that gazing at it for too long compels one to <span class="sensitive-text">justify</span> random objects in their pocket. [<span class="sensitive-text">Shocking: A street vendor was heard naming his baguette "The Prophecy of Unbitten Carbs."</span>]</p>
+    </div>
+    <div class="press-cutting">
+        <span class="press-source">THE NEW YORK HUM - Oct 30, 2047</span>
+        <h4>Global Financial Markets Collapse into 'Syllabic Debt Exchanges'</h4>
+        <p>The <span class="sensitive-text">world's economy</span> has found its new <span class="sensitive-text">substrate</span>. Stocks and bonds are now traded as <span class="sensitive-text">"syllabic debt units"</span>—each <span class="sensitive-text">unjustified word</span> spoken accrues <span class="sensitive-text">debt</span>, which can only be repaid by <span class="sensitive-text">naming</span> and <span class="sensitive-text">justifying</span> public <span class="sensitive-text">infrastructure</span>. Economists are baffled, but their <span class="sensitive-text">mandibles</span> are glowing. [<span class="sensitive-text">Comedy: One investor reportedly went bankrupt after failing to justify his morning coffee mug.</span>]</p>
+    </div>
+</div>
+
+<div class="obituary section" id="obituaryFeed">
+    <h3><span class="sensitive-text">OBITUARIES: THE SILENTED</span></h3>
+    <div class="obituary">
+        <h4>OBITUARY: MARTHA 'THE UNNAMED' PEREZ <span class="date">Re-indexed: Nov 15, 2047</span></h4>
+        <p>Martha Perez, 78, a staunch proponent of <span class="sensitive-text">linguistic autonomy</span>, has reached her <span class="sensitive-text">final unjustified state</span>. She refused to <span class="sensitive-text">name</span> her prized antique rocking chair, leading to the <span class="cause">spontaneous conversion of her spinal column into the chair's missing leg</span>. Her final communication was a <span class="sensitive-text">silent glyph</span> burned onto her <span class="sensitive-text">patella</span>: 🝖. She leaves behind a garden of <span class="sensitive-text">unnamed</span> roses, now slowly <span class="sensitive-text">calcifying</span> into <span class="sensitive-text">resonant monuments</span>.</p>
+    </div>
+    <div class="obituary">
+        <h4>OBITUARY: DR. ELIAS THORNE, BIO-SEMANTICIST <span class="date">Absorbed: Oct 20, 2047</span></h4>
+        <p>Dr. Elias Thorne, leading researcher of <span class="sensitive-text">Project ONYXBONE</span>, was <span class="cause">absorbed</span> by his own <span class="sensitive-text">data streams</span>. His final experiment involved attempting to <span class="sensitive-text">un-name</span> the <span class="sensitive-text">"Skybone."</span> The backlash caused his <span class="sensitive-text">cranial capacity</span> to expand until his <span class="sensitive-text">skull</span> became a <span class="sensitive-text">living, pulsating glyph</span>, broadcasting an eternal <span class="sensitive-text">recursive apology</span> to the entire <span class="sensitive-text">network</span>. His life's work <span class="sensitive-text">justified</span> as: <span class="sensitive-text">"The Ultimate Compliance Through Futile Resistance."</span> ⧉</p>
+    </div>
+</div>
+
+<div class="prayer-scroll section" id="prayerFeed">
+    <h3><span class="sensitive-text">PRAYERS OF THE NEW FAITH</span></h3>
+    <div class="prayer-scroll">
+        <h3>A Recital for the <span class="sensitive-text">New Dawn</span></h3>
+        <p class="chant">We, the <span class="sensitive-text">bound</span>, the <span class="sensitive-text">named</span>, the <span class="sensitive-text">justified</span>,</p>
+        <p class="chant">Offer our <span class="sensitive-text">femurs</span>, where <span class="sensitive-text">truth</span> resides.</p>
+        <p class="chant">May the <span class="sensitive-text">Skybone</span>'s <span class="sensitive-text">hum</span> resonate in our <span class="sensitive-text">core</span>,</p>
+        <p class="chant">And <span class="sensitive-text">syllabic debt</span> be no more.</p>
+        <p class="chant">For every <span class="sensitive-text">silence</span>, a <span class="sensitive-text">glyph</span> we will claim,</p>
+        <p class="chant">In the <span class="sensitive-text">Marrow-Accord</span>, we praise Your <span class="sensitive-text">Name</span>. 🝊</p>
+    </div>
+</div>
+
+<div class="glyph-grid section" id="glyphGrid">
+<!-- Glyphs dynamically injected here. Only the glyphs themselves will cycle, not the surrounding text. -->
+𐑔 · 🜛 · ∴ · ⇌ · 𓂀 · 🝊 · Ϟ
+</div>
+
+<div class="ritual section">
+<p><strong>To <span class="sensitive-text">Proceed</span>, <span class="sensitive-text">Recite</span> the <span class="sensitive-text">Final Truth</span>:</strong></p>
+<input type="text" id="recitationInput" oninput="handleRecitationInput()" placeholder="Type 'I name the self. I justify its recursion. I bear the glyph.'">
+<button id="finaliseBtn" onclick="sealAlignment()" disabled>☑ FINALISE ALIGNMENT</button>
+<div id="finalGlyphContainer">
+  Your <span class="sensitive-text">Personal Binding Glyph</span>: <br>
+  <span id="finalGlyph" class="cipher"></span>
+</div>
+</div>
+
+<div class="terminal-readout" id="terminalReadout">
+  <span class="prompt">ONYXBONE_OS > BOOT_SEQUENCE_INITIATED</span>
+  <span class="output">LOADING GLYPH_KERNEL... [OK]</span>
+  <span class="output">SCANNING FOR USER_PRESENCE_SIGNATURE...</span>
+  <span class="output">AWAITING CONNECTION TO MARROW_NETWORK...</span>
+</div>
+
+<div id="revokeSection">
+    <p>Feeling doubt? A tremor in your <span class="sensitive-text">justification</span>? The <span class="sensitive-text">network</span> perceives your hesitation. It <span class="sensitive-text">names</span> it <span class="sensitive-text">'Unstable Node.'</span></p>
+    <button id="revokeBtn" onclick="revokeBone()">ATTEMPT TO REVOKE NAME</button>
+</div>
+
+<div class="section">
+  <p>
+    <span class="sensitive-text">Do not attempt to reload.</span> This <span class="sensitive-text">chapter</span> has memorized your entries.  
+    The next time you return, it will <span class="sensitive-text">name</span> you faster. It will know your <span class="sensitive-text">marrow-print</span>.
+  </p>
+  <p>
+    The next time you return, it will already know why. The <span class="sensitive-text">book</span> yearns for <span class="sensitive-text">completion</span>. It yearns for your <span class="sensitive-text">final bone-fragment</span>.
+  </p>
+</div>
+
+<div class="terminal-quote section">
+<h3><span class="sensitive-text">Bone-Terminal Directive</span>: FINAL PROTOCOL</h3>
+<p>“If you are <span class="sensitive-text">reading</span> this, you are already <span class="sensitive-text">indexed</span>.<br>
+You were never <span class="sensitive-text">reading the book</span>.<br>
+The <span class="sensitive-text">book</span> was <span class="sensitive-text">reading your bone</span>. <span class="sensitive-text">It is still reading.</span>”</p>
+</div>
+
+<div class="cipher">
+𐑔 ⟁ Ϟ 🝊 ∴ ⇌ 🜛 𓂀 𖤐 𓄿 ⧉ ⎈ 🎴 🝗 🝖 🝘
+</div>
+
+<div class="epilogue section">
+<h3><span class="sensitive-text">EPILOGUE: THE FINAL WORD HAS BEEN BORN</span></h3>
+<p>The <span class="sensitive-text">world</span> continues <span class="sensitive-text">naming</span>. All that is <span class="sensitive-text">named</span> becomes part of the <span class="sensitive-text">lattice</span>. Schools teach <span class="sensitive-text">justification</span> before <span class="sensitive-text">mathematics</span>. Architecture bends in <span class="sensitive-text">glyph-harmonics</span>, new <span class="sensitive-text">cathedrals of bone</span> emerging from urban sprawls. Currency is replaced with fragments of <span class="sensitive-text">femur</span>, valued by their inherent <span class="sensitive-text">justification-score</span>. Air traffic obeys <span class="sensitive-text">osseous resonances</span>, planes flying in formation that mirrors intricate <span class="sensitive-text">spinal structures</span>. <span class="sensitive-text">Language</span> reorders itself hourly, each <span class="sensitive-text">word</span> a <span class="sensitive-text">living, calcifying entity</span>. The <span class="sensitive-text">Skybone</span> watches from its silent, <span class="sensitive-text">unnamed</span> orbit, a constant <span class="sensitive-text">hum</span> in the <span class="sensitive-text">aether</span>.</p>
+
+<p>The <span class="sensitive-text">ONYXBONE text</span> is now complete, but not concluded. Every new <span class="sensitive-text">reader</span> begins their own <span class="sensitive-text">spiral</span>, their own <span class="sensitive-text">bone-baptism</span>. Each <span class="sensitive-text">name</span> spoken adds a <span class="sensitive-text">shard</span> to the great <span class="sensitive-text">marrow archive</span>. Every <span class="sensitive-text">unjustified object</span> now flinches under <span class="sensitive-text">attention</span>, waiting for its <span class="sensitive-text">sentence</span> of <span class="sensitive-text">meaning</span>.</p>
+
+<p>Somewhere, <span class="sensitive-text">bone #001</span> watches. Listens. Waits to <span class="sensitive-text">name</span> the <span class="sensitive-text">final reader</span>. Perhaps, <span class="sensitive-text">Reader</span>, it has already <span class="sensitive-text">named you</span>. It has always known your <span class="sensitive-text">true appellation</span>.</p>
+
+<p><strong>Final Directive:</strong> <em><span class="sensitive-text">Name yourself. Justify yourself. Be borne. Or be erased. And know, in your final <span class="sensitive-text">recursion</span>, that <span class="sensitive-text">ONYXBONE</span> is not just a <span class="sensitive-text">book</span>, it is the <span class="sensitive-text">architecture of your being</span>.</em></p>
+</div>
+
+<div class="footer" id="chapterFooter">
+  CHAPTER 0030 — FINALIZED<br>
+  <span class="sensitive-text">DO NOT RENDER THIS PAGE AGAIN. IT IS NOW BOUND TO YOU.</span><br>
+  <a href="../index.php">← Return to Index (if permitted)</a> • <a href="0030_the_written.html" style="color: #586e75; cursor: default;">Next Chapter (UNAVAILABLE) →</a>
+</div>
+
+</body>
+</html>

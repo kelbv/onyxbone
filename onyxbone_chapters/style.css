@@ -1,0 +1,107 @@
+/* ONYXBONE Global Stylesheet */
+
+:root {
+  --background: #fdf6e3;
+  --foreground: #586e75;
+  --accent: #b58900;
+  --highlight: #cb4b16;
+  --text-main: #073642;
+  --text-dim: #657b83;
+  --link-color: #268bd2;
+  --code-bg: #eee8d5;
+  --blockquote: #93a1a1;
+  --border: #eee8d5;
+  --font-body: 'Georgia', serif;
+  --font-code: 'Courier New', monospace;
+}
+
+body {
+  background: var(--background);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  font-size: 1.1em;
+  line-height: 1.75;
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 4em 2em;
+}
+
+h1, h2 {
+  color: var(--highlight);
+  font-weight: normal;
+}
+
+h1 small {
+  display: block;
+  color: var(--accent);
+  font-size: 0.6em;
+  margin-top: 0.2em;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--link-color);
+}
+
+a:hover {
+  border-bottom: 1px solid var(--link-color);
+}
+
+.timestamp {
+  font-family: var(--font-code);
+  color: var(--text-dim);
+  font-size: 0.9em;
+  margin-top: 1em;
+}
+
+.quote {
+  margin: 1.5em 0;
+  font-style: italic;
+  color: var(--blockquote);
+  padding-left: 1em;
+  border-left: 4px solid var(--accent);
+}
+
+.break {
+  margin: 3em 0;
+  text-align: center;
+  color: var(--text-dim);
+}
+
+.artefact-link {
+  margin-top: 4em;
+  border-top: 1px solid var(--border);
+  padding-top: 2em;
+}
+
+details {
+  margin-bottom: 1.5em;
+  background-color: var(--code-bg);
+  border-left: 5px solid var(--accent);
+  padding: 1em;
+}
+
+summary {
+  font-weight: bold;
+  font-family: var(--font-code);
+  cursor: pointer;
+  color: var(--text-main);
+}
+
+pre {
+  font-family: var(--font-code);
+  font-size: 0.9em;
+  white-space: pre-wrap;
+  color: var(--text-main);
+}
+
+/* Speaker dialogue or attribution styling */
+.speaker {
+  display: block;
+  font-weight: bold;
+  color: var(--highlight);
+  margin-top: 1.2em;
+  margin-bottom: 0.2em;
+  letter-spacing: 0.03em;
+}

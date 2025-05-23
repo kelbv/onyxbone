@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONYXBONE: The Bone Protocol - Episode 3</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            background-color: #0d0d0d;
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect x="0" y="0" width="100" height="100" fill="%230d0d0d"/><path d="M 50 0 L 0 50 L 50 100 L 100 50 Z" fill="%231a1a1a" opacity="0.1"/></svg>');
+            background-size: 50px 50px;
+        }
+
+        .script-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+            border: 1px solid #00ffff; /* Subtle glow effect */
+        }
+
+        .episode-title {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 2.8em;
+            text-align: center;
+            color: #00ffff;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+
+        .logline {
+            font-style: italic;
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+            padding: 0 20px;
+        }
+
+        .scene-heading {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #98fb98; /* Pale green for headings */
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #32cd32; /* Lime green underline */
+            padding-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .action {
+            font-family: 'Georgia', serif;
+            margin-bottom: 15px;
+            padding-left: 0;
+            color: #c0c0c0;
+        }
+
+        .character-name {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #ffd700; /* Gold for character names */
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .dialogue {
+            font-family: 'Verdana', sans-serif;
+            margin-left: 15%; /* Indent dialogue */
+            margin-right: 15%;
+            margin-bottom: 10px;
+            background-color: #2a2a2a;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border-left: 3px solid #ffd700;
+        }
+
+        .parenthetical {
+            font-style: italic;
+            color: #888;
+            font-size: 0.9em;
+            display: block;
+            text-align: center;
+            margin-top: -8px; /* Pull it slightly up towards the character name */
+            margin-bottom: 5px;
+        }
+
+        .cue {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #ff6347; /* Tomato for cues */
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .transition {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #a020f0; /* Purple for transitions */
+            text-align: right;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .time-card {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 1.8em;
+            color: #00ffff;
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            padding: 15px;
+            background-color: #0a0a0a;
+            border: 2px solid #00ffff;
+            box-shadow: 0 0 15px #00ffff;
+            letter-spacing: 1px;
+        }
+
+        .cold-open-container {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            background-color: #000;
+        }
+        .cold-open-text {
+            font-family: 'Courier New', monospace;
+            font-size: 1.5em;
+            color: #FFD700; /* Gold */
+            text-shadow: 0 0 8px #FFD700;
+            white-space: pre-wrap;
+            text-align: center;
+            line-height: 1.2;
+            opacity: 0;
+            animation: text-fade-in 3s forwards, text-glitch 0.5s infinite alternate 3s;
+            position: absolute;
+            max-width: 90%;
+        }
+        @keyframes text-fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes text-glitch {
+            0% { transform: translate(0,0); filter: hue-rotate(0deg); }
+            20% { transform: translate(-2px,2px); filter: hue-rotate(20deg); }
+            40% { transform: translate(-1px,-1px); filter: hue-rotate(40deg); }
+            60% { transform: translate(2px,1px); filter: hue-rotate(60deg); }
+            80% { transform: translate(1px,-2px); filter: hue-rotate(80deg); }
+            100% { transform: translate(0,0); filter: hue-rotate(100deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="script-container">
+
+        <div class="cold-open-container">
+            <pre class="cold-open-text">
+                06 April 2029
+                COBR, Parliament Annex / Hackney Wick / UCL Molecular Science Unit
+            </pre>
+        </div>
+
+        <div class="transition">FADE IN:</div>
+
+        <div class="episode-title">
+            ONYXBONE: The Bone Protocol<br>
+            EPISODE 3: Between Disclosure and Disinformation
+        </div>
+
+        <div class="logline">
+            As Naila's body rebels with chilling autonomy, the highest echelons of government struggle to define an enemy that rewrites biology and language, while a clandestine corporation orchestrates a disinformation campaign to control the fracturing narrative.
+        </div>
+
+        <div class="time-card">07:00 BST - Hackney Wick</div>
+
+        <div class="scene-heading">INT. NAILA'S FLAT - KITCHEN - MORNING</div>
+        <div class="action">
+            NAILA (20s) is leaning over the kitchen sink. She's COUGHING, wracking her body, until her throat is raw and bleeding. Her face is pale, streaked with sweat.
+        </div>
+        <div class="action">
+            When the fit subsides, she stares into the basin. Something sits in the water. SMALL, GREY, RIBBED. Not a tooth. Not a stone. It pulsed with a faint, internal light yesterday, before the dog incident. Now, it's just... inert. But still ominous.
+        </div>
+        <div class="action">
+            She reaches for it, hesitant. Her fingers brush the water. A sudden, sharp SHIVER runs through her.
+        </div>
+        <div class="action">
+            The small object hums once. A low, resonant sound, almost imperceptible to the ear, but Naila *feels* it in her teeth, in the hinge of her jaw.
+        </div>
+        <div class="action">
+            Then, SILENCE. The hum stops. The object is just there.
+        </div>
+        <div class="action">
+            She leaves it. She can't touch it. She can't look at it. It feels... like a demand.
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">09:00 BST - COBR Briefing Room, Parliament Annex</div>
+
+        <div class="scene-heading">INT. COBR BRIEFING ROOM - DAY</div>
+        <div class="action">
+            The room is sealed, stark, and humming with the low thrum of projector fans. Senior government and intelligence officials are gathered around a long table. SIR CHARLES AUSTEN (50s, Cabinet Secretary, sharp, tired) sits at the head.
+        </div>
+        <div class="action">
+            On a large screen, a THERMAL SCAN of a patient's ribcage. The bone structure is distorted, displaying impossible, geometric patterns. A blurred-out MAN (40s, military intelligence, precise, clipped voice) gestures to the image.
+        </div>
+
+        <div class="character-name">MILITARY INTEL (V.O.)</div>
+        <div class="dialogue">
+            ...and as you can see, the calcification patterns are entirely inconsistent with any known biological anomaly. We believe the bone is now operating as a second-order logic substrate.
+        </div>
+        <div class="action">
+            A collective intake of breath. No one laughs. A WOMAN from DHSC (Department of Health and Social Care) crosses herself under the table.
+        </div>
+
+        <div class="character-name">AUSTEN</div>
+        <div class="dialogue">
+            'Second-order logic substrate'? Explain.
+        </div>
+
+        <div class="character-name">MILITARY INTEL</div>
+        <div class="dialogue">
+            It's not just a symptom, Sir. It's a processor. The host skeleton is no longer merely supporting the body; it's interpreting, storing, and transmitting data.
+        </div>
+
+        <div class="character-name">DHSC OFFICIAL</div>
+        <div class="dialogue">
+            So... it's a disease of the mind?
+        </div>
+
+        <div class="character-name">MILITARY INTEL</div>
+        <div class="dialogue">
+            We are not fighting a disease. We are interpreting an emergence. The initial broadcast seeded interface logic directly into cortical patterns. That's why infected subjects are not contagious in a viral sense. They are recursive.
+        </div>
+
+        <div class="character-name">AUSTEN</div>
+        <div class="dialogue">
+            (Nodding slowly)
+            Right. What's the plan for public messaging? We can't have panic.
+        </div>
+        <div class="action">
+            A graphic flashes on screen: "COBR BRIEFING - RED FOLDER - 06/04/2029". It lists key findings and recommendations.
+        </div>
+        <div class="cue">
+            (ON SCREEN: COBR INTERNAL MINUTES)
+        </div>
+        <div class="action">
+            <span class="action">"KEY QUOTES: 'We are not fighting a disease. We are interpreting an emergence.' 'The broadcast seeded interface logic into cortical patterns.' 'Infected subjects are not contagious. They are recursive.' RECOMMENDATIONS: Tier 4 blackout over all research terms: 'calcite bloom,' 'bone OS,' 'marrow wave.' Media phrase suggestion: 'neurostructural mythos disorder.' Pre-emptive counter-conspiracy seeding on social media. NOTE: Foreign agencies showing signs of identical emergence vectors."</span>
+        </div>
+
+        <div class="transition">DISSOLVE TO:</div>
+
+        <div class="time-card">11:30 BST - UCL Molecular Science Unit</div>
+
+        <div class="scene-heading">INT. UCL LAB C7 - DAY</div>
+        <div class="action">
+            The lab is eerily quiet. A half-eaten sandwich sits on a desk, a coffee mug still warm. Files are scattered. DR. LIAM O'CONNELL (30s, agitated, junior researcher) walks through, shining a flashlight into the dark corners. He's accompanied by DETECTIVE INSPECTOR ANNA REID (40s, sharp, no-nonsense), who is examining a wiped workstation.
+        </div>
+
+        <div class="character-name">REID</div>
+        <div class="dialogue">
+            No forced entry. No sign-out. Mobile signals cut simultaneously. Four researchers, vanished. What were they working on, Dr. O'Connell?
+        </div>
+
+        <div class="character-name">O'CONNELL</div>
+        <div class="dialogue">
+            Bone conductivity. Bio-semantical interfaces. It was... niche. Dr. Beltran was the lead on Sample 47A. A strange artifact, delivered unlogged.
+        </div>
+        <div class="action">
+            Reid pulls open a desk drawer. Inside, a crumpled piece of paper. Beltran's handwriting.
+        </div>
+        <div class="cue">
+            (ON SCREEN: BELTRAN'S NOTE)
+        </div>
+        <div class="action">
+            <span class="action">"Don't let the bones finish thinking."</span>
+        </div>
+        <div class="action">
+            Reid looks up, disturbed. O'Connell approaches a cryo storage unit.
+        </div>
+
+        <div class="character-name">O'CONNELL</div>
+        <div class="dialogue">
+            And Sample 47A... it's gone.
+        </div>
+        <div class="action">
+            A small, hidden floor sensor on the lab floor flashes once, then dies. Reid didn't see it.
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">13:00 BST - Aurelion Group HQ, Executive Boardroom</div>
+
+        <div class="scene-heading">INT. AURELION GROUP - BOARDROOM - DAY</div>
+        <div class="action">
+            The mood is tense. DR. S. VEY (50s, Chair), KWAN (CDO), MENDEZ (PR), and DR. LENORA IQBAL (Chief Science Officer, now working for Aurelion) are present. Iqbal looks more composed than in the NHS meeting, though the dark circles under her eyes are pronounced.
+        </div>
+
+        <div class="character-name">VEY</div>
+        <div class="dialogue">
+            UCL disappearances confirmed. Is there a connection to the 47A sample?
+        </div>
+
+        <div class="character-name">IQBAL</div>
+        <div class="dialogue">
+            Highly probable. That sample was unique. 4cm oval, ribbed casing, self-cohering. It resisted melting. Emitted heat on proximity. Our internal analysis showed a crystalline layer with embedded glyphs. Not natural. Not noise.
+        </div>
+
+        <div class="character-name">KWAN</div>
+        <div class="dialogue">
+            (Tapping her tablet)
+            The pattern matches emerging signatures from our LAMI stack, Dr. Vey. This isn't just an anomaly. It's a designed intermediary. Someone put it there.
+        </div>
+
+        <div class="character-name">MENDEZ</div>
+        <div class="dialogue">
+            (Flipping through notes)
+            Regardless of origin, the narrative must hold. 'Marrow misalignment' is trending. The geometric dream reports are increasing. Sky News is prepping a segment. If the glyph coil footage from Tallinn airs again, we lose narrative control completely.
+        </div>
+
+        <div class="character-name">VEY</div>
+        <div class="dialogue">
+            Then we preempt. Dr. Iqbal, your best guess on a public descriptor? Something... reassuringly medical, yet vague enough to absorb everything.
+        </div>
+
+        <div class="character-name">IQBAL</div>
+        <div class="dialogue">
+            'Neurostructural Mythos Disorder' was suggested by COBR. But frankly, it sounds like something from a horror movie. My team drafted 'Somatic Integration Syndrome' for internal NHS use, but for wider public...
+        </div>
+
+        <div class="character-name">MENDEZ</div>
+        <div class="dialogue">
+            (Interrupting)
+            We need to avoid 'infection' or 'spread'. Use 'resonance adaptation'. Focus on 'brief episodes of wordless empathy or knowledge transfer'. 'A new interface is unfolding.' That's positive. Futuristic. Less terrifying.
+        </div>
+        <div class="action">
+            Iqbal looks at Mendez, a flicker of disgust in her eyes, quickly masked.
+        </div>
+        <div class="cue">
+            (ON SCREEN: NHS COMMS DRAFT)
+        </div>
+        <div class="action">
+            <span class="action">"SUBJECT: PUBLIC GUIDANCE - SYMPTOMS RESPONSE. DRAFT - NOT FOR CIRCULATION. OBJECTIVE: Create stable narrative for public to process unexplained symptoms: Bone discomfort or 'internal signal sensation'; Sleep loss with vivid geometric dreaming; Brief episodes of wordless empathy or knowledge transfer; Sudden phonemic echoing (repeating phrases heard only internally). WORKING DIRECTION: Avoid terms like 'infection' or 'spread'. Use 'resonance adaptation'. PHRASE TESTED POSITIVE: 'A new interface is unfolding.' PREFERRED TONE: Gentle, grounding, validating; Avoid terms like 'mutation' or 'hallucination'."</span>
+        </div>
+
+        <div class="character-name">VEY</div>
+        <div class="dialogue">
+            (Nodding, satisfied)
+            Excellent, Mendez. Discredit the footage, the journalists, anyone linking this to Aurelion. And Kwan, escalate forensic audit on LAMI. I want to know who put this Trojan horse in our system.
+        </div>
+
+        <div class="character-name">KWAN</div>
+        <div class="dialogue">
+            Yes, Dr. Vey. We'll be beyond reproach.
+        </div>
+        <div class="action">
+            Mendez begins typing furiously on his tablet, already drafting press releases. Iqbal stares at the screen, then at her own hands, flexing her fingers almost imperceptibly.
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">19:30 BST - Hackney Wick</div>
+
+        <div class="scene-heading">INT. NAILA'S FLAT - LIVING ROOM - EVENING</div>
+        <div class="action">
+            Naila sits hunched over her laptop, scrolling through news articles. Her apartment is dim, the only light from the screen reflecting in her tired eyes. She sees the new headlines, the softened language. "Neurostructural Mythos Disorder," "Resonance Adaptation."
+        </div>
+        <div class="action">
+            She glances at the kitchen sink. The small, ribbed object is still there, undisturbed. It doesn't hum now, but Naila can *feel* its presence, a low thrum against her bones, a silent insistence.
+        </div>
+        <div class="action">
+            She touches her jaw. Her teeth ache, not with pain, but with a strange, internal pressure. A feeling of *readiness*.
+        </div>
+        <div class="action">
+            She tries to remember the taste of blood in her mouth this morning. The flexible teeth. The scream that wasn't a scream. The object in the sink. The dog...
+        </div>
+        <div class="action">
+            She tries to forget it. But the hum is everywhere now. It's not just sound. It's... understanding.
+        </div>
+        <div class="action">
+            Her eyes drift to the broken jar in the garden. She knows, deep down, that the object isn't inert. It's waiting.
+        </div>
+        <div class="action">
+            A sudden, sharp THUMM. Her entire body shivers. She knows what it means. It's not a question. It's a statement.
+        </div>
+
+        <div class="transition">FADE TO BLACK.</div>
+
+        <div class="cue">
+            (SOUND: The persistent, internal HUM. Followed by a new, almost imperceptible, rhythmic CLINKING sound, like delicate bones striking together.)
+        </div>
+
+    </div>
+</body>
+</html>

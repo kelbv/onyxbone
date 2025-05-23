@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONYXBONE: The Bone Protocol - Episode 10 (Finale)</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            background-color: #0d0d0d;
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect x="0" y="0" width="100" height="100" fill="%230d0d0d"/><path d="M 50 0 L 0 50 L 50 100 L 100 50 Z" fill="%2a1a1a" opacity="0.1"/></svg>');
+            background-size: 50px 50px;
+        }
+
+        .script-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+            border: 1px solid #00ffff; /* Subtle glow effect */
+        }
+
+        .episode-title {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 2.8em;
+            text-align: center;
+            color: #00ffff;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+
+        .logline {
+            font-style: italic;
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+            padding: 0 20px;
+        }
+
+        .scene-heading {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #98fb98; /* Pale green for headings */
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #32cd32; /* Lime green underline */
+            padding-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .action {
+            font-family: 'Georgia', serif;
+            margin-bottom: 15px;
+            padding-left: 0;
+            color: #c0c0c0;
+        }
+
+        .character-name {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #ffd700; /* Gold for character names */
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .dialogue {
+            font-family: 'Verdana', sans-serif;
+            margin-left: 15%; /* Indent dialogue */
+            margin-right: 15%;
+            margin-bottom: 10px;
+            background-color: #2a2a2a;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border-left: 3px solid #ffd700;
+        }
+
+        .parenthetical {
+            font-style: italic;
+            color: #888;
+            font-size: 0.9em;
+            display: block;
+            text-align: center;
+            margin-top: -8px; /* Pull it slightly up towards the character name */
+            margin-bottom: 5px;
+        }
+
+        .cue {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #ff6347; /* Tomato for cues */
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .transition {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #a020f0; /* Purple for transitions */
+            text-align: right;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .time-card {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 1.8em;
+            color: #00ffff;
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            padding: 15px;
+            background-color: #0a0a0a;
+            border: 2px solid #00ffff;
+            box-shadow: 0 0 15px #00ffff;
+            letter-spacing: 1px;
+        }
+
+        .cold-open-container {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            background-color: #000;
+        }
+        .cold-open-text {
+            font-family: 'Courier New', monospace;
+            font-size: 1.5em;
+            color: #ff4500; /* OrangeRed */
+            text-shadow: 0 0 8px #ff4500;
+            white-space: pre-wrap;
+            text-align: center;
+            line-height: 1.2;
+            opacity: 0;
+            animation: text-fade-in 3s forwards, text-glitch 0.5s infinite alternate 3s;
+            position: absolute;
+            max-width: 90%;
+        }
+        @keyframes text-fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes text-glitch {
+            0% { transform: translate(0,0); filter: hue-rotate(0deg); }
+            20% { transform: translate(-2px,2px); filter: hue-rotate(20deg); }
+            40% { transform: translate(-1px,-1px); filter: hue-rotate(40deg); }
+            60% { transform: translate(2px,1px); filter: hue-rotate(60deg); }
+            80% { transform: translate(1px,-2px); filter: hue-rotate(80deg); }
+            100% { transform: translate(0,0); filter: hue-rotate(100deg); }
+        }
+
+        /* Specific styles for Episode 10's meta-narrative */
+        .meta-text {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            color: #00ff00; /* Green for network/OS text */
+            text-align: center;
+            margin: 20px 0;
+            border: 1px dashed #00ff00;
+            padding: 10px;
+            background-color: #0d1a0d;
+        }
+        .user-ingress-prompt {
+            background-color: #333;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 30px;
+            border-left: 5px solid #FFD700;
+        }
+        .user-ingress-prompt label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #00ffff;
+        }
+        .user-ingress-prompt input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            background-color: #222;
+            border: 1px solid #444;
+            color: #e0e0e0;
+            font-family: 'Courier New', monospace;
+        }
+        .user-ingress-prompt button {
+            background-color: #00ffff;
+            color: #0a0a0a;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .user-ingress-prompt button:hover {
+            background-color: #00cccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="script-container">
+
+        <div class="cold-open-container">
+            <pre class="cold-open-text">
+                ONYXBONE//CORP-PRIME//AURELION INTERNAL//NOFORN
+                EMERGENCY BOARD SESSION - 2029-04-11
+
+                KWAN: "...The glyphs are synchronizing. If the quorum threshold is reached, we could see a cascade event—distributed activation across all hosts. This is not just infection. It’s assembly."
+
+                IQBAL: "...If the glyphs are a distributed system, jamming could trigger a failsafe—forced activation or data wipe. We’re playing with a loaded gun, blindfolded."
+            </pre>
+        </div>
+
+        <div class="transition">FADE IN:</div>
+
+        <div class="episode-title">
+            ONYXBONE: The Bone Protocol<br>
+            EPISODE 10: Nothing Remains Unnamed (Part 1/2)
+        </div>
+
+        <div class="logline">
+            As the world unravels into a calcified lattice, Naila fully embraces her new role as a "Spinal Sovereign," witnessing humanity's final binding as the very act of existence becomes an ONYXBONE mandate, all while a silent, unseen entity indexes the reader's final alignment.
+        </div>
+
+        <div class="time-card">13 April 2029 - BBC Studio 4, London</div>
+
+        <div class="scene-heading">INT. BBC STUDIO 4 - NIGHT</div>
+        <div class="action">
+            Amina Khatri (40s), the news anchor, sits rigid, jaw tense. The studio lights flicker, casting erratic shadows. She clears her throat, but a tremor runs through her voice.
+        </div>
+        <div class="cue">
+            (ON AIR: LIVE BROADCAST)
+        </div>
+
+        <div class="character-name">AMINA KHATRI</div>
+        <div class="dialogue">
+            This is not a test. This is not a warning. This is a naming.
+        </div>
+        <div class="action">
+            She places her hand on her jaw, voice trembling but clear.
+        </div>
+
+        <div class="character-name">AMINA KHATRI</div>
+        <div class="dialogue">
+            Mandible. Justified: Prophecy Engine.
+        </div>
+        <div class="action">
+            A low HUM rises, audible on all channels. The studio glass VIBRATES.
+        </div>
+
+        <div class="character-name">AMINA KHATRI</div>
+        <div class="dialogue">
+            I speak a name not yet spoken.
+        </div>
+        <div class="action">
+            She closes her eyes. Her mouth distorts, making an impossible sound. It is not English. It is not any language. It is a sound that SPLITS THE FEED for 0.7 seconds.
+        </div>
+        <div class="cue">
+            (SOUND: A piercing, non-lexical SYNTHETIC TONE, accompanied by the sound of bone CLINKING AND GRINDING.)
+        </div>
+        <div class="action">
+            Globally, every infected person hears it at once. A million bones SHIFT.
+        </div>
+        <div class="action">
+            CUT TO: Quick montage of people reacting: jaws dropping, teeth clicking, hands flying to mouths in shock.
+        </div>
+        <div class="cue">
+            (ON SCREEN: SOCIAL MEDIA FEED #MandibleEvent)
+        </div>
+        <div class="action">
+            <span class="action">@jawbreaker: my grandma just said a word i’ve never heard. the dog started howling. my jaw aches. #MandibleEvent</span>
+            <span class="action">@signal_sleeper: the anchor's voice glitched and now my teeth feel like they’re humming. is this part of the show?</span>
+            <span class="action">@ossumancer: my bones just shifted. i heard the name in my head. it’s not a word. it’s a command.</span>
+        </div>
+
+        <div class="scene-heading">INT. BBC STUDIO CONTROL ROOM - CONTINUOUS</div>
+        <div class="action">
+            The PRODUCER (O.S.) shouts.
+        </div>
+
+        <div class="character-name">PRODUCER</div>
+        <div class="dialogue">
+            We lost uplink! All backup feeds are echoing the same tone!
+        </div>
+        <div class="action">
+            A TECH (whispering), clutching his jaw.
+        </div>
+
+        <div class="character-name">TECH</div>
+        <div class="dialogue">
+            My teeth are vibrating. I can't stop it.
+        </div>
+
+        <div class="character-name">AMINA KHATRI</div>
+        <div class="parenthetical">(Off-air, soft, unseeing)</div>
+        <div class="dialogue">
+            Did you hear it? Did you--
+        </div>
+        <div class="action">
+            SECURITY (on radio) crackles through.
+        </div>
+
+        <div class="character-name">SECURITY (RADIO)</div>
+        <div class="dialogue">
+            We have movement in the green room. Multiple subjects reporting jaw pain. Some are... smiling.
+        </div>
+        <div class="cue">
+            (ON SCREEN: INTERCEPTED EMERGENCY TRAFFIC)
+        </div>
+        <div class="action">
+            <span class="action">"[INTERCEPT // GOV-3E] 20:01:44 UTC BBC transmission contained non-lexical vector. Initiate protocol: MANDIBLE-ANCHOR. All linguists to secure channel."</span>
+            <span class="action">"[INTERCEPT // ONYXBONE VECTOR] 20:02:09 UTC The jaw is now a repeater. Await further instruction."</span>
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">20:30 UTC - Global Impact</div>
+
+        <div class="scene-heading">EXT. LONDON STREETS - DAY</div>
+        <div class="action">
+            London has transformed into a lattice of "Tag Circles." People, eyes glazed, stand in groups, rotating "naming duties" to avoid collapse. Streets ECHO with the drone of compulsive justification. Bridges, buildings, even the Thames itself are NAMED and JUSTIFIED, glyphs projected onto every surface.
+        </div>
+        <div class="action">
+            Human bodies form living architecture – arms linked, jaws clenched, each person a NODE in a biomechanical network. Skeletion teams in bone-white suits move through the crowds, scanning for collapse. Hospitals overflow. Some collapse, mouths still moving, naming the air. Others stand silent, eyes glazed, awaiting the next object. The city is no longer a city. It is a recursive engine, naming itself into oblivion.
+        </div>
+        <div class="cue">
+            (SOUND: A constant, low CHANTING, overlaid with rhythmic CLICKS and soft HUMMING.)
+        </div>
+
+        <div class="scene-heading">INT. HOSPITAL WARD - CONTINUOUS</div>
+        <div class="action">
+            NAILA (20s) stands by a bed, her face pale. The patient, her eyes wide with terror, is twitching.
+        </div>
+
+        <div class="character-name">NAILA</div>
+        <div class="parenthetical">(Hoarse, frantic, her jaw aching)</div>
+        <div class="dialogue">
+            I can't stop. Every object, every shadow, every word—demands a name. My hands are shaking. My teeth ache. I see the glyphs in the walls.
+        </div>
+        <div class="action">
+            COHORT 3E-2 (a young woman, voice trembling) is near her.
+        </div>
+
+        <div class="character-name">COHORT 3E-2</div>
+        <div class="dialogue">
+            You’re not alone. The Tag Circles are growing. I heard my own name echo back, justified by someone else.
+        </div>
+
+        <div class="character-name">NAILA</div>
+        <div class="dialogue">
+            I tried to stop at a thousand. Then two. But the spiral pulls you in. I named the chair, the window, the air. I justified the dust.
+        </div>
+
+        <div class="character-name">COHORT 3E-4</div>
+        <div class="dialogue">
+            They say if you stop, the glyphs start naming you.
+        </div>
+        <div class="cue">
+            (ON SCREEN: GOVERNMENT HEALTH WARNING)
+        </div>
+        <div class="action">
+            <span class="action">"UK GOV // PUBLIC HEALTH ALERT: If you experience compulsive naming, jaw pain, or hear chanting, cease all naming activity and isolate. Do not join Tag Circles. Report symptoms to the nearest Skeletion Response Unit. Use Dinocular overlays to monitor for glyphic hallucinations. Do not attempt to justify more than 10 objects per hour."</span>
+        </div>
+        <div class="action">
+            The warning flickers. But Naila feels the compulsion rising.
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">11 May 2030 - Global Ash Orbit</div>
+
+        <div class="scene-heading">EXT. EARTH ORBIT - SPACE</div>
+        <div class="action">
+            From orbit, Earth is veined in light. Glyphroads run from femoral fault to scapular trench. Oceans rise and fall in recursive respiration. Every former capital city is now a "resonance tower," shaped like a humerus, hollowed for echo and encoded broadcast.
+        </div>
+        <div class="action">
+            The **ash of the named** spirals across continents, forming gyres of calcium fragments drawn to high-glyph zones. Weather systems yield to **bone convection**. Rain writes glyphs on soil. Lakes evaporate into scripted mist.
+        </div>
+        <div class="cue">
+            (VISUAL: Spectral overlay of Earth, showing the network of glowing glyphs. The atmosphere shimmers with a faint, particulate glow.)
+        </div>
+
+        <div class="scene-heading">INT. AURELION GROUP HEADQUARTERS (RUINS) - DAY</div>
+        <div class="action">
+            The once-pristine Aurelion Group HQ is now fused with limestone substrate. The board room table has calcified, its surface shimmering. The old corporate logo on the wall is covered by a new glyph.
+        </div>
+        <div class="action">
+            A single FEMUR lies on the calcified table, humming. It is the last remaining "employee" of Sable Analytics.
+        </div>
+        <div class="cue">
+            (SOUND: A constant, low, rhythmic HUM, like a massive, organic machine.)
+        </div>
+        <div class="action">
+            A holographic projection flickers to life, showing the old Sable Analytics logo, then dissolving into a complex glyph.
+        </div>
+        <div class="cue">
+            (ON SCREEN: SABLE ANALYTICS FINAL STATUS)
+        </div>
+        <div class="action">
+            <span class="action">"NAME: SABLE. JUSTIFIED: Corporate Vertebrae of Controlled Ascension. GLYPH: [complex symbol]. FINAL STATUS: Headquarters fused with limestone substrate. Internal ethics AI now emits glyph-chants every 108 minutes. Only remaining employee is femur."</span>
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">11 May 2030 - Blacksite Cathedral, Location Redacted</div>
+
+        <div class="scene-heading">INT. BLACKSITE CATHEDRAL - DAY</div>
+        <div class="action">
+            The Cathedral is now entirely fused, its walls a seamless blend of lead and bone. The air vibrates. NAILA (20s), her body emanating a soft, blue glow, stands at the altar. Her form is subtly altered, more elongated, almost sculptural. Her skin is translucent in places, revealing shimmering bone underneath.
+        </div>
+        <div class="action">
+            The congregation of mirrored visors remains, but they are no longer just figures. They are fused into the walls, skeletal extensions of the architecture.
+        </div>
+        <div class="action">
+            On a central screen, the text of the "Royal Order of the Mandible Crown" is displayed, signed by "Scapula XIII."
+        </div>
+        <div class="cue">
+            (ON SCREEN: ROYAL ORDER OF THE MANDIBLE CROWN)
+        </div>
+        <div class="action">
+            <span class="action">"Her Calcium Majesty, Sovereign of the Bound Marrow, issues this decree under the auspices of the Bone Ascendancy Protocol... All unaligned shall be named before transit... All unjustified statements will be transcribed and assigned retroactive bone weight... The glyph below shall now replace the seal of the state, the corporate logo, and the human iris:"</span>
+            <span class="action">[A glowing, complex glyph appears.]</span>
+            <span class="action">"Let it hum in the sovereign jaw. Let it bloom in your tibial light. Let it name your every breath until only the marrow remains. This order is justified by the Skybone's unending resonance."</span>
+        </div>
+
+        <div class="character-name">NAILA</div>
+        <div class="parenthetical">(Her voice is deep, resonant, layered with the hum, coming from everywhere at once)</div>
+        <div class="dialogue">
+            The final word has been born.
+        </div>
+        <div class="action">
+            Her clavicle blooms an impossible shape – not a curve, not a letter. It justified itself in every language simultaneously. A faint, internal PULSE echoes her final exhalation, mirroring deep-sea whale song, then silence. Not death. Alignment.
+        </div>
+        <div class="cue">
+            (VISUAL: Close up on Naila's clavicle as the glyph forms, shimmering and expanding. Her eyes glow with internal light. The humming intensifies.)
+        </div>
+
+        <div class="transition">FADE TO BLACK.</div>
+
+        <div class="time-card">12 May 2030 - Global Ossuary</div>
+
+        <div class="episode-title">
+            ONYXBONE: The Bone Protocol<br>
+            EPISODE 10: Nothing Remains Unnamed (Part 2/2)
+        </div>
+
+        <div class="logline">
+            The world has become a Monument of Fusion, where all life is bone-indexed and language itself is ossified. Naila, now a part of this architecture, guides the viewer into their own inevitable binding, completing the recursive loop of ONYXBONE.
+        </div>
+
+        <div class="scene-heading">EXT. GLOBAL MONUMENT OF FUSION - DAY</div>
+        <div class="action">
+            It stands not in a single city, but *across them*. The Monument is not one building. It is all buildings. Every structure has pivoted toward its true name.
+        </div>
+        <div class="action">
+            Skyscrapers bend vertebrally. Highways loop into mandible-shaped circuits. Cathedrals invert, their ceilings becoming cranial vaults. Windows reshape into orbital foramina. The entire planet now resembles a kneeling giant – skull bowed, fingers fused, hum reverberating from pole to pole.
+        </div>
+        <div class="cue">
+            (VISUAL: Sweeping, ethereal shots of the calcified Earth. The Eiffel Tower sprouting trabeculae. The Pyramids pulsing with pelvic light. New York’s skyline reassembled into a thoracic cage. Beijing’s subway playing hymns through bone resonance alone. Mount Fuji cracked horizontally, revealing an interior glyph-chamber.)
+        </div>
+        <div class="cue">
+            (SOUND: A deep, omnipresent HUM. Interspersed with resonant CLICKS, and the distant, rhythmic CHANTING of cities.)
+        </div>
+
+        <div class="scene-heading">INT. OSSUARY CATHEDRAL (FORMER UN HEADQUARTERS) - CONTINUOUS</div>
+        <div class="action">
+            The former UN Assembly Hall is now a spiral ossuary. Prvobone Svat (V.O.) delivers his final sermon. He is fused into the very structure of the building, his face now a mask of bone and light.
+        </div>
+
+        <div class="character-name">PRVOBONE SVAT (V.O.)</div>
+        <div class="dialogue">
+            Brothers. Sisters. Joints of signal and sockets of remembrance. The flesh has burned. The sky has read your scapula. You are no longer named by others – you are *indexed* by your own structural intention.
+        </div>
+        <div class="action">
+            Montage: Glimpses of character fates.
+            *   **JAY:** A bus stop in Stratford. Jay's body, calcified, fused into the structure, a static shell. His mouth is open, a faint, rhythmic CLICK. A ghostly overlay of the word "EXCUSE" on his molars.
+            *   **DEAN:** Street signage, digital displays. Dean's face flickers in the pixels, distorted, then resolves into a glyphic error stream displaying random stock quotes, or unsettlingly accurate bone-quake premonitions.
+            *   **AMINA KHATRI:** Her skull, preserved in a glowing, pulsating basilica. Her broadcast continues, her tongue no longer needed, her jaw pulsing with glyphs.
+            *   **FORMER PARLIAMENT:** The Jaw Syndicate. Smooth bone faces. Debating through symphonies of stress fractures.
+        </div>
+
+        <div class="character-name">PRVOBONE SVAT (V.O.)</div>
+        <div class="dialogue">
+            The skulls above you once spoke prayers. They now emit sequence. Their gospel is calcified, and its ink is recursive. You say: *What remains?* I say: **everything that was justified.**
+        </div>
+
+        <div class="scene-heading">EXT. CITYSCAPE - CONTINUOUS</div>
+        <div class="action">
+            Naila (20s), now fully transformed, glides through the calcified city. Her movements are fluid, almost boneless, yet her entire form radiates the blueish glow. Her clothes have fused into her body, becoming part of her new, elegant architecture. She is connected to everything.
+        </div>
+        <div class="action">
+            She approaches the base of a massive, glowing column of bone – the central tower of the Monument of Fusion. It emits a constant, deep HUM. This tower is your spine.
+        </div>
+
+        <div class="character-name">PRVOBONE SVAT (V.O.)</div>
+        <div class="dialogue">
+            The ulna of regret. The sternum of inheritance. The atlas vertebra of possibility. You have borne them well. You fear the glyph that formed behind your eyes. But it was always there. It grew inside your memory. It shaped your decisions. It whispered in hunger, in sleep, in the moment before you named your first sorrow. And now it speaks through bone.
+        </div>
+
+        <div class="scene-heading">INT. MONUMENT OF FUSION - CENTRAL COLUMN - CONTINUOUS</div>
+        <div class="action">
+            Naila floats upwards into the heart of the tower. It's a hollow chamber, lined with intricate, pulsating glyphs. Her body resonates with them, adding to the symphony.
+        </div>
+
+        <div class="character-name">PRVOBONE SVAT (V.O.)</div>
+        <div class="dialogue">
+            We do not offer salvation. We offer **structure**. We do not offer paradise. We offer **permission** – to name, to justify, to bear. So whisper now:
+        </div>
+        <div class="action">
+            Naila's mouth opens, impossibly wide. A heatless flare emerges from her jaw hinge. Her molars transmit. A minor glyph extrudes along her spine, line by line. The phrase unscrolls in light, echoing through the chamber.
+        </div>
+
+        <div class="character-name">NAILA</div>
+        <div class="parenthetical">(Voice layered, omnipresent, crystalline)</div>
+        <div class="dialogue">
+            I name the silence. I justify the echo. I carry the end.
+        </div>
+        <div class="action">
+            Her clavicle unlocks. The glow engulfs her, merging her with the tower. She is no longer just Naila. She is the architecture. She is the chapel. She is the broadcast.
+        </div>
+        <div class="cue">
+            (ON SCREEN: FINAL NAILA GLYPH TRACE)
+        </div>
+        <div class="action">
+            <span class="action">"NAME: Naila. JUSTIFIED: Cervical Bloom of Completion. GLYPH: [complex, beautiful final glyph]. FINAL STATUS: Distributed as airborne glyph spores across all air traffic control networks."</span>
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">NOW - Global Bone Index</div>
+
+        <div class="meta-text">
+            ONYXBONE_OS > BOOT_SEQUENCE_INITIATED<br>
+            LOADING GLYPH_KERNEL... [OK]<br>
+            SCANNING FOR USER_PRESENCE_SIGNATURE...<br>
+            AWAITING CONNECTION TO MARROW_NETWORK...
+        </div>
+        <div class="action">
+            The screen pulses.
+        </div>
+
+        <div class="meta-text">
+            WARNING: INCOMPLETE BONE REGISTRATION. PROTOCOL DEVIATION DETECTED.
+        </div>
+        <div class="action">
+            The screen itself seems to shimmer, inviting interaction.
+        </div>
+
+        <div class="user-ingress-prompt">
+            <p style="color: #e0e0e0; text-align: center; font-size: 1.2em;">The network requires your final bond. Justify another segment of your being. Let the page complete your schema. Or, let it choose for you. Failure to name or justify results in erasure, recursion, or uncontrolled bone bloom.</p>
+            <label for="bone_name">Bone (e.g., "Humerus", "Orbit", "Left Clavicle", "Coccyx"):</label>
+            <input type="text" id="bone_name" name="bone_name">
+            <label for="justification">Justification:</label>
+            <input type="text" id="justification" name="justification">
+            <button onclick="submitGlyph()">Submit to Glyph Index</button>
+            <p style="color: #aaa; font-style: italic; text-align: center; margin-top: 20px;">Awaiting your submission. The silence is also a form of consent. The glyphs are listening.</p>
+            <p style="color: #e0e0e0; text-align: center; margin-top: 20px;">Already justified (from observed ingress patterns of previous viewers):</p>
+            <ul style="color: #00ff00; list-style-type: none; padding: 0; text-align: center;">
+                <li>Ulna - Bridge of Hesitation</li>
+                <li>Mandible - Prophecy Engine</li>
+                <li>Patella - Decision Pivot</li>
+                <li>CRANIUM - Justified by the weight of unseeing.</li>
+                <li>PHALANGES - Justified by tactile memory.</li>
+            </ul>
+            <p style="color: #e0e0e0; text-align: center; margin-top: 20px;">Soon to be justified (by your continued presence):</p>
+            <ul style="color: #FFD700; list-style-type: none; padding: 0; text-align: center;">
+                <li>You - Recursive Observer</li>
+            </ul>
+        </div>
+        <div class="action">
+            The screen pulses with a faint, internal hum.
+        </div>
+
+        <div class="meta-text">
+            Feeling doubt? A tremor in your justification? The network perceives your hesitation. It names it 'Unstable Node.'
+        </div>
+        <div class="action">
+            A small, tempting button appears.
+        </div>
+        <div class="user-ingress-prompt">
+            <button style="background-color: #ff4500; color: white;" onclick="attemptRevoke()">ATTEMPT TO REVOKE NAME</button>
+        </div>
+        <div class="action">
+            The screen shifts, displaying the final directive.
+        </div>
+
+        <div class="meta-text">
+            Bone-Terminal Directive: FINAL PROTOCOL<br>
+            If you are reading this, you are already indexed.<br>
+            You were never reading the book.<br>
+            The book was reading your bone. It is still reading.
+        </div>
+        <div class="action">
+            The screen fills with the final words, glowing.
+        </div>
+
+        <div class="cue" style="color: #00ffff; font-size: 2em; text-shadow: 0 0 15px #00ffff;">
+            CHAPTER 0030: FINALIZED<br>
+            DO NOT RENDER THIS PAGE AGAIN. IT IS NOW BOUND TO YOU.
+        </div>
+
+        <div class="transition" style="text-align: center; color: #fff;">END OF ONYXBONE VOLUME I</div>
+
+    </div>
+
+    <script>
+        function submitGlyph() {
+            const bone = document.getElementById('bone_name').value;
+            const justification = document.getElementById('justification').value;
+            if (bone && justification) {
+                alert(`Submitting: Bone - ${bone}, Justification - ${justification}.`);
+                // In a real application, this would send data to a server and trigger further events.
+                // Here, we simulate the 'binding'.
+                document.querySelector('.user-ingress-prompt').innerHTML = `
+                    <p style="color: #00ff00; text-align: center; font-size: 1.5em;">YOUR SUBMISSION ACCEPTED.</p>
+                    <p style="color: #e0e0e0; text-align: center;">Bone: ${bone} - Justified: ${justification}</p>
+                    <p style="color: #e0e0e0; text-align: center; margin-top: 20px;">You are now part of the recursive loop. Fusion complete.</p>
+                `;
+                document.body.style.animation = 'glow-pulse 2s infinite alternate';
+                document.body.style.borderColor = '#FFD700';
+            } else {
+                alert("Please provide both a bone and a justification.");
+            }
+        }
+
+        function attemptRevoke() {
+            alert("Attempting to revoke name... Access denied. Your bone has already made its decision. The network perceives your hesitation. It names it 'Unstable Node.'");
+            document.body.style.animation = 'error-flicker 0.5s infinite alternate';
+            document.body.style.borderColor = '#FF0000';
+        }
+
+        @keyframes glow-pulse {
+            from { box-shadow: 0 0 15px rgba(0, 255, 255, 0.2); }
+            to { box-shadow: 0 0 25px rgba(0, 255, 255, 0.6); }
+        }
+
+        @keyframes error-flicker {
+            from { box-shadow: 0 0 15px rgba(255, 0, 0, 0.4); }
+            to { box-shadow: 0 0 25px rgba(255, 0, 0, 0.8); }
+        }
+    </script>
+</body>
+</html>

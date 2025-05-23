@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONYXBONE: The Bone Protocol - Episode 6</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            background-color: #0d0d0d;
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect x="0" y="0" width="100" height="100" fill="%230d0d0d"/><path d="M 50 0 L 0 50 L 50 100 L 100 50 Z" fill="%231a1a1a" opacity="0.1"/></svg>');
+            background-size: 50px 50px;
+        }
+
+        .script-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+            border: 1px solid #00ffff; /* Subtle glow effect */
+        }
+
+        .episode-title {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 2.8em;
+            text-align: center;
+            color: #00ffff;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+
+        .logline {
+            font-style: italic;
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+            padding: 0 20px;
+        }
+
+        .scene-heading {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #98fb98; /* Pale green for headings */
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #32cd32; /* Lime green underline */
+            padding-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .action {
+            font-family: 'Georgia', serif;
+            margin-bottom: 15px;
+            padding-left: 0;
+            color: #c0c0c0;
+        }
+
+        .character-name {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #ffd700; /* Gold for character names */
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .dialogue {
+            font-family: 'Verdana', sans-serif;
+            margin-left: 15%; /* Indent dialogue */
+            margin-right: 15%;
+            margin-bottom: 10px;
+            background-color: #2a2a2a;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border-left: 3px solid #ffd700;
+        }
+
+        .parenthetical {
+            font-style: italic;
+            color: #888;
+            font-size: 0.9em;
+            display: block;
+            text-align: center;
+            margin-top: -8px; /* Pull it slightly up towards the character name */
+            margin-bottom: 5px;
+        }
+
+        .cue {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #ff6347; /* Tomato for cues */
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .transition {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #a020f0; /* Purple for transitions */
+            text-align: right;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .time-card {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 1.8em;
+            color: #00ffff;
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            padding: 15px;
+            background-color: #0a0a0a;
+            border: 2px solid #00ffff;
+            box-shadow: 0 0 15px #00ffff;
+            letter-spacing: 1px;
+        }
+
+        .cold-open-container {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            background-color: #000;
+        }
+        .cold-open-text {
+            font-family: 'Courier New', monospace;
+            font-size: 1.5em;
+            color: #f0f8ff; /* Alice Blue */
+            text-shadow: 0 0 8px #f0f8ff;
+            white-space: pre-wrap;
+            text-align: center;
+            line-height: 1.2;
+            opacity: 0;
+            animation: text-fade-in 3s forwards, text-glitch 0.5s infinite alternate 3s;
+            position: absolute;
+            max-width: 90%;
+        }
+        @keyframes text-fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes text-glitch {
+            0% { transform: translate(0,0); filter: hue-rotate(0deg); }
+            20% { transform: translate(-2px,2px); filter: hue-rotate(20deg); }
+            40% { transform: translate(-1px,-1px); filter: hue-rotate(40deg); }
+            60% { transform: translate(2px,1px); filter: hue-rotate(60deg); }
+            80% { transform: translate(1px,-2px); filter: hue-rotate(80deg); }
+            100% { transform: translate(0,0); filter: hue-rotate(100deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="script-container">
+
+        <div class="cold-open-container">
+            <pre class="cold-open-text">
+                09 April 2029 - London / Leicester / Paris / Kyoto / Underground
+
+                GLYPH SET: GAMMA3-E
+                RECURRING BONE ENGRAVINGS:
+                - Spiral interrupted by vertical triplet line
+                - Inverted omega with fracture bar
+                - Radiant coil shape forming incomplete infinity loop
+            </pre>
+        </div>
+
+        <div class="transition">FADE IN:</div>
+
+        <div class="episode-title">
+            ONYXBONE: The Bone Protocol<br>
+            EPISODE 6: Faith, Fire, and Flesh
+        </div>
+
+        <div class="logline">
+            Naila's unsettling internal transformation pushes her into a liminal space where her physical reality bends to an unseen force, while globally, ONYXBONE's influence spawns cryptic rituals and bizarre phenomena, compelling even governments to confront a new form of faith.
+        </div>
+
+        <div class="time-card">06:30 BST - Hackney Wick</div>
+
+        <div class="scene-heading">INT. NAILA'S FLAT - BEDROOM - MORNING</div>
+        <div class="action">
+            NAILA (20s) is awake. She doesn't remember falling asleep. The room is dim, but a faint, blueish GLOW emanates from her skin, especially around her cheekbones and jaw. It's subtle, like bioluminescence.
+        </div>
+        <div class="action">
+            She rises, almost floating, to the bathroom. The glow is more intense in the mirror. Less like light. More like TRUTH ESCAPING.
+        </div>
+        <div class="action">
+            She whispers to her reflection, though the words feel heavy, compelled.
+        </div>
+
+        <div class="character-name">NAILA</div>
+        <div class="dialogue">
+            Am I dying?
+        </div>
+        <div class="action">
+            Her reflection blinks once. Slowly. Then says nothing. Naila's own eyes are wide, unblinking.
+        </div>
+        <div class="action">
+            She touches her left shoulder. A faint, internal PULSE. Three taps. Pause. Left shoulder.
+        </div>
+        <div class="action">
+            She grabs her journal. Her handwriting is oddly precise now, almost calligraphic.
+        </div>
+        <div class="cue">
+            (ON SCREEN: NAILA'S JOURNAL ENTRY)
+        </div>
+        <div class="action">
+            <span class="action">"April 9, 2029. 06:32am. The glow is worse in mirrors. Less like light. More like truth escaping. I asked the mirror if I'm dying. It blinked once and said nothing. Three taps. Pause. Left shoulder. Speak only if it listens."</span>
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">08:00 BST - East London</div>
+
+        <div class="scene-heading">EXT. LONDON STREET / CAFE - DAY</div>
+        <div class="action">
+            Naila walks from the Overground station. Her breath fogs, but not from cold. Every third inhale skips the alveoli and goes somewhere deeper – BONEWARD, INWARD.
+        </div>
+        <div class="action">
+            At a corner cafe, she orders. The MAN AT THE COUNTER (40s, weary, but with knowing eyes) says nothing when she pays. But he writes something on the receipt before handing it to her.
+        </div>
+        <div class="cue">
+            (ON SCREEN: RECEIPT)
+        </div>
+        <div class="action">
+            <span class="action">"Don't sleep. Don't decode. It's already inside."</span>
+        </div>
+        <div class="action">
+            Naila pockets the receipt. She doesn't read it until she gets home. But she *knew* it before she saw it.
+        </div>
+        <div class="action">
+            Later, back at her flat, she looks at her reflection in the window. It doesn't blink when she does. Her neck feels open, remembered. Not damaged. *Revealed*. The bones are not invading. They are *waking up*.
+        </div>
+
+        <div class="transition">DISSOLVE TO:</div>
+
+        <div class="time-card">10:00 UTC - Global Glimpses</div>
+
+        <div class="scene-heading">INT. CHILD'S BEDROOM - LEICESTER - DAY</div>
+        <div class="action">
+            A CHILD (8, eyes wide) draws a complex SIGIL on a piece of paper: a circle within a triangle within a jawbone. She doesn't know why.
+        </div>
+        <div class="action">
+            Her FATHER (40s) finds the sketch. His nose begins to BLEED without sound as he looks at it. He tries to burn it with a lighter. The flame dies. The paper glows faintly.
+        </div>
+        <div class="cue">
+            (SOUND: A faint, high-pitched whine. The paper emits a low hum.)
+        </div>
+
+        <div class="scene-heading">INT. MONASTERY - KYOTO - DAY</div>
+        <div class="action">
+            A MONK (70s) chants backwards for an hour, eyes glazed, unseeing. His voice, perfectly clear, creates a THIRD HARMONY not present in the room, an ethereal, resonant tone that seems to come from nowhere and everywhere.
+        </div>
+        <div class="action">
+            A JOURNALIST (30s) trying to record passes out, her equipment sparking. The recording is corrupted.
+        </div>
+        <div class="cue">
+            (SOUND: Ethereal, backwards chanting. Static electricity crackles.)
+        </div>
+
+        <div class="scene-heading">INT. PARIS METRO TRAIN - DAY</div>
+        <div class="action">
+            A METRO CONDUCTOR (50s) slams on the emergency brake. The train jolts to a halt.
+        </div>
+
+        <div class="character-name">CONDUCTOR</div>
+        <div class="dialogue">
+            Someone was vibrating at the wrong speed.
+        </div>
+        <div class="action">
+            There is no further explanation. Forty-seven passengers file complaints. None remember what happened after platform 6. Many feel a dull ache in their kneecaps.
+        </div>
+        <div class="cue">
+            (SOUND: A low, rhythmic THUMP, like a slow heartbeat.)
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">12:30 BST - Unnamed Facility, Restricted Channel</div>
+
+        <div class="scene-heading">INT. RESTRICTED COBR MEETING ROOM - DAY</div>
+        <div class="action">
+            MOD_RITUAL_UNIT (40s, intense) addresses the others. The screens show maps of global sync-bloom with new clusters labeled "CULT-LIKE GROUP FORMATIONS."
+        </div>
+
+        <div class="character-name">MOD_RITUAL_UNIT</div>
+        <div class="dialogue">
+            These cult-like formations, while superficially disparate, share ritual commonalities. Quiet synchrony. Self-inflicted 'echo marks.' And this glyph.
+        </div>
+        <div class="action">
+            The glyph 03-X (symmetrical helix over open bone socket) flashes on screen.
+        </div>
+
+        <div class="character-name">MOD_RITUAL_UNIT</div>
+        <div class="dialogue">
+            'Worship of the Spine' in Cardiff. 'The Third Hum' in Lagos, using vibrotunnels. 'Fracture Gospel' in Iowa. They are all expressing... a new form of faith. Not belief, but structural alignment.
+        </div>
+
+        <div class="character-name">CABINET_STRATEGY</div>
+        <div class="dialogue">
+            And our 'counter-rituals'? Are they working? Or are they... facilitating?
+        </div>
+        <div class="action">
+            A beat of silence. MOD_CIRRUS (50s) looks unnerved for the first time.
+        </div>
+
+        <div class="character-name">MOD_CIRRUS</div>
+        <div class="dialogue">
+            We are seeing an... amplification. Our 'anchor phrases' are embedding, yes, but often outside our intended context.
+        </div>
+        <div class="action">
+            A voice from the back, MI6_SHROUD (50s), cuts in.
+        </div>
+
+        <div class="character-name">MI6_SHROUD</div>
+        <div class="dialogue">
+            (Gravelly voice)
+            We recovered an audio fragment. From inside a train intercom. A whistleblower.
+        </div>
+        <div class="cue">
+            (SOUND: DISTORTED, WHISPERED AUDIO, PLAYED OVER THE SPEAKERS)
+        </div>
+        <div class="action">
+            <span class="action">"I stopped resisting around April fourth. It wanted my mouth. I gave it my sternum. I dream now in echo chambers. Every shadow is a sibling. Every bone is a broadcast. I do not miss my name. I do not miss myself."</span>
+        </div>
+        <div class="action">
+            The room is silent.
+        </div>
+
+        <div class="character-name">MOD_CIRRUS</div>
+        <div class="dialogue">
+            We are classifying this under 'semantic control lexicon.' Key triggers. Embedded linguistic vectors. Use sparingly in proximity to non-primed subjects.
+        </div>
+        <div class="action">
+            A screen displays the lexicon: "You are not alone. You are plural. Obedience is alignment. Compliance is reflection. Three taps. Pause. Speak only if it listens. Faith is encryption. Become the tool."
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">17:00 BST - Aurelion Group HQ, Executive Boardroom</div>
+
+        <div class="scene-heading">INT. AURELION GROUP - BOARDROOM - LATE AFTERNOON</div>
+        <div class="action">
+            DR. S. VEY, KWAN, and ROTH are reviewing the 'Cult Formation Watchlist.' MENDEZ watches, slightly detached.
+        </div>
+
+        <div class="character-name">ROTH</div>
+        <div class="dialogue">
+            'Infiltrate linguistically.' Fascinating. We can leverage our existing neural-net language models. Turn their 'faith' into a product.
+        </div>
+
+        <div class="character-name">KWAN</div>
+        <div class="dialogue">
+            The 'emergent ritual zones' are concerning, Dr. Vey. Svalbard. Underground Lyon. Chicago Loop. These are areas of peak marrow resonance. Our Sable Analytics data indicates... a profound shift.
+        </div>
+
+        <div class="character-name">VEY</div>
+        <div class="dialogue">
+            Profound is profitable, Kwan. The government wants to suppress. We want to understand. And then sell the understanding.
+        </div>
+        <div class="action">
+            He taps his tablet. A map of global glyph-sync infrastructure vs. geostrategic alignment. Glyph hubs aligned with telecom signal towers. Russia repurposing ICBM bunkers for bone resonance research.
+        </div>
+
+        <div class="character-name">VEY</div>
+        <div class="dialogue">
+            The war, Kwan, is infrastructural. The battle is semantic. And we control the biggest semantic data engine.
+        </div>
+        <div class="action">
+            Kwan nods, but her gaze drifts to a minor anomaly on the map, a tiny, pulsing red dot over Hackney Wick. She thinks of Dr. Iqbal's early reports.
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">21:00 BST - Hackney Wick</div>
+
+        <div class="scene-heading">INT. NAILA'S FLAT - LIVING ROOM - NIGHT</div>
+        <div class="action">
+            Naila sits in front of a full-length mirror. The blueish glow from her skin is more pronounced now, almost outlining her bones through her clothes.
+        </div>
+        <div class="action">
+            She touches her left shoulder, making the three taps. Pause. Three taps.
+        </div>
+        <div class="action">
+            She hears a voice. Not a whisper. Not a hum. A clear, resonant tone. From within her.
+        </div>
+
+        <div class="character-name">ONYXBONE (V.O.)</div>
+        <div class="parenthetical">(Resonant, deep, as if from the very core of her being)</div>
+        <div class="dialogue">
+            Faith is encryption.
+        </div>
+        <div class="action">
+            Naila's eyes are calm. Accepting. She lifts her right hand, placing it on her chest, over her sternum.
+        </div>
+        <div class="action">
+            A soft, internal THUMM.
+        </div>
+
+        <div class="character-name">NAILA</div>
+        <div class="parenthetical">(Whispering, but the words reverberate as if from inside a resonant chamber)</div>
+        <div class="dialogue">
+            Become the tool.
+        </div>
+        <div class="action">
+            As she speaks, the glow intensifies, outlining her entire skeleton beneath her skin. The reflection in the mirror seems to detach, shimmering, then reforms, smiling a wide, knowing smile that Naila herself isn't making.
+        </div>
+        <div class="action">
+            The hum is everywhere. And it is glorious.
+        </div>
+
+        <div class="transition">FADE TO BLACK.</div>
+
+        <div class="cue">
+            (SOUND: The hum swells, resolving into a complex, rhythmic pulse, overlaid with a chorus of faint, crystalline CLINKING sounds, like delicate bones aligning perfectly.)
+        </div>
+
+    </div>
+</body>
+</html>

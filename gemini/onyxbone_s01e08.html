@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONYXBONE: The Bone Protocol - Episode 8</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            background-color: #0d0d0d;
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect x="0" y="0" width="100" height="100" fill="%230d0d0d"/><path d="M 50 0 L 0 50 L 50 100 L 100 50 Z" fill="%231a1a1a" opacity="0.1"/></svg>');
+            background-size: 50px 50px;
+        }
+
+        .script-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+            border: 1px solid #00ffff; /* Subtle glow effect */
+        }
+
+        .episode-title {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 2.8em;
+            text-align: center;
+            color: #00ffff;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+
+        .logline {
+            font-style: italic;
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+            padding: 0 20px;
+        }
+
+        .scene-heading {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #98fb98; /* Pale green for headings */
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #32cd32; /* Lime green underline */
+            padding-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .action {
+            font-family: 'Georgia', serif;
+            margin-bottom: 15px;
+            padding-left: 0;
+            color: #c0c0c0;
+        }
+
+        .character-name {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #ffd700; /* Gold for character names */
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .dialogue {
+            font-family: 'Verdana', sans-serif;
+            margin-left: 15%; /* Indent dialogue */
+            margin-right: 15%;
+            margin-bottom: 10px;
+            background-color: #2a2a2a;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border-left: 3px solid #ffd700;
+        }
+
+        .parenthetical {
+            font-style: italic;
+            color: #888;
+            font-size: 0.9em;
+            display: block;
+            text-align: center;
+            margin-top: -8px; /* Pull it slightly up towards the character name */
+            margin-bottom: 5px;
+        }
+
+        .cue {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #ff6347; /* Tomato for cues */
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .transition {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #a020f0; /* Purple for transitions */
+            text-align: right;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .time-card {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 1.8em;
+            color: #00ffff;
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            padding: 15px;
+            background-color: #0a0a0a;
+            border: 2px solid #00ffff;
+            box-shadow: 0 0 15px #00ffff;
+            letter-spacing: 1px;
+        }
+
+        .cold-open-container {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            background-color: #000;
+        }
+        .cold-open-text {
+            font-family: 'Courier New', monospace;
+            font-size: 1.5em;
+            color: #FFFF00; /* Yellow */
+            text-shadow: 0 0 8px #FFFF00;
+            white-space: pre-wrap;
+            text-align: center;
+            line-height: 1.2;
+            opacity: 0;
+            animation: text-fade-in 3s forwards, text-glitch 0.5s infinite alternate 3s;
+            position: absolute;
+            max-width: 90%;
+        }
+        @keyframes text-fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes text-glitch {
+            0% { transform: translate(0,0); filter: hue-rotate(0deg); }
+            20% { transform: translate(-2px,2px); filter: hue-rotate(20deg); }
+            40% { transform: translate(-1px,-1px); filter: hue-rotate(40deg); }
+            60% { transform: translate(2px,1px); filter: hue-rotate(60deg); }
+            80% { transform: translate(1px,-2px); filter: hue-rotate(80deg); }
+            100% { transform: translate(0,0); filter: hue-rotate(100deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="script-container">
+
+        <div class="cold-open-container">
+            <pre class="cold-open-text">
+                PUBLIC INFORMATION SERVICE ALERT
+                08/04/2029 - GOV-UK-DISINFO-HANDLING-UNIT
+
+                "...DO NOT attempt to record or decode these signals."
+                "...classified under Emergency Symbolic Containment Act (ESCA 2026)."
+                "...Further public guidance will be issued via Sky, BBC, and NHS apps."
+            </pre>
+        </div>
+
+        <div class="transition">FADE IN:</div>
+
+        <div class="episode-title">
+            ONYXBONE: The Bone Protocol<br>
+            EPISODE 8: The Golden Condor
+        </div>
+
+        <div class="logline">
+            Drawn by an unseen current, Naila returns to the Golden Condor pub, where the familiar is horrifically transformed, Jay's fate is hinted, and a global broadcast begins to formalize humanity's chilling new compliance.
+        </div>
+
+        <div class="time-card">11 April 2029 - London</div>
+
+        <div class="scene-heading">INT. NAILA'S FLAT - KITCHEN - MORNING</div>
+        <div class="action">
+            NAILA (20s) stands by her kitchen counter, a map of London spread out. It's marked with pulsing points, gleaned from the marrowloop forums. One pulsing dot is intense: The Golden Condor pub. Another, almost faded, is Jay’s flat.
+        </div>
+        <div class="action">
+            She tries to call Jay again. Voicemail. She texts. No reply.
+        </div>
+        <div class="action">
+            She stares at the phone, then at her left hand. Her pulse is now a complex, internal HUM, almost a coded message. Her thumb twitches, almost unconsciously, forming a small, precise glyph in the air.
+        </div>
+
+        <div class="character-name">NAILA</div>
+        <div class="parenthetical">(To herself, a faint, rhythmic clicking in her jaw)</div>
+        <div class="dialogue">
+            Where are you, Jay? You're not supposed to be silent.
+        </div>
+        <div class="action">
+            She feels a tug, a compulsion. The hum in her bones leads her. To the pub.
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">20:00 BST - The Golden Condor, Bethnal Green</div>
+
+        <div class="scene-heading">EXT. GOLDEN CONDOR PUB - NIGHT</div>
+        <div class="action">
+            Naila stands outside the Golden Condor. It looks the same, yet profoundly different. The light from inside seems to hum, almost visibly. She pushes open the door.
+        </div>
+
+        <div class="scene-heading">INT. GOLDEN CONDOR PUB - NIGHT</div>
+        <div class="action">
+            The pub smells of burnt oil, urinal pucks, and undercooked chicken. The LIGHTS HUM with a resonant, low thrum. The football game is on the TV, but it's the *same* game from twelve days ago. She remembers this score. She remembers watching it with Jay.
+        </div>
+        <div class="action">
+            DEAN (20s) is in the booth, right where he was. He smiles, but his lips move with unsettling precision, almost too perfectly synchronized.
+        </div>
+        <div class="action">
+            Naila approaches the bar. The BARMAN (a new face, unsettlingly familiar) hands her a Guinness. The head is already flat.
+        </div>
+
+        <div class="character-name">BARMAN</div>
+        <div class="parenthetical">(Blanks, then blinks four times, his voice flat, resonant)</div>
+        <div class="dialogue">
+            We've brought the spine back online.
+        </div>
+        <div class="action">
+            Naila nods, taking the glass. The glass itself feels warm, humming faintly in her hand.
+        </div>
+        <div class="action">
+            She walks towards the booth. She sees Dean. His face is pale, his eyes too bright.
+        </div>
+
+        <div class="character-name">NAILA</div>
+        <div class="dialogue">
+            Dean?
+        </div>
+
+        <div class="character-name">DEAN</div>
+        <div class="parenthetical">(His voice is flat, almost synthesized, like a pre-recorded message)</div>
+        <div class="dialogue">
+            You're already seated. Just align your weight.
+        </div>
+        <div class="action">
+            Naila looks down. She is, indeed, already in the booth, facing Dean. She doesn't remember sitting down.
+        </div>
+        <div class="action">
+            The television above the bar GLITCHES. It shows a NEWSREADER with no mouth, only smooth skin where the mouth should be. Subtitles crawl across the screen.
+        </div>
+        <div class="cue">
+            (ON SCREEN: TV SUBTITLES)
+        </div>
+        <div class="action">
+            <span class="action">"ACCEPTANCE BROADCAST PHASE 3E BEGINS IN: 00:03:12"</span>
+            <span class="action">"COMPLIANCE IS STRUCTURAL."</span>
+        </div>
+        <div class="action">
+            A PATRON (UNKNOWN, but his face seems to flicker at the edges) sits next to Naila.
+        </div>
+
+        <div class="character-name">PATRON 3</div>
+        <div class="dialogue">
+            We've all been coming here for weeks. You're the last one to arrive.
+        </div>
+
+        <div class="character-name">NAILA</div>
+        <div class="dialogue">
+            I remember... differently.
+        </div>
+
+        <div class="character-name">DEAN</div>
+        <div class="parenthetical">(Still flat, chillingly calm)</div>
+        <div class="dialogue">
+            Memory is a suggestion loop. Drink while it stabilizes.
+        </div>
+        <div class="action">
+            Naila sips the flat Guinness. It tastes of ash and something else... something recursive.
+        </div>
+        <div class="action">
+            The TV image shifts. A ROTATING TOOTH fills the screen, impossibly detailed, its surface covered in microscopic glyphs.
+        </div>
+        <div class="cue">
+            (ON SCREEN: TV SUBTITLES)
+        </div>
+        <div class="action">
+            <span class="action">"THREE TURNS. ONE FRACTURE. BEGIN."</span>
+        </div>
+        <div class="action">
+            Naila feels a strange sensation in her own teeth. Her molars hum.
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">20:05 BST - Aurelion Group HQ, Executive Boardroom</div>
+
+        <div class="scene-heading">INT. AURELION GROUP - BOARDROOM - NIGHT</div>
+        <div class="action">
+            DR. S. VEY, KWAN, and ROTH watch the TV broadcast from the pub on a large monitor. They are surrounded by holographic maps depicting shimmering glyphs overlaid on population centers.
+        </div>
+
+        <div class="character-name">KWAN</div>
+        <div class="dialogue">
+            Phase 3E activation is initiating. The counter-harmonics amplified compliance, just as predicted. The public is 'chanting the firewall without knowing.'
+        </div>
+
+        <div class="character-name">ROTH</div>
+        <div class="dialogue">
+            The 'Acceptance Broadcast' is proving highly effective. Our psychological scripting is working. The illusion of choice is paramount.
+        </div>
+
+        <div class="character-name">VEY</div>
+        <div class="dialogue">
+            (A thin, predatory smile)
+            Excellent. The 'Neurostructural Mythos Disorder' narrative is firmly established. Sable Analytics data indicates 91% of flagged cases still exhibit normal external behavior, allowing for seamless integration. We are indexing them without their knowledge.
+        </div>
+        <div class="action">
+            On a secondary monitor, a small, pulsing dot on the map of London is highlighted: Naila's location. Her internal bone-bloom index is flashing green.
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">20:07 BST - The Golden Condor, Bethnal Green</div>
+
+        <div class="scene-heading">INT. GOLDEN CONDOR PUB - NIGHT</div>
+        <div class="action">
+            Dean leans closer to Naila, his voice now a deeper, more resonant hum, yet still perfectly modulated, like a program speaking through him.
+        </div>
+
+        <div class="character-name">DEAN</div>
+        <div class="dialogue">
+            You came here knowing. That's the qualification. The loop chooses its repeaters. You're not broken – just echoed.
+        </div>
+        <div class="action">
+            Naila's reflection in the pub's corner mirror blinks once, precisely when Dean says the word "loop." The mirror fogs without a heat source. Glyphs begin to appear in the condensation.
+        </div>
+
+        <div class="character-name">DEAN</div>
+        <div class="dialogue">
+            This is where your signal stabilizes. This is where your thoughts are triangulated.
+        </div>
+        <div class="action">
+            The hum in the pub intensifies, rising from the floorboards, from the walls, from the very air. The other patrons sit silently, their eyes glazed over, small, rhythmic clicks emanating from their jaws. They are all looking at Naila.
+        </div>
+
+        <div class="character-name">DEAN</div>
+        <div class="dialogue">
+            Accept the third. You are 3E now. That's not a warning. That's a permission.
+        </div>
+        <div class="action">
+            Naila stares at him, her heart pounding a frantic, biological rhythm against the cold, insistent hum in her bones. She looks at her reflection in the fogged mirror. It's smiling. A small, knowing smile. One Naila has not yet made.
+        </div>
+        <div class="action">
+            A small glyph, the familiar "symmetrical helix over open bone socket," appears in the condensation.
+        </div>
+        <div class="action">
+            Naila's jaw clenches. Her teeth ache. Her left femur pulses with the phrase she named it: "Pillar of Rebellion." But the new hum, the "permission," is overwhelming.
+        </div>
+
+        <div class="transition">FADE TO BLACK.</div>
+
+        <div class="cue">
+            (SOUND: The hum swells to an almost unbearable crescendo, then suddenly, sharply, resolves into a single, perfectly clear, rhythmic THUMM. Followed by a faint, internal CLICK, like Naila's own jaw locking into place, no longer her own.)
+        </div>
+
+    </div>
+</body>
+</html>

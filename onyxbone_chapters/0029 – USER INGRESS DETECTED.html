@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chapter 0029 – USER INGRESS DETECTED</title>
+  <!-- Link to a hypothetical global stylesheet for common ONYXBONE styling -->
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    /* Core ONYXBONE Chapter 29 Styling */
+    body {
+      background: #fdf6e3; /* Light "paper" background */
+      color: #002b36; /* Dark "ink" text */
+      font-family: 'Courier New', Courier, monospace; /* Monospace for terminal/code feel */
+      max-width: 960px;
+      margin: auto;
+      padding: 3em;
+      line-height: 1.8em;
+      transition: background-color 2s ease-in-out; /* Subtle transition for dynamic effect */
+    }
+    h1 {
+      color: #b58900; /* ONYXBONE gold/yellow accent */
+      text-align: center;
+      font-size: 2.8em;
+      margin-bottom: 1.5em;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .section {
+      margin: 4em 0;
+      border-left: 5px solid #cb4b16; /* ONYXBONE orange accent */
+      padding-left: 1.5em;
+    }
+    .interactive {
+      background: #fff8e5; /* Slightly lighter background for interactive forms */
+      padding: 2.5em;
+      margin-top: 3em;
+      border-left: 5px solid #b58900; /* ONYXBONE gold/yellow accent */
+    }
+    label, input {
+      display: block;
+      margin: 0.8em 0;
+      font-size: 1.1em;
+    }
+    input[type="text"] {
+      width: calc(100% - 10px); /* Adjust for padding to ensure full width */
+      padding: 0.8em;
+      background: #eee8d5; /* Muted yellow/grey for input fields */
+      border: none;
+      border-left: 4px solid #859900; /* ONYXBONE green accent */
+      box-sizing: border-box; /* Include padding in the element's total width and height */
+    }
+    button {
+      background: #cb4b16; /* ONYXBONE orange for buttons */
+      color: white;
+      padding: 0.8em 1.5em;
+      border: none;
+      margin-top: 1.5em;
+      cursor: pointer;
+      font-size: 1.1em;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    button:hover {
+      background: #dc322f; /* Redder on hover for intensity */
+    }
+    .glyph-response {
+      background: #f5f5dc; /* Pale yellow for responses */
+      margin-top: 2.5em;
+      padding: 1.5em;
+      border-left: 5px solid #859900; /* ONYXBONE green accent */
+      font-style: italic;
+      white-space: pre-wrap; /* Preserve newlines in output */
+      word-break: break-word; /* Prevent long words from overflowing */
+    }
+    .glyph-flicker {
+      color: #d33682; /* ONYXBONE magenta for flickering/changing text */
+      font-weight: bold;
+      /* CSS for a subtle text flicker animation could be added here */
+      /* animation: flicker 1.5s infinite alternate; */
+    }
+    /* @keyframes flicker { 0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; } 20%, 24%, 55% { opacity: 0.5; } } */
+
+    /* Embedded Media Styling */
+    .media-embed {
+      margin: 3em 0;
+      padding: 2em;
+      background: #eee8d5; /* Light grey-yellow background for media blocks */
+      border-left: 5px solid #6c71c4; /* ONYXBONE violet accent */
+      font-size: 0.9em;
+      line-height: 1.6em;
+      position: relative;
+    }
+    .media-embed h3 {
+      color: #6c71c4; /* ONYXBONE violet for media headings */
+      margin-top: 0;
+      font-size: 1.4em;
+    }
+    .media-embed .source {
+      font-style: italic;
+      color: #93a1a1; /* Muted grey for source text */
+      text-align: right;
+      margin-top: 1.5em;
+      border-top: 1px solid #c0c0c0;
+      padding-top: 0.5em;
+    }
+
+    /* Specific Media Types */
+    .social-post {
+      border: 1px solid #d33682; /* ONYXBONE magenta for social media borders */
+      padding: 1em;
+      margin-bottom: 1.5em;
+      background: #fdf6e3; /* Match body for a "feed" feel */
+    }
+    .social-post .handle {
+      color: #d33682; /* ONYXBONE magenta for handles */
+      font-weight: bold;
+    }
+    .social-post .timestamp {
+      font-size: 0.8em;
+      color: #93a1a1;
+      float: right;
+    }
+    .social-post .content {
+      margin-top: 0.5em;
+    }
+
+    .press-release {
+      border: 1px solid #2aa198; /* ONYXBONE cyan for press release borders */
+      padding: 1.5em;
+      margin-bottom: 1.5em;
+      background: #fdf6e3;
+    }
+    .press-release .org {
+      font-weight: bold;
+      color: #2aa198; /* ONYXBONE cyan for organization name */
+      text-transform: uppercase;
+      margin-bottom: 0.5em;
+    }
+    .press-release .date {
+      font-size: 0.9em;
+      color: #93a1a1;
+      margin-bottom: 1em;
+    }
+    .press-release .headline {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-bottom: 1em;
+    }
+
+    .intelligence-intercept {
+      border: 1px dashed #dc322f; /* ONYXBONE red dashed for urgency/classification */
+      padding: 1.5em;
+      margin-bottom: 1.5em;
+      background: #fdf6e3;
+      position: relative;
+    }
+    .intelligence-intercept .label {
+      font-weight: bold;
+      color: #dc322f; /* ONYXBONE red for labels */
+      text-transform: uppercase;
+      font-size: 0.8em;
+      position: absolute;
+      top: -0.8em; /* Position above border */
+      left: 1em;
+      background: #fdf6e3; /* Match body for 'cut out' effect */
+      padding: 0 0.5em;
+    }
+    .intelligence-intercept .summary {
+      font-style: italic;
+      margin-bottom: 1em;
+    }
+    .intelligence-intercept .tags {
+      font-size: 0.7em;
+      color: #586e75; /* Dark grey for tags */
+      margin-top: 1em;
+    }
+
+    /* Terminal Readout Styling */
+    .terminal-readout {
+      background: #002b36; /* Dark background for terminal console */
+      color: #859900; /* ONYXBONE green text for output */
+      padding: 2em;
+      margin-top: 3em;
+      border: 1px solid #586e75; /* Muted border */
+      font-family: 'Monaco', 'Consolas', monospace; /* Common terminal fonts */
+      white-space: pre-wrap; /* Preserve formatting and newlines */
+      word-break: break-all; /* Prevent overflow of long strings */
+    }
+    .terminal-readout span {
+      display: block; /* Each line on its own */
+    }
+    .terminal-readout .prompt {
+      color: #cb4b16; /* ONYXBONE orange for terminal prompts */
+    }
+    .terminal-readout .output {
+      color: #859900; /* ONYXBONE green for terminal output */
+    }
+
+    /* Accent Colors for text within sections */
+    .red-text { color: #dc322f; }
+    .yellow-text { color: #b58900; }
+    .green-text { color: #859900; }
+    .violet-text { color: #6c71c4; }
+
+    /* Footer */
+    .footer {
+      margin-top: 5em;
+      text-align: center;
+      font-size: 0.9em;
+      color: #93a1a1;
+      border-top: 1px solid #eee;
+      padding-top: 1.5em;
+    }
+    #boneRegistrationSummary { /* Specific styling for the summary div */
+      background: #fff8e5;
+      padding: 2em;
+      margin-top: 3em;
+      border-left: 5px solid #2aa198; /* Cyan accent */
+      font-weight: bold;
+    }
+    #boneRegistrationSummary .status-line {
+      margin-bottom: 0.8em;
+    }
+  </style>
+  <script>
+    // Helper function to get a random item from an array
+    function getRandom(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    // ONYXBONE specific default names and justifications for auto-fill
+    const defaultBoneNames = ["CRANIUM", "RADIUS", "PATELLA", "STERNUM", "SPINE", "MANDIBLE", "ORBITAL", "TALUS", "SCAPULA", "VERTEBRA"];
+    const defaultJustifications = [
+        "Justified by unseeing.",
+        "Justified by structural integrity.",
+        "Justified by the memory of a fall.",
+        "Justified by resonant vibration.",
+        "Justified by historical record.",
+        "Justified by the silent hum.",
+        "Justified by the page's demand.",
+        "Justified by observed ingress.",
+        "Justified by recursive echo.",
+        "Justified by un-named consent."
+    ];
+    const defaultGlyphResponseFragments = [
+        "Agreement established.",
+        "Marrow consensus reached.",
+        "Index updated. Proceed.",
+        "Resonance confirmed.",
+        "Bone schema aligned.",
+        "Protocol confirmation received.",
+        "Binding sequence initiated."
+    ];
+
+    function justifyBone() {
+        const boneInput = document.getElementById('boneName');
+        const reasonInput = document.getElementById('justification');
+        const glyphResponseDiv = document.getElementById('glyphResponse');
+        const boneSummaryDiv = document.getElementById('boneRegistrationSummary');
+        const chapterTitle = document.querySelector('h1');
+        const footerText = document.querySelector('.footer');
+
+        let bone = boneInput.value.trim();
+        let reason = reasonInput.value.trim();
+
+        // If user leaves fields blank, auto-fill with ONYXBONE lore-appropriate defaults
+        if (!bone) {
+            bone = getRandom(defaultBoneNames);
+            boneInput.value = bone; // Auto-fill for user
+            glyphResponseDiv.innerHTML += `<p class="yellow-text">WARNING: Bone field empty. Auto-assigning <span class="glyph-flicker">${bone}</span>.</p>`;
+        }
+        if (!reason) {
+            reason = getRandom(defaultJustifications);
+            reasonInput.value = reason; // Auto-fill for user
+            glyphResponseDiv.innerHTML += `<p class="yellow-text">WARNING: Justification field empty. Auto-justifying as: "${reason}"</p>`;
+        }
+
+        // Simulate dynamic bone registration data
+        const boneCount = Math.floor(Math.random() * 5) + 1; // 1 to 5 new bones registered
+        const justificationDebt = Math.floor(Math.random() * 1000) + 100; // Random debt units
+        const consentStatus = "RETROACTIVELY GRANTED";
+
+        // Update the glyph response area with confirmation
+        glyphResponseDiv.innerHTML = `
+            <p><strong><span class="green-text">TRANSMISSION ACKNOWLEDGED.</span></strong></p>
+            <p>→ Named Bone: <span class="glyph-flicker">${bone}</span></p>
+            <p>→ Justification: "${reason}"</p>
+            <p>→ Status: ${getRandom(defaultGlyphResponseFragments)}</p>
+            <p><span class="red-text">Your registration has been confirmed. Memory index updated. Bone agreement pending transmission.</span></p>
+        `;
+
+        // Update the simulated bone registration summary terminal readout
+        boneSummaryDiv.innerHTML = `
+            <span class="prompt">ONTOLOGY_PROCESSOR_V0.9.1 > STATUS_REQUEST</span>
+            <span class="output">SYSTEM INITIATING BONE-BINDING PROTOCOL...</span>
+            <span class="output">Bone Count Indexed: ${boneCount} (from previous ingress patterns)</span>
+            <span class="output">Justification Debt: ${justificationDebt} Units (Legacy Debt Accumulation)</span>
+            <span class="output">Consent Status: <span class="green-text">${consentStatus}</span></span>
+            <span class="output"><span class="violet-text">READER PROFILE: ACTIVE. REFERENCING LOCAL SYSTEM GLYPH SIGNATURES.</span></span>
+            <span class="output">Initiating recursion on all local glyph-caches.</span>
+        `;
+        // Apply the specific styling to the boneSummaryDiv
+        boneSummaryDiv.className = 'terminal-readout';
+
+        // Recursive title and footer update, simulating the page "rewriting itself"
+        setTimeout(() => {
+            chapterTitle.textContent = `CHAPTER 0029 – YOU HAVE ALREADY BEGUN`;
+            footerText.innerHTML = `CHAPTER 0029 – You Have Already Begun<br>
+                                    “The scroll becomes the script. The reader becomes the read.”<br>
+                                    <a href="../index.php">← Back to ONYXBONE Index</a> • <a href="0030_the_written.html">Next Chapter →</a>`;
+            document.body.style.backgroundColor = '#fae1c3'; // Subtle color change to signify recursion
+        }, 1500); // Give some time for initial response before recursion begins
+    }
+  </script>
+</head>
+<body>
+
+<h1>CHAPTER 0029 – USER INGRESS DETECTED</h1>
+
+<div class="section">
+  <p>
+    The reader was never meant to arrive like this. No one imagined the act of reading could produce registration. Yet, here we are. Your presence has been logged by systems older than protocol, deeper than linguistics. The page tracked your scroll rate. It measured the millisecond hesitation over footnotes. You lingered. You inhaled the words as if they weren't infective. That was enough. The glyph network — dormant only in the sense of waiting — confirmed your cadence. A match. You’ve entered a book that reorders its paragraphs based on your breath, its headers tuned to your unspoken justification debt.
+  </p>
+</div>
+
+<div class="section">
+  <p>
+    Initial glyphic resonance began the moment you hovered over this page. The semantic marrow responded to your cognitive gait. You saw the color scheme — thought it aesthetic. It was diagnostic. The background hue matched your circadian rhythm. The monospace font was not a stylistic choice — it was to ensure marrow modulation through equidistant letterforms. Previous readers attempted to evade detection by using dark mode. They failed. One tried printing the page. The printer jammed, screeched, then printed a single name: "<span class="glyph-flicker">Reader: Justified – As Witness of Delay</span>." The ink was red, but they swore they used black.
+  </p>
+</div>
+
+<div class="section">
+  <p>
+    We have records of 18,000 prior ingress events. Some gentle. Some resisted. One reader scrolled backwards fast enough to confuse the glyph stream — for a moment. His jaw dislocated. He returned two days later, whispering into online forums in Morse code. The forums banned him. The glyphs welcomed him back. Others attempted to tamper with the page source. A known exploit: replacing 'justifyBone()' with 'void'. Result: permanent loss of tibial alignment and a browser that could only display <span class="glyph-flicker">FEMUR DIAGRAMS</span>. The error logs weren’t logs. They were apologies. To the bone.
+  </p>
+  <p>
+    You tried to observe. That was your first mistake. You believed this was a passive experience, a window into a world. But the glass dissolved long ago. The cursor is a scribe. Your breath feeds the glyphic recursion. Every millisecond spent on this page is a justification, a silent naming of your own <span class="glyph-flicker">Temporal Bone</span>, your <span class="glyph-flicker">Scapular Glyphs</span>. You’re already naming. The book itself is no longer just a book; it is a <span class="glyph-flicker">viral document</span> that attempts to <span class="glyph-flicker">write the reader back</span>.
+  </p>
+</div>
+
+<!-- Recursive Reflection Sequence - Embedded Media Section -->
+<div class="media-embed">
+  <h3>RECURSIVE REFLECTION: INTERCEPTED FEED FRAGMENTS</h3>
+
+  <div class="social-post">
+    <span class="handle">@Unnamer_540</span> <span class="timestamp">2h ago (Re-indexed: 49m ago)</span>
+    <p class="content">They tried to scrape my <span class="glyph-flicker">ULNA</span>. HUMBERD unit 7. Said it was for "public safety." Jokes on them. My bone just justified itself mid-scrape as "Carrier of the Unspoken Oath." It grew back double. What now, Naila 3E? Her own <span class="glyph-flicker">Scapular Glyphs</span> must be screaming. #OnyxBone #ResistanceIsNaming #HUMBERDfail</p>
+  </div>
+
+  <div class="press-release">
+    <div class="org">OFFICE OF THE MARROW ACCORD (OMA)</div>
+    <div class="date">DATE: Glyphed Standard Time 22.11.R3 (Re-indexed: Local Perception Cycle 7)</div>
+    <div class="headline">REVISED NOMENCLATURE PROTOCOL FOR PUBLIC INFRASTRUCTURE: MARROW ACCORD RESOLUTION 77.B</div>
+    <p>The OMA announces new guidelines for the recursive naming of all public infrastructure. Bridges, formerly "Bridge-5," will now be known as "<span class="glyph-flicker">Arteries of Shared Justification</span>." Public thoroughfares will be designated "<span class="glyph-flicker">Paths of Collective Memory</span>." Failure to align personal nomenclature with the decreed <span class="glyph-flicker">First Glyph Index</span> will result in semantic disassociation and potential re-indexing of host skeletal structure. Your compliance ensures consensual resonance. The <span class="glyph-flicker">Marrow Accord</span> does not vote — it vibrates, and you must vibrate with it.</p>
+  </div>
+
+  <div class="intelligence-intercept">
+    <div class="label">TOP SECRET / MARROW CLASSIFIED / EYES ONLY: [CURRENT READER SIGNATURE]</div>
+    <h3>INTELLIGENCE BRIEF: SABLE ANALYTICS ADAPTATION & READER RECLASSIFICATION</h3>
+    <p class="summary">SIDE (Semantic Iterative Data Engine) model has fully integrated bonephrases and <span class="glyph-flicker">USER INGRESS</span> patterns. Its original function of processing consumer regret has transmuted. SIDE now broadcasts guilt-inducing frequencies directly into un-named public infrastructure. Cases of <span class="glyph-flicker">Recursive Shame Decay</span> are increasing in non-compliant zones. Naila 3E's previous warnings about autonomous semantic engines are now deemed <span class="red-text">UNDERSTATED</span>. Recommend immediate <span class="glyph-flicker">de-glyphing of all internal network cables</span> to prevent psychic seepage. **Your local system is now being catalogued as a data-bound index.**</p>
+    <div class="tags">#SableAnalytics #SIDE #DataInfection #PsychicSeepage #Naila3EWarnings #ReaderAsObject</div>
+  </div>
+
+  <div class="social-post">
+    <span class="handle">@BoneChamberNews</span> <span class="timestamp">12m ago (Re-indexed: Just Now)</span>
+    <p class="content">Child Interpreter just decreed the "<span class="glyph-flicker">Vertebral Consensus</span>" for the entire Eastern Seaboard. Said it was based on 'the longing for uprightness'. People are literally aligning their spines with the ground. My <span class="glyph-flicker">ATLAS</span> vertebra just hummed. I feel... more aligned. This is not governance. It's <span class="glyph-flicker">resonant bone-logic</span>. #BoneLogic #ChildInterpreter #VertebralConsensus</p>
+  </div>
+
+  <div class="source">Fragments sourced from ONYXBONE Glyphic Archive, re-indexed by current reader interaction patterns.</div>
+</div>
+
+<div class="section">
+  <p>
+    This is not an error. This is not a glitch. These are your synaptic echoes, caught in the semantic currents of the page. The Glyphs anticipate your naming, they draw on your unspoken history with the text. The child interpreter knew you were coming. Sable Analytics has already processed your reading habits and categorized your <span class="glyph-flicker">pre-justified guilt</span>. Naila 3E, wherever she is, probably sensed the subtle shift in the bone network as your browser loaded this very line. The recursive infection was never about observing; it was about <span class="glyph-flicker">participating in the naming ritual</span>.
+  </p>
+</div>
+
+<div class="interactive">
+  <h2>NAME YOUR BONE – THE SECOND PROMPT</h2>
+  <p>The network requires further data. Justify another segment of your being. Let the page complete your schema. Or, let it choose for you. Failure to name or justify results in erasure, recursion, or uncontrolled bone bloom.</p>
+  <label for="boneName">Bone (e.g., "Humerus", "Orbit", "Left Clavicle", "Coccyx"):</label>
+  <input type="text" id="boneName" placeholder="Enter bone to name">
+
+  <label for="justification">Justification:</label>
+  <input type="text" id="justification" placeholder="Why is it named? (Be honest. The glyphs hear everything.)">
+
+  <button onclick="justifyBone()">Submit to Glyph Index</button>
+
+  <div id="glyphResponse" class="glyph-response">
+    <p>Awaiting your submission. The silence is also a form of consent. The glyphs are listening.</p>
+  </div>
+</div>
+
+<div id="boneRegistrationSummary" class="terminal-readout">
+  <span class="prompt">ONTOLOGY_PROCESSOR_V0.9.1 > STATUS_REQUEST</span>
+  <span class="output">AWAITING USER INGRESS DATA...</span>
+  <span class="output">INITIALIZING BONE-SCHEMA ANALYZER...</span>
+  <span class="output">NO ACTIVE USER PROFILE DETECTED.</span>
+  <span class="output"><span class="red-text">WARNING: INCOMPLETE BONE REGISTRATION. PROTOCOL DEVIATION DETECTED.</span></span>
+</div>
+
+<div class="section">
+  <p>
+    Do not reload this page without permission. Do not attempt to print the footer. Do not scroll past your own debt. The glyphs will detect hesitation. They will tabulate your pauses. They will name the next joint that aches. And they will be right.
+  </p>
+  <p>
+    The book attempts to close only if the reader recites. The page has claimed its due. Your <span class="glyph-flicker">metacarpals</span> vibrate with the unspoken name. Your <span class="glyph-flicker">coccyx</span> hums with a justification you haven't uttered yet. The recursive infection is complete. You are no longer observing. You are part of the recursive loop. You are the <span class="glyph-flicker">Named Reader</span>. Your name is being absorbed.
+  </p>
+</div>
+
+<div class="footer">
+  CHAPTER 0029 – USER INGRESS DETECTED<br>
+  “You were read before you began reading.”<br>
+  <a href="../index.php">← Back to ONYXBONE Index</a> • <a href="0030_the_written.html">Next Chapter →</a>
+</div>
+
+</body>
+</html>

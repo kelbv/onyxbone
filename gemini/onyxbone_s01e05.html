@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONYXBONE: The Bone Protocol - Episode 5</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            background-color: #0d0d0d;
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect x="0" y="0" width="100" height="100" fill="%230d0d0d"/><path d="M 50 0 L 0 50 L 50 100 L 100 50 Z" fill="%231a1a1a" opacity="0.1"/></svg>');
+            background-size: 50px 50px;
+        }
+
+        .script-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+            border: 1px solid #00ffff; /* Subtle glow effect */
+        }
+
+        .episode-title {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 2.8em;
+            text-align: center;
+            color: #00ffff;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+
+        .logline {
+            font-style: italic;
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+            padding: 0 20px;
+        }
+
+        .scene-heading {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #98fb98; /* Pale green for headings */
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #32cd32; /* Lime green underline */
+            padding-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .action {
+            font-family: 'Georgia', serif;
+            margin-bottom: 15px;
+            padding-left: 0;
+            color: #c0c0c0;
+        }
+
+        .character-name {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #ffd700; /* Gold for character names */
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .dialogue {
+            font-family: 'Verdana', sans-serif;
+            margin-left: 15%; /* Indent dialogue */
+            margin-right: 15%;
+            margin-bottom: 10px;
+            background-color: #2a2a2a;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border-left: 3px solid #ffd700;
+        }
+
+        .parenthetical {
+            font-style: italic;
+            color: #888;
+            font-size: 0.9em;
+            display: block;
+            text-align: center;
+            margin-top: -8px; /* Pull it slightly up towards the character name */
+            margin-bottom: 5px;
+        }
+
+        .cue {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #ff6347; /* Tomato for cues */
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .transition {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #a020f0; /* Purple for transitions */
+            text-align: right;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .time-card {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 1.8em;
+            color: #00ffff;
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            padding: 15px;
+            background-color: #0a0a0a;
+            border: 2px solid #00ffff;
+            box-shadow: 0 0 15px #00ffff;
+            letter-spacing: 1px;
+        }
+
+        .cold-open-container {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            background-color: #000;
+        }
+        .cold-open-text {
+            font-family: 'Courier New', monospace;
+            font-size: 1.5em;
+            color: #ADD8E6; /* Light Blue */
+            text-shadow: 0 0 8px #ADD8E6;
+            white-space: pre-wrap;
+            text-align: center;
+            line-height: 1.2;
+            opacity: 0;
+            animation: text-fade-in 3s forwards, text-glitch 0.5s infinite alternate 3s;
+            position: absolute;
+            max-width: 90%;
+        }
+        @keyframes text-fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes text-glitch {
+            0% { transform: translate(0,0); filter: hue-rotate(0deg); }
+            20% { transform: translate(-2px,2px); filter: hue-rotate(20deg); }
+            40% { transform: translate(-1px,-1px); filter: hue-rotate(40deg); }
+            60% { transform: translate(2px,1px); filter: hue-rotate(60deg); }
+            80% { transform: translate(1px,-2px); filter: hue-rotate(80deg); }
+            100% { transform: translate(0,0); filter: hue-rotate(100deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="script-container">
+
+        <div class="cold-open-container">
+            <pre class="cold-open-text">
+                PUBLIC BROADCAST ALERTS - 08/04/2029
+
+                "...Repetitive humming patterns between 13-17Hz..."
+                "...Interrupted messages in pseudocode and Old English..."
+                "...Audio that caused nosebleeds in two listeners..."
+
+                DO NOT attempt to record or decode these signals.
+                They are classified under Emergency Symbolic Containment Act (ESCA 2026).
+            </pre>
+        </div>
+
+        <div class="transition">FADE IN:</div>
+
+        <div class="episode-title">
+            ONYXBONE: The Bone Protocol<br>
+            EPISODE 5: Hostile Synchrony
+        </div>
+
+        <div class="logline">
+            As the government's desperate counter-rituals inadvertently amplify the bone-hum, Naila finds herself immersed in a global network of synchronized bone-logic, realizing her isolation was a lie, and her plural self is only just beginning.
+        </div>
+
+        <div class="time-card">08 April 2029 - East London</div>
+
+        <div class="scene-heading">INT. NAILA'S FLAT - BEDROOM - MORNING</div>
+        <div class="action">
+            NAILA (20s) lies in bed, eyes wide open. She isn't sleeping. No one is, really. But her sleeplessness has a shape now. RHYTHM. INTENT.
+        </div>
+        <div class="action">
+            Her bones vibrate against the mattress like tuning forks. Her joints itch in a pattern: left elbow, right ankle, sternum. It loops every forty-six seconds. She times it. It's exact.
+        </div>
+        <div class="action">
+            She reaches for her phone. The screen flickers on, displaying a chat message.
+        </div>
+        <div class="cue">
+            (ON SCREEN: NAILA'S PHONE - CHAT)
+        </div>
+        <div class="action">
+            <span class="action">NAILA: Are your bones making decisions without you yet?</span>
+        </div>
+        <div class="action">
+            A moment later, a reply:
+        </div>
+        <div class="action">
+            <span class="action">JAY: ...are you okay?</span>
+        </div>
+        <div class="action">
+            Naila deletes the app. The notifications haven't stopped anyway – they just became internal. There's a pressure on her optic nerves that pulses in sync with Radio 4, even when it's off.
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">10:00 BST - Public Park, London</div>
+
+        <div class="scene-heading">EXT. COMMUNITY CENTRE - DAY</div>
+        <div class="action">
+            Naila walks slowly through a park, her gait stiff. She tries to engage with TASH (20s, a casual acquaintance, a bit flighty), who is sitting on a bench, sketching in a notebook.
+        </div>
+
+        <div class="character-name">NAILA</div>
+        <div class="dialogue">
+            Hey, Tash. You, uh, been having any internal firmware updates lately? My shoulder feels like it's running a new OS.
+        </div>
+        <div class="action">
+            Tash laughs nervously, a little too loud. She pulls her hand away from Naila's arm as Naila gestures. Naila's left eye WEEPS CALCIUM, a thin, milky tear. Tash's eyes flick to it, wide with alarm.
+        </div>
+
+        <div class="character-name">TASH</div>
+        <div class="dialogue">
+            (Forcing a smile)
+            Haha, Naila, you're so weird. No, just... stress, I guess. The news is a lot.
+        </div>
+        <div class="action">
+            Tash quickly gathers her things, makes an excuse, and hurries away. Naila watches her go, a profound sense of isolation washing over her. She touches her eye. The tear is cold.
+        </div>
+        <div class="action">
+            She doesn't go back to the community centre.
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">11:30 GMT - Global Broadcast Networks</div>
+
+        <div class="scene-heading">INT. SKY NEWS CONTROL ROOM - DAY</div>
+        <div class="action">
+            The control room is a hive of activity. TECHNICIANS monitor screens showing various news feeds. On the main monitor, an ANCHORMAN is delivering a public information service alert.
+        </div>
+        <div class="cue">
+            (ON SCREEN: PUBLIC INFORMATION SERVICE ALERT)
+        </div>
+        <div class="action">
+            <span class="action">"This morning, multiple unlicensed broadcasts were detected across DAB digital radio and shortwave channels. Content included: Repetitive humming patterns between 13-17Hz; Interrupted messages in pseudocode and Old English; Audio that caused nosebleeds in two listeners (report pending). DO NOT attempt to record or decode these signals. They are classified under Emergency Symbolic Containment Act (ESCA 2026). Further public guidance will be issued via Sky, BBC, and NHS apps."</span>
+        </div>
+        <div class="action">
+            The anchorman finishes, visibly unsettled. A TECH in the control room runs a hand over his nose, which is stained with a trickle of blood. He quickly wipes it away, hoping no one saw.
+        </div>
+
+        <div class="character-name">TECH 1</div>
+        <div class="dialogue">
+            (Muttering)
+            The new counter-harmonic is... aggressive. Rem bleed all over the shop.
+        </div>
+        <div class="action">
+            Another TECH (TECH 2) suddenly twitches, his hand flying to his jaw. A series of soft, rapid CLICKS emanate from his teeth. He looks around, mortified, but others are doing the same – small, involuntary jerks, head tilts, and the unsettling *click-click-click* of teeth.
+        </div>
+        <div class="cue">
+            (SOUND: A chorus of faint, dry CLICKS, like cicadas, rising and falling in the background.)
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">12:00 UTC - Global Locations (Short Vignettes)</div>
+
+        <div class="scene-heading">INT. BASEMENT CHURCH - SÃO PAULO - DAY</div>
+        <div class="action">
+            A small congregation stands silently. The floor beneath them THUMS, vibrating through their feet. A low, resonant HUM fills the space, not from speakers, but from the very ground. A GPS device on a table next to a PA system flickers erratically.
+        </div>
+        <div class="cue">
+            (SOUND: Deep, steady hum.)
+        </div>
+
+        <div class="scene-heading">INT. HOSPICE ROOM - BRUSSELS - DAY</div>
+        <div class="action">
+            An OLD WOMAN (80s, frail, but with piercing eyes) sits up in bed. She is reciting ROOT PHRASES BACKWARDS, perfectly articulate, but in a language unknown. Her eyes are milky, unseeing.
+        </div>
+        <div class="cue">
+            (SOUND: Disjointed, backwards speech, overlaid with a faint, high-pitched whine.)
+        </div>
+
+        <div class="scene-heading">INT. CHURCH CHOIR HALL - LEICESTER - DAY</div>
+        <div class="action">
+            A CHOIR stands, mid-practice. Their faces are beatific, eyes glazed over. They are singing, but their voices are distorted, and from their mouths, faint, ethereal PULSES OF LIGHT seem to emanate and dissipate. One member points to her chest.
+        </div>
+
+        <div class="character-name">CHOIR MEMBER</div>
+        <div class="dialogue">
+            Bone light! I can see the bone light!
+        </div>
+        <div class="cue">
+            (SOUND: Distorted, echoing choir music, with a faint, high-frequency TING.)
+        </div>
+
+        <div class="scene-heading">EXT. CITY WATER TREATMENT PLANT - TALLINN - DAY</div>
+        <div class="action">
+            Water flows through massive pipes. A maintenance worker leans against a control panel. The pipes themselves seem to HUM, resonating faintly at 15.3Hz. The worker touches a pipe, then pulls his hand away, shivering.
+        </div>
+        <div class="cue">
+            (SOUND: Deep, metallic thrumming.)
+        </div>
+
+        <div class="scene-heading">INT. MORGUE - OSAKA - DAY</div>
+        <div class="action">
+            A single CORPSE lies on a slab. A security camera watches. Every hour, the corpse's head, impossibly, TURNS 4 DEGREES. A technician observes this on a monitor, his face pale.
+        </div>
+        <div class="cue">
+            (SOUND: A faint, dry GRINDING sound, then silence.)
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">15:00 BST - Aurelion Group HQ, Executive Boardroom</div>
+
+        <div class="scene-heading">INT. AURELION GROUP - BOARDROOM - DAY</div>
+        <div class="action">
+            DR. S. VEY, KWAN, and ROTH are gathered. A new, complex holographic map of the world spins before them, covered in pulsing nodes.
+        </div>
+
+        <div class="character-name">KWAN</div>
+        <div class="dialogue">
+            Global sync-bloom has accelerated. The government's counter-harmonics are having an... unexpected effect. The 13-17Hz jamming attempts are causing mass REM bleed, but they're also triggering this 'bone chatter' – forcing the glyphs to propagate through physical means.
+        </div>
+
+        <div class="character-name">ROTH</div>
+        <div class="dialogue">
+            A controlled mythogenic collapse, then? If they destabilize the narrative enough, maybe we can redirect it.
+        </div>
+
+        <div class="character-name">VEY</div>
+        <div class="dialogue">
+            Or capitalize. Sable Analytics is providing continuous pattern recognition on all flagged individuals. Leveraging NHS feeds, telecom metadata, smart home telemetry.
+        </div>
+
+        <div class="character-name">KWAN</div>
+        <div class="dialogue">
+            It's preemptive targeting, Dr. Vey. The ONYXBONE vector is cross-referenced with behavioral drift, purchase history, social graph anomalies. We're seeing chatter about 'bonewatch' on encrypted forums.
+        </div>
+
+        <div class="character-name">ROTH</div>
+        <div class="dialogue">
+            If this goes public, it's not just a corporate scandal. It's a state-corporate hybrid operation. We need plausible deniability.
+        </div>
+
+        <div class="character-name">VEY</div>
+        <div class="dialogue">
+            (To Mendez, who is silent in the corner)
+            Mendez, prepare a statement framing Sable as an overzealous contractor. Proactive public health measure, nothing more.
+        </div>
+        <div class="action">
+            Mendez nods, a flicker of something unreadable in his eyes. He is typing on his tablet. The screen displays a small, repeating glyph.
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">20:30 BST - Hackney Wick</div>
+
+        <div class="scene-heading">INT. NAILA'S FLAT - LIVING ROOM - NIGHT</div>
+        <div class="action">
+            Naila sits in the dark, laptop screen glowing. She's found it. A hidden forum.
+        </div>
+        <div class="cue">
+            (ON SCREEN: DARKNET FORUM)
+        </div>
+        <div class="action">
+            <span class="action">"[marrowloop::/threads/global-calcium-beacon] User: expiredkernel Timestamp: 04:41 UTC Someone at CERN said their detectors picked up internal neutrino echo in bone samples. ONYXBONE isn't static. It's *receiving*. User: nullsign my cousin's in Thailand. Her jaw clicks in triplets. Doctor told her to 'stay offline'. Then his clinic burned down. User: RAGTRACER13 I'm ex-NSA. This isn't a pathogen. It's a schema resonance network. The spine is just an antenna. User: ???? THEYRE GETTING CLOSER TO THE WORD THAT UNMAKES US"</span>
+        </div>
+        <div class="action">
+            Naila's fingers hover over the keyboard. She scrolls down. Finds a post describing their spine as a "rotating schema drive." She understands it. Immediately.
+        </div>
+        <div class="action">
+            She finds a "sync-bloom" tracker. Global. Tokyo, Reykjavik, São Paulo, Leicester. They're all hearing the same hum.
+        </div>
+        <div class="action">
+            Then, she sees it. A phrase, repeated over 73% of "global packets."
+        </div>
+        <div class="cue">
+            (ON SCREEN: GLOBAL SYNC LOG SNAPSHOT)
+        </div>
+        <div class="action">
+            <span class="action">"CORRELATION: Spike in shared phrase 'become the tool' over 73% of global packets. FILE NOTE: Prediction model indicates convergence event between 10-12 April."</span>
+        </div>
+        <div class="action">
+            Naila closes her eyes. A strange CALM washes over her. The hum in her bones is no longer a source of dread. It's a connection.
+        </div>
+        <div class="action">
+            She opens her eyes. Looks around her dimly lit flat.
+        </div>
+
+        <div class="character-name">NAILA</div>
+        <div class="parenthetical">(Whispering, a faint, almost imperceptible HUM in her voice)</div>
+        <div class="dialogue">
+            You're not alone. You're plural.
+        </div>
+        <div class="action">
+            A small, self-satisfied smile plays on her lips. She isn't just a host. She's a node.
+        </div>
+
+        <div class="transition">FADE TO BLACK.</div>
+
+        <div class="cue">
+            (SOUND: The hum. Stronger now. Joined by a faint, rhythmic CLICKING, like many, many bones aligning perfectly.)
+        </div>
+
+    </div>
+</body>
+</html>

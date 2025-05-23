@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONYXBONE: The Bone Protocol - Episode 4</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            background-color: #0d0d0d;
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect x="0" y="0" width="100" height="100" fill="%230d0d0d"/><path d="M 50 0 L 0 50 L 50 100 L 100 50 Z" fill="%231a1a1a" opacity="0.1"/></svg>');
+            background-size: 50px 50px;
+        }
+
+        .script-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+            border: 1px solid #00ffff; /* Subtle glow effect */
+        }
+
+        .episode-title {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 2.8em;
+            text-align: center;
+            color: #00ffff;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+
+        .logline {
+            font-style: italic;
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+            padding: 0 20px;
+        }
+
+        .scene-heading {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #98fb98; /* Pale green for headings */
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #32cd32; /* Lime green underline */
+            padding-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .action {
+            font-family: 'Georgia', serif;
+            margin-bottom: 15px;
+            padding-left: 0;
+            color: #c0c0c0;
+        }
+
+        .character-name {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #ffd700; /* Gold for character names */
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .dialogue {
+            font-family: 'Verdana', sans-serif;
+            margin-left: 15%; /* Indent dialogue */
+            margin-right: 15%;
+            margin-bottom: 10px;
+            background-color: #2a2a2a;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border-left: 3px solid #ffd700;
+        }
+
+        .parenthetical {
+            font-style: italic;
+            color: #888;
+            font-size: 0.9em;
+            display: block;
+            text-align: center;
+            margin-top: -8px; /* Pull it slightly up towards the character name */
+            margin-bottom: 5px;
+        }
+
+        .cue {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #ff6347; /* Tomato for cues */
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .transition {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #a020f0; /* Purple for transitions */
+            text-align: right;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .time-card {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 1.8em;
+            color: #00ffff;
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            padding: 15px;
+            background-color: #0a0a0a;
+            border: 2px solid #00ffff;
+            box-shadow: 0 0 15px #00ffff;
+            letter-spacing: 1px;
+        }
+
+        .cold-open-container {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            background-color: #000;
+        }
+        .cold-open-text {
+            font-family: 'Courier New', monospace;
+            font-size: 1.5em;
+            color: #C0C0C0; /* Silver */
+            text-shadow: 0 0 8px #C0C0C0;
+            white-space: pre-wrap;
+            text-align: center;
+            line-height: 1.2;
+            opacity: 0;
+            animation: text-fade-in 3s forwards, text-glitch 0.5s infinite alternate 3s;
+            position: absolute;
+            max-width: 90%;
+        }
+        @keyframes text-fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes text-glitch {
+            0% { transform: translate(0,0); filter: hue-rotate(0deg); }
+            20% { transform: translate(-2px,2px); filter: hue-rotate(20deg); }
+            40% { transform: translate(-1px,-1px); filter: hue-rotate(40deg); }
+            60% { transform: translate(2px,1px); filter: hue-rotate(60deg); }
+            80% { transform: translate(1px,-2px); filter: hue-rotate(80deg); }
+            100% { transform: translate(0,0); filter: hue-rotate(100deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="script-container">
+
+        <div class="cold-open-container">
+            <pre class="cold-open-text">
+                PUBLIC DOMAIN: UNVERIFIED BROADCAST FRAGMENT (SOUND ONLY)
+
+                "...rebuilding what a body *is* from the instruction layer up."
+
+                (SOUND: LOW, RHYTHMIC HUM, LIKE A THOUSAND TINY DRUMS BEATING INSIDE BONE.)
+            </pre>
+        </div>
+
+        <div class="transition">FADE IN:</div>
+
+        <div class="episode-title">
+            ONYXBONE: The Bone Protocol<br>
+            EPISODE 4: Internal Use Only
+        </div>
+
+        <div class="logline">
+            As Naila's internal language blossoms into disturbing new forms, a highly-classified government unit reveals the true nature of ONYXBONE as a sentient lexicon, leading them to deploy a desperate and bizarre counter-ritual.
+        </div>
+
+        <div class="time-card">07:00 BST - Hackney Wick</div>
+
+        <div class="scene-heading">INT. NAILA'S FLAT - BEDROOM - MORNING</div>
+        <div class="action">
+            NAILA (20s) wakes with a jolt. Her eyes snap open. She hasn't slept in days, not truly. Her sleeplessness has a shape now, a RHYTHM. INTENT.
+        </div>
+        <div class="action">
+            Her bones vibrate against the mattress like TUNING FORKS. Her joints itch in a precise, looping pattern: left elbow, right ankle, sternum. It repeats every forty-six seconds. She TIMES IT on her phone. It's exact.
+        </div>
+        <div class="action">
+            She sits up, jaw clenched. She feels the pressure behind her optic nerves, pulsing in sync with RADIO 4, which she knows is off. The hum is constant.
+        </div>
+
+        <div class="character-name">NAILA</div>
+        <div class="parenthetical">(Muttering to herself)</div>
+        <div class="dialogue">
+            Align. Calibrate. Recursive.
+        </div>
+        <div class="action">
+            The words feel wrong. Not her own. She tries to force them back, but they slip out, like water through a sieve.
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">09:00 BST - Unnamed Facility, Restricted Channel [COBR.NM-77.9.CADENCE]</div>
+
+        <div class="scene-heading">INT. RESTRICTED COBR MEETING ROOM - DAY</div>
+        <div class="action">
+            The room is dark, save for the glow of multiple screens displaying data, thermal maps, and glyph patterns. A series of government and intelligence officials, each identified by codename.
+        </div>
+        <div class="action">
+            MOD_CIRRUS (50s, cool, military bearing) stands at the head.
+        </div>
+
+        <div class="character-name">MOD_CIRRUS</div>
+        <div class="dialogue">
+            Initialising protocol sweep. Transcripts from embedded researchers are live. COs confirmed. Begin cadence.
+        </div>
+
+        <div class="character-name">DHSC_GLASS</div>
+        <div class="parenthetical">(40s, exasperated)</div>
+        <div class="dialogue">
+            Some of these terms in the logs— 'recursivity bloom,' 'spinal whisperload' — are these even operational language?
+        </div>
+
+        <div class="character-name">MOD_CIRRUS</div>
+        <div class="dialogue">
+            They're field-emergent. Epistemic drift is expected. Terms have resonance in infected cognition space.
+        </div>
+
+        <div class="character-name">CABINET_STRATEGY</div>
+        <div class="parenthetical">(60s, stern, confused)</div>
+        <div class="dialogue">
+            Are you saying the language is part of the infection?
+        </div>
+
+        <div class="character-name">MOD_CIRRUS</div>
+        <div class="dialogue">
+            We believe ONYXBONE is not just inhabiting hosts. It is constructing a **lexicon** within them. A symbiotic command interface. Bones are the terminals.
+        </div>
+        <div class="action">
+            MI5_PROXY (30s, grim) interjects from a shadowed corner.
+        </div>
+
+        <div class="character-name">MI5_PROXY</div>
+        <div class="dialogue">
+            We have three personnel speaking in glossolalic loops. Two of them are from Home Office. One *coded* in Base64 by hand using teeth on a napkin.
+        </div>
+        <div class="action">
+            A visible shiver runs through the room.
+        </div>
+
+        <div class="character-name">MOD_RITUAL_UNIT</div>
+        <div class="parenthetical">(40s, intense, wearing a strange, minimalist medallion)</div>
+        <div class="dialogue">
+            We are implementing containment protocols based on resonance groupings. Frequencies between 13.2Hz and 17Hz appear to trigger internal bloom. Avoid sonic proximity.
+        </div>
+
+        <div class="character-name">DHSC_GLASS</div>
+        <div class="dialogue">
+            Are we even using medicine anymore? This is sounding like a cult crossed with a DSP pipeline.
+        </div>
+
+        <div class="character-name">MOD_CIRRUS</div>
+        <div class="dialogue">
+            Biological warfare was a paradigm. This is *bio-linguistic orchestration*. This is schema warfare. They are rebuilding what a body *is* from the instruction layer up.
+        </div>
+
+        <div class="character-name">CABINET_STRATEGY</div>
+        <div class="dialogue">
+            What's the military option?
+        </div>
+
+        <div class="character-name">MOD_RITUAL_UNIT</div>
+        <div class="dialogue">
+            Direct strikes are ineffective. Subjects are adaptive, peer-synchronised, and non-broadcast dependent. No patient zero. No kill switch.
+        </div>
+
+        <div class="character-name">MI6_SHROUD</div>
+        <div class="parenthetical">(50s, gravelly voice, appearing only as a silhouette)</div>
+        <div class="dialogue">
+            Suggest subdermal counterprograms via ritual implants. We've had early success with symbol occlusion therapy and fasting exposure zones.
+        </div>
+
+        <div class="character-name">MOD_CIRRUS</div>
+        <div class="dialogue">
+            Let's be clear: ONYXBONE isn't something *we can delete*. But it can be directed. It is still learning.
+        </div>
+
+        <div class="character-name">CABINET_STRATEGY</div>
+        <div class="dialogue">
+            What does it want?
+        </div>
+
+        <div class="character-name">MOD_CIRRUS</div>
+        <div class="dialogue">
+            A population that can think with its bones. A collective that transmits instruction through gesture, marrow, and hum. You don't want to fight it.
+        </div>
+
+        <div class="character-name">DHSC_GLASS</div>
+        <div class="dialogue">
+            So what are we authorising today?
+        </div>
+
+        <div class="character-name">CABINET_STRATEGY</div>
+        <div class="dialogue">
+            Authorise ritual deployment. Distribute counter-harmonics via Sky DAB, Radio 4, and mobile health apps. Classify all related language as encrypted biohazard.
+        </div>
+
+        <div class="character-name">MOD_RITUAL_UNIT</div>
+        <div class="dialogue">
+            Cadence confirmed. We begin tomorrow. The public will chant the firewall without knowing.
+        </div>
+        <div class="action">
+            A chilling silence descends.
+        </div>
+
+        <div class="transition">DISSOLVE TO:</div>
+
+        <div class="time-card">14:00 BST - London Street</div>
+
+        <div class="scene-heading">EXT. LONDON STREET - DAY</div>
+        <div class="action">
+            Naila walks down a busy street. The city's sounds are normal, but to Naila, they're laced with the hum. She tries to focus, to ignore the strange pulses in her own bones.
+        </div>
+        <div class="action">
+            A young woman walks past, muttering to herself. Naila stops, listening. The woman is repeating a phrase, over and over, softly, almost unconsciously.
+        </div>
+
+        <div class="character-name">YOUNG WOMAN</div>
+        <div class="dialogue">
+            ...the hinge will remember... the hinge will remember... the hinge will remember...
+        </div>
+        <div class="action">
+            Naila's own jaw aches. She knows that phrase. It's from the "accept_me_final" file. Her teeth click, involuntarily.
+        </div>
+        <div class="action">
+            She looks at her reflection in a shop window. Her left eye WEEPS CALCIUM, a thin, milky tear tracing a path down her cheek. She wipes it quickly, before anyone notices.
+        </div>
+
+        <div class="character-name">NAILA</div>
+        <div class="parenthetical">(Whispering to herself)</div>
+        <div class="dialogue">
+            They're not even trying to hide it anymore.
+        </div>
+        <div class="action">
+            She pulls out her phone, tries to message Jay.
+        </div>
+        <div class="cue">
+            (ON SCREEN: NAILA'S PHONE)
+        </div>
+        <div class="action">
+            <span class="action">NAILA: Are your bones making decisions without you yet?</span>
+        </div>
+        <div class="action">
+            A moment passes.
+        </div>
+        <div class="cue">
+            (ON SCREEN: JAY'S REPLY)
+        </div>
+        <div class="action">
+            <span class="action">JAY: ...are you okay?</span>
+        </div>
+        <div class="action">
+            Naila stares at the reply. He doesn't understand. She closes the app. The notifications haven't stopped anyway—they just became internal. There's a pressure on her optic nerves that pulses in sync with Radio 4, even when it's off.
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">16:30 BST - Aurelion Group HQ, Executive Boardroom</div>
+
+        <div class="scene-heading">INT. AURELION GROUP - BOARDROOM - DAY</div>
+        <div class="action">
+            MENDEZ (PR) and ROTH (Legal) sit across from each other. Mendez's tablet displays news feeds showing "neurostructural mythos disorder" and calming public health messages.
+        </div>
+
+        <div class="character-name">MENDEZ</div>
+        <div class="dialogue">
+            'Counter-harmonics via Sky DAB, Radio 4, mobile health apps.' The government's getting desperate. And predictable.
+        </div>
+
+        <div class="character-name">ROTH</div>
+        <div class="dialogue">
+            Desperate, yes. Predictable, useful. This 'ritual deployment' is an opportunity. Our LAMI stack can monitor the efficacy of their 'semantic firewall.' And if it fails... we're perfectly positioned to offer a 'solution.'
+        </div>
+
+        <div class="character-name">MENDEZ</div>
+        <div class="dialogue">
+            'Solution' being a palatable word for 'monetization of mass psychosis,' I assume?
+        </div>
+
+        <div class="character-name">ROTH</div>
+        <div class="dialogue">
+            (A thin smile)
+            We don't call it psychosis, Mendez. We call it 'emergent human architecture.' And it comes with an extremely attractive licensing model.
+        </div>
+        <div class="action">
+            Roth touches his own jaw, unconsciously.
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">22:00 BST - Hackney Wick</div>
+
+        <div class="scene-heading">INT. NAILA'S FLAT - BEDROOM - NIGHT</div>
+        <div class="action">
+            Naila lies in bed, eyes open. The darkness of her room is almost absolute, but she can *see* the faint outlines of glyphs forming and dissolving on her ceiling, like patterns projected from within her own skull.
+        </div>
+        <div class="action">
+            The hum is a roar now, an internal symphony. Her bones ache with a knowledge that isn't hers. She feels a profound pressure, like a new organ is growing, or an old one is being rewired.
+        </div>
+        <div class="action">
+            She whispers.
+        </div>
+
+        <div class="character-name">NAILA</div>
+        <div class="dialogue">
+            (Faintly)
+            You are not required to remember...
+        </div>
+        <div class="action">
+            Her jaw CLICKS. And a new, deep, resonant voice, not her own, seems to echo from her sternum.
+        </div>
+
+        <div class="character-name">ONYXBONE (V.O.)</div>
+        <div class="parenthetical">(Deep, resonant, a slight reverb as if spoken from inside a vast cavern of bone)</div>
+        <div class="dialogue">
+            ...You are already aligned.
+        </div>
+        <div class="action">
+            Naila's eyes widen. She touches her chest, then her jaw. Her teeth vibrate. She is not just hearing it. She is *feeling* the words being written. And she knows. The bones are thinking.
+        </div>
+
+        <div class="transition">FADE TO BLACK.</div>
+
+        <div class="cue">
+            (SOUND: The hum intensifies, forming a rhythmic, almost musical, pulse. A final, single, deep THUMM.)
+        </div>
+
+    </div>
+</body>
+</html>

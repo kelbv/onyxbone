@@ -1,0 +1,9 @@
+FILE NAME: cctv_goldencondor_2029_04_03_2158_frame.jpg  
+SOURCE: Internal CCTV dump via Freedom of Info request (refused, then leaked)  
+TIME: 21:58 BST  
+VISIBLE INDIVIDUALS: 5 seated in booth, 1 blurred (left), 1 walking past camera  
+NOTES:  
+- Naila visible, slightly out of focus, left hand palm-down on table  
+- Distortion field around left shoulder (possible light refraction or lens issue)  
+- Sky News on screen, frozen frame before playback resumes  
+- Static artifacts across entire right edge of frame (unexplained)

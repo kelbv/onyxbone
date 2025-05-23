@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONYXBONE: The Bone Protocol - Episode 1</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            background-color: #0d0d0d;
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect x="0" y="0" width="100" height="100" fill="%230d0d0d"/><path d="M 50 0 L 0 50 L 50 100 L 100 50 Z" fill="%231a1a1a" opacity="0.1"/></svg>');
+            background-size: 50px 50px;
+        }
+
+        .script-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+            border: 1px solid #00ffff; /* Subtle glow effect */
+        }
+
+        .episode-title {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 2.8em;
+            text-align: center;
+            color: #00ffff;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+
+        .logline {
+            font-style: italic;
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+            padding: 0 20px;
+        }
+
+        .scene-heading {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #98fb98; /* Pale green for headings */
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #32cd32; /* Lime green underline */
+            padding-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .action {
+            font-family: 'Georgia', serif;
+            margin-bottom: 15px;
+            padding-left: 0;
+            color: #c0c0c0;
+        }
+
+        .character-name {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #ffd700; /* Gold for character names */
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .dialogue {
+            font-family: 'Verdana', sans-serif;
+            margin-left: 15%; /* Indent dialogue */
+            margin-right: 15%;
+            margin-bottom: 10px;
+            background-color: #2a2a2a;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border-left: 3px solid #ffd700;
+        }
+
+        .parenthetical {
+            font-style: italic;
+            color: #888;
+            font-size: 0.9em;
+            display: block;
+            text-align: center;
+            margin-top: -8px; /* Pull it slightly up towards the character name */
+            margin-bottom: 5px;
+        }
+
+        .cue {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #ff6347; /* Tomato for cues */
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .transition {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #a020f0; /* Purple for transitions */
+            text-align: right;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .time-card {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 1.8em;
+            color: #00ffff;
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            padding: 15px;
+            background-color: #0a0a0a;
+            border: 2px solid #00ffff;
+            box-shadow: 0 0 15px #00ffff;
+            letter-spacing: 1px;
+        }
+
+        .cold-open {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            background-color: #000;
+        }
+        .cold-open-text {
+            font-family: 'Courier New', monospace;
+            font-size: 1.5em;
+            color: #00ff00;
+            text-shadow: 0 0 8px #00ff00;
+            white-space: pre;
+            text-align: center;
+            line-height: 1.2;
+            opacity: 0;
+            animation: text-fade-in 3s forwards, text-glitch 0.5s infinite alternate 3s;
+            position: absolute;
+        }
+        @keyframes text-fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes text-glitch {
+            0% { transform: translate(0,0); filter: hue-rotate(0deg); }
+            20% { transform: translate(-2px,2px); filter: hue-rotate(20deg); }
+            40% { transform: translate(-1px,-1px); filter: hue-rotate(40deg); }
+            60% { transform: translate(2px,1px); filter: hue-rotate(60deg); }
+            80% { transform: translate(1px,-2px); filter: hue-rotate(80deg); }
+            100% { transform: translate(0,0); filter: hue-rotate(100deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="script-container">
+
+        <div class="cold-open">
+            <pre class="cold-open-text">
+CLASSIFIED
+ONYXBONE//TS//SAP-EYESONLY//NOFORN
+VECTOR SKELETION PROTOCOL
+Document ID: ONYXBONE/TS/SAP/-VSP-009
+Origin: TRIGRAM.HUM.MIRROR
+First Sighted: 2029-03-11 UTC
+Leak Trace: deepmirror7v2.onion :: HASH ID: b0:ne:03:e3
+            </pre>
+        </div>
+
+        <div class="transition">FADE IN:</div>
+
+        <div class="episode-title">
+            ONYXBONE: The Bone Protocol<br>
+            EPISODE 1: The Whisper Beneath the Bone
+        </div>
+
+        <div class="logline">
+            In a London gripped by unseen forces, a young woman begins to hear a hum beneath the mundane, leading her to a terrifying truth: her own bones are waking up, aligning with a global, non-biological intelligence.
+        </div>
+
+        <div class="time-card">21:12 BST - The Golden Condor, Bethnal Green, East London</div>
+
+        <div class="scene-heading">INT. GOLDEN CONDOR PUB - NIGHT</div>
+        <div class="action">
+            The air is thick with the scent of stale oil, a faint tang of disinfectant, and the lingering aroma of cheap fried food. A dozen voices, mostly men, blur into a single, boisterous current. DULL THUDS of boots on old floorboards punctuate the din.
+        </div>
+        <div class="action">
+            Two ancient televisions hang from the corners. One blares football, volume too high. The other is MUTED, displaying SKY NEWS captions, flickering like a frantic, trapped moth.
+        </div>
+        <div class="action">
+            NAILA (20s), a woman with sharp, observant eyes, watches the foam in her pint of Guinness collapse. It deflates slowly, like lungs under pressure. She doesn't blink.
+        </div>
+        <div class="action">
+            DEAN (20s), her friend, leans in, chin still glistening with grease from a half-eaten cheeseburger.
+        </div>
+
+        <div class="character-name">DEAN</div>
+        <div class="dialogue">
+            You alright? You've barely touched that.
+        </div>
+
+        <div class="character-name">NAILA</div>
+        <div class="dialogue">
+            (Quietly)
+            Yeah.
+        </div>
+        <div class="action">
+            She's not. Not since the dreams started. Not since she began hearing it. A low, persistent HUM, just before waking, like someone whispering directly into her spine.
+        </div>
+
+        <div class="character-name">NAILA</div>
+        <div class="dialogue">
+            It's just... I dunno. Everything's too loud lately.
+        </div>
+        <div class="action">
+            JAY (20s), another friend, eyes fixed on his phone, shrugs.
+        </div>
+
+        <div class="character-name">JAY</div>
+        <div class="dialogue">
+            It's the algorithm. Probably scraping our brainwaves now. What's one more leak?
+        </div>
+
+        <div class="character-name">A ADAM</div>
+        <div class="parenthetical">(O.S.)</div>
+        <div class="dialogue">
+            No, it's that Estonia thing.
+        </div>
+        <div class="action">
+            Aadam (20s), who no one remembers inviting to this pub, leans forward, earnest.
+        </div>
+
+        <div class="character-name">A ADAM</div>
+        <div class="dialogue">
+            That's real. My cousin's in Narva. She says they're closing clinics. Government's pretending it's tuberculosis but... people've got light coming out their mouths.
+        </div>
+        <div class="action">
+            Dean snorts, a mouthful of burger. Naila doesn't laugh. Not this time. She swears she saw something in her X-ray last week. Something geometric. Her GP called it "artefact contamination." Recommended switching clinics. She remembers the way the radiologist's face went pale.
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">21:59 BST - The Golden Condor</div>
+
+        <div class="scene-heading">INT. GOLDEN CONDOR PUB - CONTINUOUS</div>
+        <div class="action">
+            The pub crowd, almost as one, turns towards the muted SKY TV. The remote is missing, likely swallowed by a couch cushion.
+        </div>
+        <div class="action">
+            The CAPTION SCROLL reads:
+        </div>
+        <div class="cue">
+            (ON SCREEN: BREAKING - UNVERIFIED FOOTAGE LEAKED FROM TALLINN HOSPITAL - UK GOVT REFUSES COMMENT)
+        </div>
+        <div class="action">
+            The screen shows a grainy, handheld, SHAKY CAMERA feed. Harsh fluorescents. A FIGURE shuffles. Their bones cast shadows INSIDE their body – angular, branching. The image JUDDERS. Pixelation surges across the screen. The text at the bottom is blurred, almost unreadable, but a phrase slips through the digital static.
+        </div>
+        <div class="cue">
+            (DISTORTED DIGITAL VOICE - barely audible, like a hum in the viewer's teeth)
+            TRIGRAM. BONE. MIRROR. INITIATE.
+        </div>
+        <div class="action">
+            Jay snorts, a dismissive flick of his hand.
+        </div>
+
+        <div class="character-name">JAY</div>
+        <div class="dialogue">
+            It's deepfake theatre. Seen better on TikTok.
+        </div>
+        <div class="action">
+            But no one responds. Because something in that moment… HUMS. The air vibrates. Or maybe it's their own bones. Just for a second, a low THUMM, like a massive bell ringing deep underground.
+        </div>
+        <div class="action">
+            Naila touches her wrist. Her pulse is... syncopated. Like a language she forgot she spoke, suddenly returning. She looks at her hand, palm down on the sticky table.
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="scene-heading">INT. NAILA'S FLAT - LATER</div>
+        <div class="action">
+            Naila lies in bed, eyes wide open in the darkness. The hum is stronger now, resonating in her skull, making her teeth ache. It's not external. It's inside.
+        </div>
+
+        <div class="cue">
+            (SOUND: The low, persistent HUM, with faint, almost imperceptible whispers layered beneath it.)
+        </div>
+        <div class="action">
+            She reaches for her phone. Opens a notes app. The screen's glow illuminates her face, revealing the dark circles under her eyes. She begins to type, her fingers slightly trembling.
+        </div>
+
+        <div class="cue">
+            (ON SCREEN: NAILA'S JOURNAL ENTRY)
+        </div>
+        <div class="action">
+            <span class="action">"April 3, 2029. 01:43am. I'm writing this before it fades again. The hum is stronger now. It's like when you hold your breath too long and your body starts blinking inside you. That's what my hands feel like. The bones underneath are buzzing – not vibrating – buzzing. Like they're waiting. I remembered something that isn't mine: a hallway with numbers that counted up and backward at the same time. I was inside someone else. But I was watching. Dean said it's anxiety. Jay said it's 5G. But I think something's being written inside me."</span>
+        </div>
+        <div class="action">
+            She closes her eyes, a single tear tracing a path down her temple. The hum intensifies, not painfully, but... with a sense of purpose. A sense of becoming.
+        </div>
+
+        <div class="transition">FADE TO BLACK.</div>
+
+        <div class="cue">
+            (SOUND: The hum persists, then resolves into a complex, almost melodic, low frequency. A single, sharp CLICK, like bone snapping into place.)
+        </div>
+
+    </div>
+</body>
+</html>

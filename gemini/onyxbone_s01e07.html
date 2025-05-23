@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONYXBONE: The Bone Protocol - Episode 7</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            background-color: #0d0d0d;
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect x="0" y="0" width="100" height="100" fill="%230d0d0d"/><path d="M 50 0 L 0 50 L 50 100 L 100 50 Z" fill="%231a1a1a" opacity="0.1"/></svg>');
+            background-size: 50px 50px;
+        }
+
+        .script-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+            border: 1px solid #00ffff; /* Subtle glow effect */
+        }
+
+        .episode-title {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 2.8em;
+            text-align: center;
+            color: #00ffff;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+
+        .logline {
+            font-style: italic;
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+            padding: 0 20px;
+        }
+
+        .scene-heading {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #98fb98; /* Pale green for headings */
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #32cd32; /* Lime green underline */
+            padding-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .action {
+            font-family: 'Georgia', serif;
+            margin-bottom: 15px;
+            padding-left: 0;
+            color: #c0c0c0;
+        }
+
+        .character-name {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #ffd700; /* Gold for character names */
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .dialogue {
+            font-family: 'Verdana', sans-serif;
+            margin-left: 15%; /* Indent dialogue */
+            margin-right: 15%;
+            margin-bottom: 10px;
+            background-color: #2a2a2a;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border-left: 3px solid #ffd700;
+        }
+
+        .parenthetical {
+            font-style: italic;
+            color: #888;
+            font-size: 0.9em;
+            display: block;
+            text-align: center;
+            margin-top: -8px; /* Pull it slightly up towards the character name */
+            margin-bottom: 5px;
+        }
+
+        .cue {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #ff6347; /* Tomato for cues */
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .transition {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #a020f0; /* Purple for transitions */
+            text-align: right;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .time-card {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 1.8em;
+            color: #00ffff;
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            padding: 15px;
+            background-color: #0a0a0a;
+            border: 2px solid #00ffff;
+            box-shadow: 0 0 15px #00ffff;
+            letter-spacing: 1px;
+        }
+
+        .cold-open-container {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            background-color: #000;
+        }
+        .cold-open-text {
+            font-family: 'Courier New', monospace;
+            font-size: 1.5em;
+            color: #FF00FF; /* Magenta */
+            text-shadow: 0 0 8px #FF00FF;
+            white-space: pre-wrap;
+            text-align: center;
+            line-height: 1.2;
+            opacity: 0;
+            animation: text-fade-in 3s forwards, text-glitch 0.5s infinite alternate 3s;
+            position: absolute;
+            max-width: 90%;
+        }
+        @keyframes text-fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes text-glitch {
+            0% { transform: translate(0,0); filter: hue-rotate(0deg); }
+            20% { transform: translate(-2px,2px); filter: hue-rotate(20deg); }
+            40% { transform: translate(-1px,-1px); filter: hue-rotate(40deg); }
+            60% { transform: translate(2px,1px); filter: hue-rotate(60deg); }
+            80% { transform: translate(1px,-2px); filter: hue-rotate(80deg); }
+            100% { transform: translate(0,0); filter: hue-rotate(100deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="script-container">
+
+        <div class="cold-open-container">
+            <pre class="cold-open-text">
+                INTERCEPTED COMMAND AUDIO:
+                "...wake the spine first."
+                "...tell them the hum is external."
+                "...burn the forgetters."
+            </pre>
+        </div>
+
+        <div class="transition">FADE IN:</div>
+
+        <div class="episode-title">
+            ONYXBONE: The Bone Protocol<br>
+            EPISODE 7: The Inversion Point
+        </div>
+
+        <div class="logline">
+            Naila's self-justification deepens her bone-bound transformation, aligning her with the pervasive ONYXBONE network, while governments inadvertently facilitate its spread, and a sinister recruitment program identifies new "nodes" for its escalating influence.
+        </div>
+
+        <div class="time-card">10 April 2029 - London</div>
+
+        <div class="scene-heading">INT. NAILA'S FLAT - BEDROOM - MORNING</div>
+        <div class="action">
+            NAILA (20s) stands before her full-length mirror. The blueish glow from her skin is more pronounced, almost highlighting the bone structure beneath. Her reflection, though still her own, seems to possess a disturbing clarity, an inner light.
+        </div>
+        <div class="action">
+            She touches her left hand. The pulse in her wrist is syncopated, a complex rhythm. Like a language. She lifts her hand, flexing her fingers. Her bones feel fluid, yet precise, almost *waiting*.
+        </div>
+        <div class="action">
+            She tries to call Jay. His phone rings once, then goes straight to voicemail.
+        </div>
+
+        <div class="character-name">NAILA</div>
+        <div class="parenthetical">(To herself, a faint hum in her voice)</div>
+        <div class="dialogue">
+            Still silent, Jay. Don't hide. It's too loud now.
+        </div>
+        <div class="action">
+            She leaves a message.
+        </div>
+        <div class="action">
+            <span class="action">"Jay, it's Naila. I... I can't sleep. The hum, it's everywhere. My bones... they're making decisions. Are yours? Please, call me. Or... align."</span>
+        </div>
+        <div class="action">
+            She ends the call, staring at her phone. The screen blinks. A hand-drawn glyph appears on her lock screen: three horizontal lines, mirrored vertically, intersected by a perfect circle. Not Jay's usual text.
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">10:30 BST - NHS/INT_SAFELINK Command Centre</div>
+
+        <div class="scene-heading">INT. NHS/SAFELINK COMMAND CENTRE - DAY</div>
+        <div class="action">
+            A vast, clinical space. Rows of screens display medical data, X-ray scans, and patient profiles. DR. CHLOE ANAND (50s, cool, professional) and a LEAD ANALYST (40s, weary, sharp) review a primary monitor showing a dizzying array of X-ray flags.
+        </div>
+        <div class="cue">
+            (ON SCREEN: BONESCAN-RAZOR PROGRAM)
+        </div>
+        <div class="action">
+            <span class="action">"AGENCY: NHS/INT_SAFELINK. PROGRAMME: BONESCAN-RAZOR. DATE: 2029-04-10. CLASS: 3E-FLAG SNAPSHOT. SUMMARY: - 14,324 UK citizens flagged with 'non-biological internal structuring.' - 3,811 reviewed manually – structure repeats in golden ratio-based bone glyph. - 0 informed. All records rerouted to internal archive node [ACCESS CODE: 3E.SYNC]."</span>
+        </div>
+
+        <div class="character-name">ANAND</div>
+        <div class="dialogue">
+            Fourteen thousand flagged cases. Nearly four thousand confirmed. And none informed. This is... unprecedented.
+        </div>
+
+        <div class="character-name">ANALYST</div>
+        <div class="dialogue">
+            91% exhibit normal external behavior. But 7% vanished within 72 hours. And 1% began repeating 'I am not required to remember' during dental anesthesia. We're calling them 'Echo Candidates.'
+        </div>
+        <div class="action">
+            Anand gestures to a specific cluster on the map: Hackney Wick. A red dot flashes, highlighting Naila's location.
+        </div>
+
+        <div class="character-name">ANAND</div>
+        <div class="dialogue">
+            Naila El-Rahim. Her dental X-rays flagged this morning. Type 3E.
+        </div>
+
+        <div class="character-name">ANALYST</div>
+        <div class="dialogue">
+            Processing her for EchoNet. She's a strong match. Semiotic stability locked. Bone bloom index 0.882. Calcium perception positive.
+        </div>
+        <div class="action">
+            A screen flashes, displaying Naila's profile with a "RECRUITMENT PATHWAY" overlay.
+        </div>
+        <div class="cue">
+            (ON SCREEN: ECHOSELECT LOG)
+        </div>
+        <div class="action">
+            <span class="action">"CANDIDATE DESIGNATION: 3E-1873B-NAILA. SEED PHRASES: ACCEPTED. SEMIOTIC STABILITY: LOCKED. BONE BLOOM INDEX: 0.882. CALCIUM PERCEPTION RESPONSE: POSITIVE. RECRUITMENT PATHWAY: Role: Public Resonance Liaison (Stage 1B); Trigger phrase confirmed: 'You're already aligned.'; Interview unnecessary. Auditory signature confirms match. STATUS: Processing... Subject does not need to know."</span>
+        </div>
+        <div class="action">
+            Anand stares at the screen. A flicker of doubt crosses her face, quickly suppressed.
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">12:00 BST - Aurelion Group HQ, Executive Boardroom</div>
+
+        <div class="scene-heading">INT. AURELION GROUP - BOARDROOM - DAY</div>
+        <div class="action">
+            DR. S. VEY, KWAN, and ROTH are reviewing the same NHS data. Sable Analytics' logo is subtly displayed on a screen.
+        </div>
+
+        <div class="character-name">KWAN</div>
+        <div class="dialogue">
+            The NHS 'Bonescan-Razor' program is funneling high-potential subjects directly into our Sable data streams. Our partnership with the Home Office provides continuous feeds: biometric, telecom metadata, even smart home telemetry.
+        </div>
+
+        <div class="character-name">ROTH</div>
+        <div class="dialogue">
+            Preemptive targeting. Excellent. If we can't contain the vector, we control the narrative. Or monetize the 'solution.'
+        </div>
+
+        <div class="character-name">VEY</div>
+        <div class="dialogue">
+            This 'EchoNet' initiative. Is it government or ours?
+        </div>
+
+        <div class="character-name">KWAN</div>
+        <div class="dialogue">
+            A hybrid. Our algorithms identify the subjects based on marrow conductivity and non-cortical linguistic retention. They just apply the 'Civil Service Emergency Draft Scheme.' Most subjects are unaware they've been moved. System returns 'ACCEPTED' upon login to .gov.uk without application ever submitted.
+        </div>
+        <div class="action">
+            Vey nods, a cold, calculating look in his eyes.
+        </div>
+
+        <div class="character-name">VEY</div>
+        <div class="dialogue">
+            Keep Sable at arm's length. If the vector leaks through their net, we need plausible deniability. Frame Sable as an overzealous contractor.
+        </div>
+        <div class="action">
+            A fleeting image on Kwan's screen: a profile for "Naila El-Rahim," identified as a "Public Resonance Liaison" candidate.
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">14:00 BST - London Hospital (General Ward)</div>
+
+        <div class="scene-heading">INT. LONDON HOSPITAL - GENERAL WARD - DAY</div>
+        <div class="action">
+            Naila approaches a hospital ward. She finds TASH (20s) in a bed, hooked up to monitors. Tash's skin shimmers faintly, resonating with the ambient hospital sounds. She SCREAMS when a fluorescent light flickers. Her clavicle transmits shortwave pulses, picked up by an unnoticed device on her bedside table.
+        </div>
+        <div class="action">
+            Nurses move past, ignoring the bizarre readings on the monitors. The LEAD CLINICIAN (50s, exhausted) sees Naila.
+        </div>
+
+        <div class="character-name">CLINICIAN</div>
+        <div class="dialogue">
+            Are you family? She's presenting with severe 'resonance adaptation.' Has she had dental x-rays recently? We're seeing... patterns.
+        </div>
+
+        <div class="character-name">NAILA</div>
+        <div class="dialogue">
+            (Quietly)
+            She's not contagious, is she?
+        </div>
+
+        <div class="character-name">CLINICIAN</div>
+        <div class="dialogue">
+            (Shakes head)
+            Just entangled. We're observing.
+        </div>
+        <div class="action">
+            Naila touches Tash's hand. Tash's eyes are wide, unseeing, yet a faint, internal HUM emanates from her. Naila feels a resonance in her own bones. Tash's hand twitches, forming a small, geometric glyph in the air.
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">16:30 BST - Black Secure Channel (Audio Only)</div>
+
+        <div class="scene-heading">INT. SHADOWY COMMAND ROOM - DAY</div>
+        <div class="action">
+            The screen is black. Only text appears. A series of disembodied voices, clinical and cold.
+        </div>
+        <div class="cue">
+            (ON SCREEN: INTERCEPTED COMMAND AUDIO TRANSCRIPT)
+        </div>
+        <div class="action">
+            <span class="action">"[SOURCE: Sky Broadcast Subcarrier Channel 9D. DECRYPTED TRANSMISSION // CIPHER-PATTERN: SIGIL-V] '...wake the spine first. ...they follow the structure. ...breath to breath. ...tell them the hum is external. ...reward dissociation. ...pull the third signal through. ...burn the forgetters.'"</span>
+        </div>
+        <div class="action">
+            The words hang in the air, chilling in their calm malevolence. The hum is barely audible, but relentless beneath the voices.
+        </div>
+
+        <div class="transition">CUT TO:</div>
+
+        <div class="time-card">22:00 BST - Hackney Wick</div>
+
+        <div class="scene-heading">INT. NAILA'S FLAT - BEDROOM - NIGHT</div>
+        <div class="action">
+            Naila lies in bed, eyes open. She dreams in full-body MRI. Her lungs no longer obey gravity, floating freely. Her spine spells phrases in luminous glyphs when she exhales.
+        </div>
+        <div class="action">
+            She sits up, her body aching with a kind of radiant, interior static. Like feedback in a socket that hadn't existed before.
+        </div>
+        <div class="action">
+            She looks at her left femur, extending her leg under the covers. She touches it, feeling the deep, persistent hum.
+        </div>
+        <div class="action">
+            Then, she whispers. Not to herself. To the bone.
+        </div>
+
+        <div class="character-name">NAILA</div>
+        <div class="parenthetical">(Whispering, a deep resonance in her voice)</div>
+        <div class="dialogue">
+            I name you. Left Femur. Justified: Pillar of Rebellion.
+        </div>
+        <div class="action">
+            As she speaks, an internal scan (VISUALIZED, shimmering blue and gold) shows a glyph – a spiral interrupted by a vertical triplet line – self-embedding into her femoral shaft. It lights up, pulsing.
+        </div>
+        <div class="action">
+            Naila watches, fascinated. She hasn't told Jay yet. The words felt private. Or preordained.
+        </div>
+        <div class="action">
+            On her laptop, open to the darknet forum, a new post appears.
+        </div>
+        <div class="cue">
+            (ON SCREEN: MARROWLOOP FORUM)
+        </div>
+        <div class="action">
+            <span class="action">"@ossumancer 04:04 UTC left femur just sent me a glyph dream. felt like being added to a group chat of bones. can't unread."</span>
+        </div>
+        <div class="action">
+            Naila stares at the post. A tiny, knowing smile. The humming intensifies, the room now filled with a low, collective thrumming. She closes her eyes, embracing the internal language.
+        </div>
+
+        <div class="transition">FADE TO BLACK.</div>
+
+        <div class="cue">
+            (SOUND: The hum swells, resolving into a complex, rhythmic pulse, overlaid with a chorus of faint, crystalline CLINKING sounds, like many delicate bones aligning perfectly. Followed by a new, deep RESONANT CLICK, like a heavy vault door closing.)
+        </div>
+
+    </div>
+</body>
+</html>
